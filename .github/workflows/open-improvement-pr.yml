@@ -1,0 +1,38 @@
+name: open qualified improvement PR
+
+on:
+  push:
+    branches:
+      - "codex/skill-improvement-*"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Create deduplicated draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          existing="$(gh pr list --repo "$REPOSITORY" --state all --head "$BRANCH" --json url --jq '.[0].url // ""')"
+          if [ -n "$existing" ]; then
+            echo "Draft PR already exists: $existing"
+            exit 0
+          fi
+          title="$(git log -1 --pretty=%s)"
+          git log -1 --pretty=%b > "$RUNNER_TEMP/pr-body.md"
+          gh pr create \
+            --repo "$REPOSITORY" \
+            --base main \
+            --head "$BRANCH" \
+            --draft \
+            --title "$title" \
+            --body-file "$RUNNER_TEMP/pr-body.md"

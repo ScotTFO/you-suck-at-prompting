@@ -20,3 +20,5 @@ Ask only the highest-value unresolved question or the smallest inseparable set o
 - Do not ask for information that can be retrieved from available context.
 - Do not turn optional preferences into blockers.
 - Treat the answer as the missing input, not as authorization for a separate side effect.
+
+Prefer one consequential question over a checklist of optional preferences.

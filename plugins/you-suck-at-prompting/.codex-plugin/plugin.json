@@ -1,6 +1,6 @@
 {
   "name": "you-suck-at-prompting",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Audit and repair materially ambiguous prompts without slowing down clear requests.",
   "author": {
     "name": "ScotTFO",

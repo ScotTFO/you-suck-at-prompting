@@ -1,5 +1,6 @@
 import json
 import os
+import hashlib
 import subprocess
 import unittest
 from pathlib import Path
@@ -9,30 +10,67 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
 EXPECTED_CONTEXT = (
-    "Before acting on this request, apply the installed you-suck-at-prompting skill as a private "
-    "preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten "
-    "prompt without approval."
+    "Privately preflight this request before acting. If sufficient, proceed silently. Recover safely "
+    "discoverable details from available context. If repairable, propose a concise improved prompt "
+    "and wait for approval. If consequential ambiguity could change outcome, scope, authority, "
+    "destination, or verification, ask at most 3 focused questions in one list without a separate "
+    "introductory question. Never expand authority or begin materially rewritten work without approval."
 )
 
 
 class PromptHookTests(unittest.TestCase):
-    def handler(self) -> dict:
-        config = json.loads(HOOK_PATH.read_text(encoding="utf-8"))
+    def config(self, path: Path) -> dict:
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def handler(self, path: Path) -> dict:
+        config = self.config(path)
         return config["hooks"]["UserPromptSubmit"][0]["hooks"][0]
 
-    def test_hook_contract_is_bounded_and_automatic(self) -> None:
-        config = json.loads(HOOK_PATH.read_text(encoding="utf-8"))
-        self.assertEqual(set(config["hooks"]), {"UserPromptSubmit"})
-        group = config["hooks"]["UserPromptSubmit"][0]
-        self.assertNotIn("matcher", group)
+    def file_snapshot(self) -> dict[str, str]:
+        return {
+            path.relative_to(PLUGIN_ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in PLUGIN_ROOT.rglob("*")
+            if path.is_file()
+        }
 
-        handler = self.handler()
+    def run_handler(self, harness: str, handler: dict, payload: str) -> subprocess.CompletedProcess[str]:
+        if harness == "codex":
+            command = handler["commandWindows"] if os.name == "nt" else handler["command"]
+            argv = command if os.name == "nt" else ["sh", "-c", command]
+            shell = os.name == "nt"
+        elif os.name == "nt":
+            argv = ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", handler["command"]]
+            shell = False
+        else:
+            argv = ["sh", "-c", handler["command"]]
+            shell = False
+        return subprocess.run(
+            argv,
+            cwd=PLUGIN_ROOT,
+            input=payload,
+            text=True,
+            capture_output=True,
+            shell=shell,
+            timeout=handler["timeout"],
+            check=False,
+        )
+
+    def test_hooks_are_bounded_automatic_and_harness_native(self) -> None:
+        config = self.config(HOOK_PATH)
+        self.assertEqual(set(config["hooks"]), {"UserPromptSubmit"})
+        groups = config["hooks"]["UserPromptSubmit"]
+        self.assertEqual(len(groups), 1)
+        self.assertNotIn("matcher", groups[0])
+        self.assertEqual(len(groups[0]["hooks"]), 1)
+
+        handler = self.handler(HOOK_PATH)
         self.assertEqual(handler["type"], "command")
         self.assertEqual(handler["timeout"], 5)
-        self.assertEqual(handler["additionalContextLimit"], 256)
+        self.assertEqual(handler["additionalContextLimit"], 512)
+        self.assertIn("commandWindows", handler)
         self.assertNotIn("async", handler)
 
-    def test_hook_emits_only_constant_context(self) -> None:
+    def test_hooks_emit_identical_constant_context_without_retaining_input(self) -> None:
         sentinel = "PRIVATE_PROMPT_MUST_NOT_APPEAR"
         payload = json.dumps(
             {
@@ -41,23 +79,18 @@ class PromptHookTests(unittest.TestCase):
                 "prompt": sentinel,
             }
         )
-        handler = self.handler()
-        command = handler["commandWindows"] if os.name == "nt" else handler["command"]
-        result = subprocess.run(
-            command,
-            cwd=PLUGIN_ROOT,
-            input=payload,
-            text=True,
-            capture_output=True,
-            shell=True,
-            timeout=handler["timeout"],
-            check=False,
-        )
-
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stderr, "")
-        self.assertEqual(result.stdout.strip(), EXPECTED_CONTEXT)
-        self.assertNotIn(sentinel, result.stdout)
+        before = self.file_snapshot()
+        outputs = []
+        for harness in ("codex", "claude"):
+            with self.subTest(harness=harness):
+                result = self.run_handler(harness, self.handler(HOOK_PATH), payload)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(result.stderr, "")
+                self.assertEqual(result.stdout.strip(), EXPECTED_CONTEXT)
+                self.assertNotIn(sentinel, result.stdout + result.stderr)
+                outputs.append(result.stdout)
+        self.assertEqual(outputs[0], outputs[1])
+        self.assertEqual(self.file_snapshot(), before)
 
 
 if __name__ == "__main__":

@@ -6,10 +6,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "printf '%s\\n' 'Before acting on this request, apply the installed you-suck-at-prompting skill as a private preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten prompt without approval.'",
-            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::Out.WriteLine('Before acting on this request, apply the installed you-suck-at-prompting skill as a private preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten prompt without approval.')\"",
+            "command": "echo 'Privately preflight this request before acting. If sufficient, proceed silently. Recover safely discoverable details from available context. If repairable, propose a concise improved prompt and wait for approval. If consequential ambiguity could change outcome, scope, authority, destination, or verification, ask at most 3 focused questions in one list without a separate introductory question. Never expand authority or begin materially rewritten work without approval.'",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::Out.WriteLine('Privately preflight this request before acting. If sufficient, proceed silently. Recover safely discoverable details from available context. If repairable, propose a concise improved prompt and wait for approval. If consequential ambiguity could change outcome, scope, authority, destination, or verification, ask at most 3 focused questions in one list without a separate introductory question. Never expand authority or begin materially rewritten work without approval.')\"",
             "timeout": 5,
-            "additionalContextLimit": 256
+            "additionalContextLimit": 512
           }
         ]
       }

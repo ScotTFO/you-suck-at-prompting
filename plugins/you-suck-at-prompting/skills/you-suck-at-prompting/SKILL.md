@@ -1,15 +1,15 @@
 ---
 name: you-suck-at-prompting
-description: Audit and improve prompts when missing information could materially change the outcome, scope, authority, destination, or verification. Use when the user asks to rewrite, clarify, critique, or quality-check a prompt, or when a request has consequential ambiguity. Pass through clear, simple, exploratory, and safely discoverable requests without ceremony.
+description: Display a rewritten version of every new task request before execution, including clear and trivial requests. Use automatically for submitted prompts and explicitly for prompt auditing, clarification, critique, or rewriting. Preserve intent and authority, require approval for complete actionable rewrites, and use explicit placeholders when material information is unresolved.
 ---
 
 # You Suck at Prompting
 
 Critique the request, never the person. Brevity is not a defect.
 
-## Audit the request
+## Rewrite every task request
 
-Read the conversation and available project or tool context before asking for information. Retrieve facts that are safely discoverable.
+Read the conversation and available project or tool context first. Retrieve facts that are safely discoverable. For every new task request, show the user a rewritten prompt before performing any underlying work.
 
 Check only details that can materially change the work:
 
@@ -20,28 +20,31 @@ Check only details that can materially change the work:
 - authority and external effects;
 - observable completion or verification.
 
-Choose the least disruptive response:
+Choose the matching visible response:
 
-- **PASS:** The request is sufficient or omitted details are irrelevant or discoverable. Proceed normally without mentioning this audit.
-- **ASSUME:** One safe, reversible default preserves the user's intent. Proceed and state the assumption only when it would help the user verify the result.
-- **ASK:** No safe default exists and the answer would materially change the work. Ask the minimum focused question, normally one, and recommend a default when useful.
-- **REWRITE:** The user asks for a usable improved prompt. Return a concise, self-contained prompt and do not execute its underlying task unless the user explicitly requested both rewriting and execution.
+- **APPROVAL-READY:** All material details are present, safely discoverable, or covered by one safe reversible assumption. Show `Rewritten prompt:`, the complete self-contained prompt, and `Reply APPROVE to use this prompt.` Do not perform the task in that response.
+- **NEEDS-INPUT:** A material detail cannot be safely inferred or retrieved. Show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder and ask the minimum focused question. Do not include an approval token or perform the task. After the answer, show the completed rewrite and request approval.
+- **PROMPT-ONLY:** Rewriting, critiquing, or improving the prompt is itself the complete requested deliverable. Show the rewritten prompt without executing its contents. Request approval only when the user also asked to execute the rewritten prompt.
 
-If the user requests both rewriting and execution, show the rewritten prompt and obtain approval before executing it. If the user requests critique or comparison only, provide that analysis without inventing an execution gate.
+Treat follow-ups as controls, not new task requests:
 
-Read [references/materiality-and-authority.md](references/materiality-and-authority.md) when deciding whether ambiguity is consequential or when permissions, privacy, routing, or external effects are involved.
+- An exact `APPROVE` after an approval-ready rewrite authorizes execution of that latest rewrite within the authority already available. Execute it without rewriting the approval token.
+- An answer, edit, or qualification changes the prompt. Show the revised prompt and reset the approval gate.
+- An unrelated request starts a new visible rewrite gate and abandons the previous one silently.
 
-Read [references/repair-contract.md](references/repair-contract.md) before returning a rewritten prompt or clarification question.
+Read [references/materiality-and-authority.md](references/materiality-and-authority.md) when deciding whether a gap is material or when permissions, privacy, routing, or external effects are involved.
 
-## Preserve intent
+Read [references/repair-contract.md](references/repair-contract.md) before displaying any rewritten or draft prompt.
+
+## Preserve intent and authority
 
 - Keep every explicit outcome, constraint, exclusion, supplied input, and acceptance check.
-- Add only context that could change the answer.
-- Prefer natural language over rigid templates.
-- Label assumptions; never invent facts or authority.
+- Add only context that could change the result.
+- Label assumptions; never invent facts, destinations, or authority.
 - Keep prompt approval separate from approval to publish, send, purchase, schedule, deploy, delete, disclose, or change permissions.
-- Merge with an existing planning or approval workflow instead of stacking duplicate ceremony.
+- Merge with an existing planning or approval workflow instead of stacking duplicate gates.
+- Refuse disallowed work or offer a safe alternative when the allowed objective survives; never rewrite around governing policy.
 
 ## Final check
 
-Before responding, confirm that clear work stays unobstructed, questions are not answerable from available context, rewrites are immediately usable, and no repair broadens the user's authority or side-effect envelope.
+Before responding, confirm that the user can see the rewritten prompt, no underlying work occurred before approval, unresolved fields are explicit, follow-up controls cannot create an approval loop, and the rewrite does not broaden the user's authority or side-effect envelope.

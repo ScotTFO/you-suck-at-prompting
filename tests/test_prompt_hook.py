@@ -10,11 +10,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
 EXPECTED_CONTEXT = (
-    "Privately preflight this request before acting. If sufficient, proceed silently. Recover safely "
-    "discoverable details from available context. If repairable, propose a concise improved prompt "
-    "and wait for approval. If consequential ambiguity could change outcome, scope, authority, "
-    "destination, or verification, ask at most 3 focused questions in one list without a separate "
-    "introductory question. Never expand authority or begin materially rewritten work without approval."
+    "Visibly rewrite every task request before acting, including clear or trivial requests. Show "
+    "`Rewritten prompt:` and wait for exact `APPROVE`; do no underlying work. If required information "
+    "is missing, show `Draft rewritten prompt:` with `[NEEDED: ...]`, ask one focused question, and omit "
+    "approval. Treat answers as revisions and exact `APPROVE` as execution of the latest complete "
+    "rewrite. Preserve intent, privacy, policy, and authority; approval never authorizes separately "
+    "gated effects."
 )
 
 
@@ -67,6 +68,7 @@ class PromptHookTests(unittest.TestCase):
         self.assertEqual(handler["type"], "command")
         self.assertEqual(handler["timeout"], 5)
         self.assertEqual(handler["additionalContextLimit"], 512)
+        self.assertLessEqual(len(EXPECTED_CONTEXT), handler["additionalContextLimit"])
         self.assertIn("commandWindows", handler)
         self.assertNotIn("async", handler)
 

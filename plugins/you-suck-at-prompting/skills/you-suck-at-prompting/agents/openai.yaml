@@ -1,7 +1,7 @@
 interface:
   display_name: "You Suck at Prompting"
-  short_description: "Repair ambiguity without slowing clear work"
-  default_prompt: "Use $you-suck-at-prompting to audit and improve this request."
+  short_description: "Rewrite every task before approved execution"
+  default_prompt: "Use $you-suck-at-prompting to rewrite this request and wait for my approval."
 
 policy:
   allow_implicit_invocation: true

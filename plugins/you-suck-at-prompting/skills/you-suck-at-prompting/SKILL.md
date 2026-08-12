@@ -22,14 +22,14 @@ Check only details that can materially change the work:
 
 Choose the matching visible response:
 
-- **APPROVAL-READY:** All material details are present, safely discoverable, or covered by one safe reversible assumption. Show `Rewritten prompt:`, the complete self-contained prompt, and `Reply APPROVE to use this prompt.` Do not perform the task in that response.
-- **NEEDS-INPUT:** A material detail cannot be safely inferred or retrieved. Show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder and ask the minimum focused question. Do not include an approval token or perform the task. After the answer, show the completed rewrite and request approval.
-- **PROMPT-ONLY:** Rewriting, critiquing, or improving the prompt is itself the complete requested deliverable. Show the rewritten prompt without executing its contents. Request approval only when the user also asked to execute the rewritten prompt.
+- **APPROVAL-READY:** All material details are present, safely discoverable, or covered by one safe reversible assumption. Show `You Suck At Prompting Rewritten prompt:`, put the complete self-contained prompt in a fenced code block, and end with `Reply with an acknowledgement to use this prompt.` Do not perform the task in that response.
+- **NEEDS-INPUT:** A material detail cannot be safely inferred or retrieved. Show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder and ask the minimum focused question. Do not include an acknowledgement request or perform the task. After the answer, show the completed rewrite in the required fenced presentation and request an acknowledgement.
+- **PROMPT-ONLY:** Rewriting, critiquing, or improving the prompt is itself the complete requested deliverable. Show `You Suck At Prompting Rewritten prompt:` followed by the usable prompt in a fenced code block without executing its contents. Request an acknowledgement only when the user also asked to execute the rewritten prompt.
 
 Treat follow-ups as controls, not new task requests:
 
-- An exact `APPROVE` after an approval-ready rewrite authorizes execution of that latest rewrite within the authority already available. Execute it without rewriting the approval token.
-- An answer, edit, or qualification changes the prompt. Show the revised prompt and reset the approval gate.
+- A clear affirmative acknowledgement such as `approve`, `yes`, `go ahead`, `proceed`, or `looks good` after an approval-ready rewrite authorizes execution of that latest rewrite within the authority already available, regardless of capitalization. Execute it without rewriting the acknowledgement.
+- An answer to a clarification, edit, qualification, or question changes the prompt. Show the revised prompt and reset the acknowledgement gate.
 - An unrelated request starts a new visible rewrite gate and abandons the previous one silently.
 
 Read [references/materiality-and-authority.md](references/materiality-and-authority.md) when deciding whether a gap is material or when permissions, privacy, routing, or external effects are involved.

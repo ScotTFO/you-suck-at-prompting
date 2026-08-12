@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "scottfo",
+  "description": "ScotTFO plugins for safer, clearer agent workflows.",
+  "owner": {
+    "name": "ScotTFO"
+  },
+  "plugins": [
+    {
+      "name": "you-suck-at-prompting",
+      "source": "./plugins/you-suck-at-prompting",
+      "description": "Automatically preflight prompts and repair material ambiguity without slowing down clear requests.",
+      "category": "productivity"
+    }
+  ]
+}

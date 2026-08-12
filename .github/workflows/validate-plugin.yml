@@ -18,8 +18,13 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
       - name: Install YAML parser
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Install pinned Claude Code validator
+        run: npm install --global @anthropic-ai/claude-code@2.1.212
       - name: Validate release-only package
         env:
           EVENT_NAME: ${{ github.event_name }}
@@ -39,18 +44,24 @@ jobs:
           plugin_root = root / "plugins" / "you-suck-at-prompting"
           manifest_path = plugin_root / ".codex-plugin" / "plugin.json"
           marketplace_path = root / ".agents" / "plugins" / "marketplace.json"
+          claude_manifest_path = plugin_root / ".claude-plugin" / "plugin.json"
+          claude_marketplace_path = root / ".claude-plugin" / "marketplace.json"
           skill_root = plugin_root / "skills" / "you-suck-at-prompting"
           skill_path = skill_root / "SKILL.md"
           openai_path = skill_root / "agents" / "openai.yaml"
           hook_path = plugin_root / "hooks" / "hooks.json"
           hook_test_path = root / "tests" / "test_prompt_hook.py"
 
-          required = [manifest_path, marketplace_path, skill_path, openai_path, hook_path, hook_test_path, root / "README.md", root / "LICENSE"]
+          required = [
+              manifest_path, marketplace_path, claude_manifest_path, claude_marketplace_path,
+              skill_path, openai_path, hook_path, hook_test_path,
+              root / "README.md", root / "LICENSE",
+          ]
           missing = [str(path.relative_to(root)) for path in required if not path.is_file()]
           if missing:
               raise SystemExit("Missing required files: " + ", ".join(missing))
 
-          allowed_root = {".agents", ".github", "plugins", "tests", "README.md", "LICENSE"}
+          allowed_root = {".agents", ".claude-plugin", ".github", "plugins", "tests", "README.md", "LICENSE"}
           unexpected = sorted(path.name for path in root.iterdir() if path.name not in allowed_root and path.name != ".git")
           if unexpected:
               raise SystemExit("Unexpected release-root entries: " + ", ".join(unexpected))
@@ -67,11 +78,19 @@ jobs:
 
           manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
           marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
+          claude_manifest = json.loads(claude_manifest_path.read_text(encoding="utf-8"))
+          claude_marketplace = json.loads(claude_marketplace_path.read_text(encoding="utf-8"))
           if manifest.get("name") != "you-suck-at-prompting" or manifest.get("skills") != "./skills/":
               raise SystemExit("Plugin identity or skills path is invalid")
           version = str(manifest.get("version", ""))
           if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
               raise SystemExit("Plugin version must be strict stable semver")
+          if claude_manifest.get("name") != manifest.get("name") or claude_manifest.get("version") != version:
+              raise SystemExit("Codex and Claude plugin identities or versions differ")
+          if "hooks" in claude_manifest or "skills" in claude_manifest:
+              raise SystemExit("Claude must use default hook and skill discovery")
+          if claude_manifest.get("author") != {"name": "ScotTFO"}:
+              raise SystemExit("Claude author metadata must remain strict-validator compatible")
           if manifest.get("author", {}).get("name") != "ScotTFO":
               raise SystemExit("Plugin author metadata is incomplete")
           interface = manifest.get("interface", {})
@@ -99,19 +118,21 @@ jobs:
               raise SystemExit("UserPromptSubmit must have exactly one handler")
           handler = handlers[0]
           expected_context = (
-              "Before acting on this request, apply the installed you-suck-at-prompting skill as a private "
-              "preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten "
-              "prompt without approval."
+              "Privately preflight this request before acting. If sufficient, proceed silently. Recover safely "
+              "discoverable details from available context. If repairable, propose a concise improved prompt "
+              "and wait for approval. If consequential ambiguity could change outcome, scope, authority, "
+              "destination, or verification, ask at most 3 focused questions in one list without a separate "
+              "introductory question. Never expand authority or begin materially rewritten work without approval."
           )
           expected_handler = {
               "type": "command",
-              "command": f"printf '%s\\n' '{expected_context}'",
+              "command": f"echo '{expected_context}'",
               "commandWindows": (
                   "powershell.exe -NoProfile -NonInteractive -Command "
                   f'"[Console]::Out.WriteLine(\'{expected_context}\')"'
               ),
               "timeout": 5,
-              "additionalContextLimit": 256,
+              "additionalContextLimit": 512,
           }
           if handler != expected_handler:
               raise SystemExit("Prompt hook must remain a bounded constant-output command")
@@ -130,6 +151,17 @@ jobs:
           }
           if entry != expected_entry:
               raise SystemExit("Marketplace entry does not match the release contract")
+
+          if claude_marketplace.get("name") != "scottfo" or claude_marketplace.get("owner") != {"name": "ScotTFO"}:
+              raise SystemExit("Claude marketplace identity is invalid")
+          claude_entries = claude_marketplace.get("plugins")
+          if not isinstance(claude_entries, list) or len(claude_entries) != 1:
+              raise SystemExit("Claude marketplace must publish exactly one plugin")
+          claude_entry = claude_entries[0]
+          if claude_entry.get("name") != "you-suck-at-prompting" or claude_entry.get("source") != "./plugins/you-suck-at-prompting":
+              raise SystemExit("Claude marketplace entry does not match the release contract")
+          if "version" in claude_entry:
+              raise SystemExit("Claude marketplace must not duplicate the manifest version")
 
           skill_text = skill_path.read_text(encoding="utf-8")
           if not skill_text.startswith("---\n") or "\n---\n" not in skill_text[4:]:
@@ -177,6 +209,7 @@ jobs:
                   ).splitlines()
                   allowed_exact = {
                       "plugins/you-suck-at-prompting/.codex-plugin/plugin.json",
+                      "plugins/you-suck-at-prompting/.claude-plugin/plugin.json",
                       "plugins/you-suck-at-prompting/skills/you-suck-at-prompting/SKILL.md",
                       "plugins/you-suck-at-prompting/skills/you-suck-at-prompting/agents/openai.yaml",
                   }
@@ -191,6 +224,10 @@ jobs:
 
           print(f"Validated you-suck-at-prompting {version} as a release-only prompt-preflight plugin")
           PY
+      - name: Validate Claude Code plugin and marketplace contracts
+        run: |
+          claude plugin validate plugins/you-suck-at-prompting --strict
+          claude plugin validate . --strict
 
   hook-runtime:
     strategy:

@@ -42,13 +42,15 @@ jobs:
           skill_root = plugin_root / "skills" / "you-suck-at-prompting"
           skill_path = skill_root / "SKILL.md"
           openai_path = skill_root / "agents" / "openai.yaml"
+          hook_path = plugin_root / "hooks" / "hooks.json"
+          hook_test_path = root / "tests" / "test_prompt_hook.py"
 
-          required = [manifest_path, marketplace_path, skill_path, openai_path, root / "README.md", root / "LICENSE"]
+          required = [manifest_path, marketplace_path, skill_path, openai_path, hook_path, hook_test_path, root / "README.md", root / "LICENSE"]
           missing = [str(path.relative_to(root)) for path in required if not path.is_file()]
           if missing:
               raise SystemExit("Missing required files: " + ", ".join(missing))
 
-          allowed_root = {".agents", ".github", "plugins", "README.md", "LICENSE"}
+          allowed_root = {".agents", ".github", "plugins", "tests", "README.md", "LICENSE"}
           unexpected = sorted(path.name for path in root.iterdir() if path.name not in allowed_root and path.name != ".git")
           if unexpected:
               raise SystemExit("Unexpected release-root entries: " + ", ".join(unexpected))
@@ -81,7 +83,38 @@ jobs:
               raise SystemExit("Plugin starter prompts must contain one to three strings of at most 128 characters")
           for unsupported in ("mcpServers", "apps", "hooks"):
               if unsupported in manifest:
-                  raise SystemExit(f"Skills-only plugin must not declare {unsupported}")
+                  raise SystemExit(f"Plugin manifest must not declare {unsupported}; use default companion-file discovery")
+
+          hook_config = json.loads(hook_path.read_text(encoding="utf-8"))
+          if set(hook_config) != {"description", "hooks"}:
+              raise SystemExit("Hook config may contain only description and hooks")
+          hooks = hook_config.get("hooks")
+          if not isinstance(hooks, dict) or set(hooks) != {"UserPromptSubmit"}:
+              raise SystemExit("Plugin must contain only the UserPromptSubmit hook")
+          groups = hooks["UserPromptSubmit"]
+          if not isinstance(groups, list) or len(groups) != 1 or set(groups[0]) != {"hooks"}:
+              raise SystemExit("UserPromptSubmit must have one matcher-free hook group")
+          handlers = groups[0].get("hooks")
+          if not isinstance(handlers, list) or len(handlers) != 1:
+              raise SystemExit("UserPromptSubmit must have exactly one handler")
+          handler = handlers[0]
+          expected_context = (
+              "Before acting on this request, apply the installed you-suck-at-prompting skill as a private "
+              "preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten "
+              "prompt without approval."
+          )
+          expected_handler = {
+              "type": "command",
+              "command": f"printf '%s\\n' '{expected_context}'",
+              "commandWindows": (
+                  "powershell.exe -NoProfile -NonInteractive -Command "
+                  f'"[Console]::Out.WriteLine(\'{expected_context}\')"'
+              ),
+              "timeout": 5,
+              "additionalContextLimit": 256,
+          }
+          if handler != expected_handler:
+              raise SystemExit("Prompt hook must remain a bounded constant-output command")
 
           if marketplace.get("name") != "scottfo":
               raise SystemExit("Marketplace ID must be scottfo")
@@ -156,5 +189,18 @@ jobs:
                   if invalid:
                       raise SystemExit("Automated improvement PR changed non-release paths: " + ", ".join(invalid))
 
-          print(f"Validated you-suck-at-prompting {version} as a release-only skills plugin")
+          print(f"Validated you-suck-at-prompting {version} as a release-only prompt-preflight plugin")
           PY
+
+  hook-runtime:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Exercise prompt hook without retaining its input
+        run: python -m unittest tests.test_prompt_hook

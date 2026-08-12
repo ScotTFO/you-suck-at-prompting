@@ -1,0 +1,18 @@
+{
+  "description": "Apply the private prompt preflight to every submitted prompt.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s\\n' 'Before acting on this request, apply the installed you-suck-at-prompting skill as a private preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten prompt without approval.'",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::Out.WriteLine('Before acting on this request, apply the installed you-suck-at-prompting skill as a private preflight. Keep PASS outcomes silent. Do not broaden granted authority or execute a rewritten prompt without approval.')\"",
+            "timeout": 5,
+            "additionalContextLimit": 256
+          }
+        ]
+      }
+    ]
+  }
+}

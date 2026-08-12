@@ -1,6 +1,6 @@
 {
   "name": "you-suck-at-prompting",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Visibly rewrite every task request and require approval before execution.",
   "author": {
     "name": "ScotTFO",

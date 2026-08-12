@@ -10,12 +10,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
 EXPECTED_CONTEXT = (
-    "Visibly rewrite every task request before acting, including clear or trivial requests. Show "
-    "`Rewritten prompt:` and wait for exact `APPROVE`; do no underlying work. If required information "
-    "is missing, show `Draft rewritten prompt:` with `[NEEDED: ...]`, ask one focused question, and omit "
-    "approval. Treat answers as revisions and exact `APPROVE` as execution of the latest complete "
-    "rewrite. Preserve intent, privacy, policy, and authority; approval never authorizes separately "
-    "gated effects."
+    "Rewrite every task visibly before acting, even clear or trivial ones. Show `Rewritten prompt:` and "
+    "end with exact standalone line `Reply APPROVE to use this prompt.` Do no underlying work. If "
+    "required information is missing, show `Draft rewritten prompt:` with `[NEEDED: ...]`, ask one "
+    "focused question, and omit approval. Treat answers as revisions and exact `APPROVE` as execution "
+    "of the latest complete rewrite. Preserve intent, privacy, policy, and authority; approval never "
+    "authorizes separate effects."
 )
 
 

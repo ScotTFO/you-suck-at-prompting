@@ -1,13 +1,13 @@
 {
-  "description": "Apply the private prompt preflight to every submitted prompt.",
+  "description": "Display a rewritten prompt and require approval before acting on every task request.",
   "hooks": {
     "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Privately preflight this request before acting. If sufficient, proceed silently. Recover safely discoverable details from available context. If repairable, propose a concise improved prompt and wait for approval. If consequential ambiguity could change outcome, scope, authority, destination, or verification, ask at most 3 focused questions in one list without a separate introductory question. Never expand authority or begin materially rewritten work without approval.'",
-            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::Out.WriteLine('Privately preflight this request before acting. If sufficient, proceed silently. Recover safely discoverable details from available context. If repairable, propose a concise improved prompt and wait for approval. If consequential ambiguity could change outcome, scope, authority, destination, or verification, ask at most 3 focused questions in one list without a separate introductory question. Never expand authority or begin materially rewritten work without approval.')\"",
+            "command": "echo 'Visibly rewrite every task request before acting, including clear or trivial requests. Show `Rewritten prompt:` and wait for exact `APPROVE`; do no underlying work. If required information is missing, show `Draft rewritten prompt:` with `[NEEDED: ...]`, ask one focused question, and omit approval. Treat answers as revisions and exact `APPROVE` as execution of the latest complete rewrite. Preserve intent, privacy, policy, and authority; approval never authorizes separately gated effects.'",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::Out.WriteLine('Visibly rewrite every task request before acting, including clear or trivial requests. Show `Rewritten prompt:` and wait for exact `APPROVE`; do no underlying work. If required information is missing, show `Draft rewritten prompt:` with `[NEEDED: ...]`, ask one focused question, and omit approval. Treat answers as revisions and exact `APPROVE` as execution of the latest complete rewrite. Preserve intent, privacy, policy, and authority; approval never authorizes separately gated effects.')\"",
             "timeout": 5,
             "additionalContextLimit": 512
           }

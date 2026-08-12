@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "you-suck-at-prompting",
   "version": "0.3.0",
-  "description": "Automatically preflight prompts and repair material ambiguity without slowing down clear requests.",
+  "description": "Visibly rewrite every task request and require approval before execution.",
   "author": {
     "name": "ScotTFO"
   },

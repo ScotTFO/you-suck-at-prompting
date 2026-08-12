@@ -1,0 +1,7 @@
+interface:
+  display_name: "You Suck at Prompting"
+  short_description: "Repair ambiguity without slowing clear work"
+  default_prompt: "Use $you-suck-at-prompting to audit and improve this request."
+
+policy:
+  allow_implicit_invocation: true

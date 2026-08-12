@@ -1,0 +1,27 @@
+{
+  "name": "you-suck-at-prompting",
+  "version": "0.1.0",
+  "description": "Audit and repair materially ambiguous prompts without slowing down clear requests.",
+  "author": {
+    "name": "ScotTFO",
+    "url": "https://github.com/ScotTFO"
+  },
+  "homepage": "https://github.com/ScotTFO/you-suck-at-prompting",
+  "repository": "https://github.com/ScotTFO/you-suck-at-prompting",
+  "license": "MIT",
+  "keywords": ["prompting", "prompt-quality", "agent-skills", "codex"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "You Suck at Prompting",
+    "shortDescription": "Repair ambiguity without slowing clear work",
+    "longDescription": "Audit requests for material ambiguity, recover facts from available context, and repair prompts while preserving intent, authority, and verification boundaries.",
+    "developerName": "ScotTFO",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Audit this request before I act on it.",
+      "Rewrite this prompt without changing its intent.",
+      "Find the ambiguity most likely to change the result."
+    ]
+  }
+}

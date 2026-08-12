@@ -1,0 +1,151 @@
+name: validate plugin package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install YAML parser
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Validate release-only package
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          import yaml
+
+          root = Path.cwd()
+          plugin_root = root / "plugins" / "you-suck-at-prompting"
+          manifest_path = plugin_root / ".codex-plugin" / "plugin.json"
+          marketplace_path = root / ".agents" / "plugins" / "marketplace.json"
+          skill_root = plugin_root / "skills" / "you-suck-at-prompting"
+          skill_path = skill_root / "SKILL.md"
+          openai_path = skill_root / "agents" / "openai.yaml"
+
+          required = [manifest_path, marketplace_path, skill_path, openai_path, root / "README.md", root / "LICENSE"]
+          missing = [str(path.relative_to(root)) for path in required if not path.is_file()]
+          if missing:
+              raise SystemExit("Missing required files: " + ", ".join(missing))
+
+          allowed_root = {".agents", ".github", "plugins", "README.md", "LICENSE"}
+          unexpected = sorted(path.name for path in root.iterdir() if path.name not in allowed_root and path.name != ".git")
+          if unexpected:
+              raise SystemExit("Unexpected release-root entries: " + ", ".join(unexpected))
+
+          forbidden_parts = {"evals", "eval-workbench", "dashboard", "results", "candidates", "state", "source-cache", "__pycache__"}
+          leaked_paths = []
+          for path in root.rglob("*"):
+              if ".git" in path.parts:
+                  continue
+              if any(part.lower() in forbidden_parts for part in path.relative_to(root).parts):
+                  leaked_paths.append(str(path.relative_to(root)))
+          if leaked_paths:
+              raise SystemExit("Private or generated paths are not releasable: " + ", ".join(leaked_paths))
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
+          if manifest.get("name") != "you-suck-at-prompting" or manifest.get("skills") != "./skills/":
+              raise SystemExit("Plugin identity or skills path is invalid")
+          version = str(manifest.get("version", ""))
+          if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version):
+              raise SystemExit("Plugin version must be strict stable semver")
+          if manifest.get("author", {}).get("name") != "ScotTFO":
+              raise SystemExit("Plugin author metadata is incomplete")
+          interface = manifest.get("interface", {})
+          for key in ("displayName", "shortDescription", "longDescription", "developerName", "category"):
+              if not isinstance(interface.get(key), str) or not interface[key].strip():
+                  raise SystemExit(f"Plugin interface.{key} is required")
+          prompts = interface.get("defaultPrompt")
+          if not isinstance(prompts, list) or not 1 <= len(prompts) <= 3 or any(not isinstance(p, str) or len(p) > 128 for p in prompts):
+              raise SystemExit("Plugin starter prompts must contain one to three strings of at most 128 characters")
+          for unsupported in ("mcpServers", "apps", "hooks"):
+              if unsupported in manifest:
+                  raise SystemExit(f"Skills-only plugin must not declare {unsupported}")
+
+          if marketplace.get("name") != "scottfo":
+              raise SystemExit("Marketplace ID must be scottfo")
+          entries = marketplace.get("plugins")
+          if not isinstance(entries, list) or len(entries) != 1:
+              raise SystemExit("Marketplace must publish exactly one plugin")
+          entry = entries[0]
+          expected_entry = {
+              "name": "you-suck-at-prompting",
+              "source": {"source": "local", "path": "./plugins/you-suck-at-prompting"},
+              "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+              "category": "Productivity",
+          }
+          if entry != expected_entry:
+              raise SystemExit("Marketplace entry does not match the release contract")
+
+          skill_text = skill_path.read_text(encoding="utf-8")
+          if not skill_text.startswith("---\n") or "\n---\n" not in skill_text[4:]:
+              raise SystemExit("SKILL.md frontmatter is missing")
+          _, frontmatter, body = skill_text.split("---\n", 2)
+          skill_meta = yaml.safe_load(frontmatter)
+          if skill_meta.get("name") != "you-suck-at-prompting" or not skill_meta.get("description"):
+              raise SystemExit("SKILL.md name or description is invalid")
+          if set(skill_meta) != {"name", "description"}:
+              raise SystemExit("SKILL.md frontmatter may contain only name and description")
+          for reference in re.findall(r"\((references/[^)]+\.md)\)", body):
+              if not (skill_root / reference).is_file():
+                  raise SystemExit(f"Broken skill reference: {reference}")
+
+          openai = yaml.safe_load(openai_path.read_text(encoding="utf-8"))
+          if openai.get("policy", {}).get("allow_implicit_invocation") is not True:
+              raise SystemExit("Implicit invocation must remain enabled")
+          default_prompt = openai.get("interface", {}).get("default_prompt", "")
+          if "$you-suck-at-prompting" not in default_prompt:
+              raise SystemExit("Skill default prompt must name $you-suck-at-prompting")
+
+          scan_paths = [root / "README.md"] + [p for p in plugin_root.rglob("*") if p.is_file()]
+          secret_patterns = [r"gh[pousr]_[A-Za-z0-9_]{20,}", r"sk-[A-Za-z0-9_-]{20,}", r"-----BEGIN [A-Z ]*PRIVATE KEY-----"]
+          local_path_patterns = [r"[A-Za-z]:\\", r"C:/Users/", r"/Users/[^/]+/", r"/home/[^/]+/"]
+          for path in scan_paths:
+              text = path.read_text(encoding="utf-8", errors="replace")
+              if any(re.search(pattern, text) for pattern in secret_patterns + local_path_patterns):
+                  raise SystemExit(f"Secret-like content or a private local path appears in {path.relative_to(root)}")
+
+          if os.environ.get("EVENT_NAME") == "pull_request":
+              base_ref = os.environ["BASE_REF"]
+              base_manifest = subprocess.check_output(
+                  ["git", "show", f"origin/{base_ref}:plugins/you-suck-at-prompting/.codex-plugin/plugin.json"],
+                  text=True,
+              )
+              base_version = json.loads(base_manifest)["version"]
+              current = tuple(map(int, version.split(".")))
+              previous = tuple(map(int, base_version.split(".")))
+              if current <= previous:
+                  raise SystemExit(f"Plugin version {version} must be greater than base {base_version}")
+
+              if os.environ.get("HEAD_REF", "").startswith("codex/skill-improvement-"):
+                  changed = subprocess.check_output(
+                      ["git", "diff", "--name-only", f"origin/{base_ref}...HEAD"], text=True
+                  ).splitlines()
+                  allowed_prefix = "plugins/you-suck-at-prompting/"
+                  invalid = [path for path in changed if not path.startswith(allowed_prefix)]
+                  if invalid:
+                      raise SystemExit("Automated improvement PR changed non-plugin paths: " + ", ".join(invalid))
+
+          print(f"Validated you-suck-at-prompting {version} as a release-only skills plugin")
+          PY

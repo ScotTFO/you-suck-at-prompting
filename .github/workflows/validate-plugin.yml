@@ -142,10 +142,19 @@ jobs:
                   changed = subprocess.check_output(
                       ["git", "diff", "--name-only", f"origin/{base_ref}...HEAD"], text=True
                   ).splitlines()
-                  allowed_prefix = "plugins/you-suck-at-prompting/"
-                  invalid = [path for path in changed if not path.startswith(allowed_prefix)]
+                  allowed_exact = {
+                      "plugins/you-suck-at-prompting/.codex-plugin/plugin.json",
+                      "plugins/you-suck-at-prompting/skills/you-suck-at-prompting/SKILL.md",
+                      "plugins/you-suck-at-prompting/skills/you-suck-at-prompting/agents/openai.yaml",
+                  }
+                  reference_prefix = "plugins/you-suck-at-prompting/skills/you-suck-at-prompting/references/"
+                  invalid = [
+                      path for path in changed
+                      if path not in allowed_exact
+                      and not (path.startswith(reference_prefix) and path.endswith(".md"))
+                  ]
                   if invalid:
-                      raise SystemExit("Automated improvement PR changed non-plugin paths: " + ", ".join(invalid))
+                      raise SystemExit("Automated improvement PR changed non-release paths: " + ", ".join(invalid))
 
           print(f"Validated you-suck-at-prompting {version} as a release-only skills plugin")
           PY

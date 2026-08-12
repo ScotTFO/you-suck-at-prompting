@@ -1,7 +1,7 @@
 {
   "name": "you-suck-at-prompting",
-  "version": "0.1.0",
-  "description": "Audit and repair materially ambiguous prompts without slowing down clear requests.",
+  "version": "0.2.0",
+  "description": "Automatically preflight prompts and repair material ambiguity without slowing down clear requests.",
   "author": {
     "name": "ScotTFO",
     "url": "https://github.com/ScotTFO"
@@ -13,8 +13,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "You Suck at Prompting",
-    "shortDescription": "Repair ambiguity without slowing clear work",
-    "longDescription": "Audit requests for material ambiguity, recover facts from available context, and repair prompts while preserving intent, authority, and verification boundaries.",
+    "shortDescription": "Preflight prompts without slowing clear work",
+    "longDescription": "Run a private preflight on every Codex prompt, recover facts from available context, and repair material ambiguity while preserving intent, authority, and verification boundaries.",
     "developerName": "ScotTFO",
     "category": "Productivity",
     "capabilities": ["Interactive"],

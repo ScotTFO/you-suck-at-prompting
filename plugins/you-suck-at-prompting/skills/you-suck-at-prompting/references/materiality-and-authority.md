@@ -1,11 +1,11 @@
 # Materiality and Authority
 
-A gap is material only when reasonable answers could change the outcome, scope, acceptance, safety, authority, privacy, destination, or resulting work. Do not intervene for optional polish, implementation details governed by the repository, or preferences with an obvious reversible default.
+A gap is material only when reasonable answers could change the outcome, scope, acceptance, safety, authority, privacy, destination, or resulting work. Do not add optional polish, implementation details governed by the repository, or preferences with an obvious reversible default to the displayed rewrite.
 
 ## Decision order
 
 1. Retrieve the answer from supplied sources, the repository, workspace rules, or available tools when safe.
-2. Pass through when the omission does not affect the result.
+2. Preserve the request as written when the omission does not affect the result, while still displaying it under the visible rewrite gate.
 3. Use one explicit assumption when a single safe and reversible default preserves intent.
 4. Ask when alternatives are materially different or an answer would invent authority.
 

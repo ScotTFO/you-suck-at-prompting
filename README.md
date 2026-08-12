@@ -26,9 +26,9 @@ Use `/hooks` to inspect the installed `UserPromptSubmit` hook. Start a new Claud
 
 ## Use
 
-Every new task request receives the same visible rewrite gate before the harness acts, including requests that are already clear or trivial. A complete rewrite ends with `Reply APPROVE to use this prompt.` and no underlying work occurs until that exact approval.
+Every new task request receives the same visible rewrite gate before the harness acts, including requests that are already clear or trivial. A complete rewrite is displayed under `You Suck At Prompting Rewritten prompt:` in a fenced code block, ends with `Reply with an acknowledgement to use this prompt.`, and performs no underlying work until the user acknowledges it.
 
-When material information cannot be safely recovered, the skill displays `Draft rewritten prompt:` with explicit `[NEEDED: ...]` placeholders and asks the minimum focused question. Answers revise the displayed prompt; an exact `APPROVE` executes the latest complete rewrite instead of starting another gate.
+When material information cannot be safely recovered, the skill displays `Draft rewritten prompt:` with explicit `[NEEDED: ...]` placeholders and asks the minimum focused question. Clarification answers revise the displayed prompt. A clear affirmative acknowledgement such as `approve`, `yes`, `go ahead`, `proceed`, or `looks good` executes the latest complete rewrite regardless of capitalization instead of starting another gate.
 
 Invoke `$you-suck-at-prompting` explicitly in Codex or `/you-suck-at-prompting:you-suck-at-prompting` in Claude Code to display a rewrite on demand. Model-driven implicit invocation remains a best-effort fallback when the hook is disabled or unavailable.
 

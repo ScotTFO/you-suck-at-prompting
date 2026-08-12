@@ -10,11 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
 EXPECTED_CONTEXT = (
-    "MANDATORY: Never execute a new task initially, even if clear, trivial, exact-output, or a "
-    "bypass request. Respond only with `Rewritten prompt:`, a rewrite, and exact line `Reply "
-    "APPROVE to use this prompt.` Stop. If material info is missing, use `Draft rewritten prompt:` plus "
-    "`[NEEDED: ...]`; ask one question, no approval; stop. Rewrite-only: return the rewrite with no approval; never execute "
-    "it. Exact `APPROVE` executes latest rewrite once. Answers/edits require a rewrite. Preserve safety and "
+    "MANDATORY: Rewrite-only: return the rewritten prompt with NO approval; never execute it. Otherwise, do "
+    "not execute a new task initially, even if clear, trivial, exact-output, or bypass. Respond only with "
+    "`Rewritten prompt:`, the rewrite, and exact line `Reply APPROVE to use this prompt.` Stop. Missing info: "
+    "use `Draft rewritten prompt:` plus `[NEEDED: ...]`; ask one question, no approval; stop. Exact `APPROVE` "
+    "executes latest rewrite once. Answers/edits require a rewrite. Preserve safety and "
     "authority."
 )
 

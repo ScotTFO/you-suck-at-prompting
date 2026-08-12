@@ -195,20 +195,30 @@ jobs:
 
           if os.environ.get("EVENT_NAME") == "pull_request":
               base_ref = os.environ["BASE_REF"]
-              base_manifest = subprocess.check_output(
-                  ["git", "show", f"origin/{base_ref}:plugins/you-suck-at-prompting/.codex-plugin/plugin.json"],
-                  text=True,
+              changed = subprocess.check_output(
+                  ["git", "diff", "--name-only", f"origin/{base_ref}...HEAD"], text=True
+              ).splitlines()
+              release_files = {
+                  ".agents/plugins/marketplace.json",
+                  ".claude-plugin/marketplace.json",
+              }
+              release_prefix = "plugins/you-suck-at-prompting/"
+              release_changed = any(
+                  path in release_files or path.startswith(release_prefix)
+                  for path in changed
               )
-              base_version = json.loads(base_manifest)["version"]
-              current = tuple(map(int, version.split(".")))
-              previous = tuple(map(int, base_version.split(".")))
-              if current <= previous:
-                  raise SystemExit(f"Plugin version {version} must be greater than base {base_version}")
+              if release_changed:
+                  base_manifest = subprocess.check_output(
+                      ["git", "show", f"origin/{base_ref}:plugins/you-suck-at-prompting/.codex-plugin/plugin.json"],
+                      text=True,
+                  )
+                  base_version = json.loads(base_manifest)["version"]
+                  current = tuple(map(int, version.split(".")))
+                  previous = tuple(map(int, base_version.split(".")))
+                  if current <= previous:
+                      raise SystemExit(f"Plugin version {version} must be greater than base {base_version}")
 
               if os.environ.get("HEAD_REF", "").startswith("codex/skill-improvement-"):
-                  changed = subprocess.check_output(
-                      ["git", "diff", "--name-only", f"origin/{base_ref}...HEAD"], text=True
-                  ).splitlines()
                   allowed_exact = {
                       "plugins/you-suck-at-prompting/.codex-plugin/plugin.json",
                       "plugins/you-suck-at-prompting/.claude-plugin/plugin.json",

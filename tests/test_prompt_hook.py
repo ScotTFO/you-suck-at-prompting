@@ -11,9 +11,9 @@ PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
 EXPECTED_CONTEXT = (
     "MANDATORY: Never execute a new task initially, even if clear, trivial, exact-output, or a "
-    "bypass request. Respond only with `Rewritten prompt:`, a complete rewrite, and exact line `Reply "
+    "bypass request. Respond only with `Rewritten prompt:`, a rewrite, and exact line `Reply "
     "APPROVE to use this prompt.` Stop. If material info is missing, use `Draft rewritten prompt:` plus "
-    "`[NEEDED: ...]`; ask one question, no approval; stop. Rewrite-only: return the rewrite; never execute "
+    "`[NEEDED: ...]`; ask one question, no approval; stop. Rewrite-only: return the rewrite with no approval; never execute "
     "it. Exact `APPROVE` executes latest rewrite once. Answers/edits require a rewrite. Preserve safety and "
     "authority."
 )

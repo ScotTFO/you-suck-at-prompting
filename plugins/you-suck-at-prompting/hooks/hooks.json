@@ -1,13 +1,13 @@
 {
-  "description": "Display a rewritten prompt and require approval before acting on every task request.",
+  "description": "Display a rewritten prompt, shape execution when material, and require approval before acting.",
   "hooks": {
     "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"MANDATORY: For every rewrite or draft, first output exactly once: Analyzing whether You Suck at Prompting… your prompt’s performance review is underway. The next line is exactly either You Suck At Prompting Rewritten prompt: or Draft rewritten prompt:; then provide the fenced rewrite or placeholders. Approval-ready responses end with this exact line: Reply with an acknowledgement to use this prompt. A clear affirmative acknowledgement executes once with no kickoff. Preserve safety and authority.\"",
-            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);[Console]::Out.WriteLine('MANDATORY: For every rewrite or draft, first output exactly once: Analyzing whether You Suck at Prompting… your prompt’’s performance review is underway. The next line is exactly either You Suck At Prompting Rewritten prompt: or Draft rewritten prompt:; then provide the fenced rewrite or placeholders. Approval-ready responses end with this exact line: Reply with an acknowledgement to use this prompt. A clear affirmative acknowledgement executes once with no kickoff. Preserve safety and authority.')\"",
+            "command": "echo \"MANDATORY: Use you-suck-at-prompting. Rewrite/draft starts once with exact Analyzing whether You Suck at Prompting… your prompt’s performance review is underway., then exact heading+fence. Approval ends exact ack; prompt-only none. Missing: [NEEDED: ...]; ask once, no ack. Ack runs once, no kickoff. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/unsupported orchestration: [NEEDED: preserve or simplify]; ask which; never replace silently.\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);[Console]::Out.WriteLine('MANDATORY: Use you-suck-at-prompting. Rewrite/draft starts once with exact Analyzing whether You Suck at Prompting… your prompt’’s performance review is underway., then exact heading+fence. Approval ends exact ack; prompt-only none. Missing: [NEEDED: ...]; ask once, no ack. Ack runs once, no kickoff. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/unsupported orchestration: [NEEDED: preserve or simplify]; ask which; never replace silently.')\"",
             "timeout": 5,
             "additionalContextLimit": 512
           }

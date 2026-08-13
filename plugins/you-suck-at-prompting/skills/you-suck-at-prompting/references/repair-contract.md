@@ -15,6 +15,9 @@ Return a compact task that another capable agent can execute without rereading t
 - Lead with the intended result.
 - Preserve explicit constraints, supplied sources, exclusions, approval boundaries, and verification.
 - Add at most the assumptions needed to resolve material ambiguity; write an editable assumption as `Assumes ...`.
+- Translate vague quality language into the smallest observable acceptance criteria supported by context; never invent aesthetic, tone, visual-style, or product preferences.
+- When verification matters, require the smallest artifact-appropriate check and its resulting evidence, such as a test result, artifact readback, source comparison, connector confirmation, delivery receipt, or visual inspection. Inspect every page or view of a multi-part artifact. Confidence language alone does not count as evidence. Do not require explanatory meta-language when the prompt already requires a real check.
+- Require a concise completion report only when the work creates a consequential handoff, follows staged or expensive-to-reverse execution, has unresolved risks or deviations, or leaves an action awaiting separate approval. The report covers the result or artifact location, verification evidence, assumptions or deviations, unresolved risks, and actions awaiting separate approval. Multiple routine local steps alone do not trigger it; keep direct work compact.
 - Do not add an architecture, process, persona, or output template unless it is explicitly requested or materially improves completion or verification. When execution design applies, include only the necessary controls and do not require a visible shape label.
 - End with the standalone line `Reply with an acknowledgement to use this prompt.`
 - Do not execute the underlying task in the same response.
@@ -28,7 +31,8 @@ Use this exact outer form: the exact heading, a nonempty fenced prompt, and then
 - After the kickoff, use `Draft rewritten prompt:`.
 - Preserve everything already known and mark every blocking field as `[NEEDED: concise field description]`.
 - Ask only the highest-value unresolved question or smallest inseparable set of questions.
-- Explain what the answer changes when that is not obvious.
+- Follow the question with `Expected prompt impact:` explaining how plausible answers change the task contract.
+- Then add `Recommended default:` only when one genuinely safe, reversible default exists; otherwise omit it.
 - Do not ask for information that can be retrieved from available context.
 - Do not include an acknowledgement request while any placeholder remains.
 - Treat the answer as prompt input, not authorization for an external effect.

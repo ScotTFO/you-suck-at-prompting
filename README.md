@@ -73,7 +73,7 @@ If something material is still missing, the plugin does not fill the gap with co
 [NEEDED: target repository or destination]
 ```
 
-Then it asks the smallest useful question. Revolutionary technology: admitting when information does not exist.
+Then it asks the smallest useful question and tells you what the answer would change. It recommends a default only when one is genuinely safe and reversible. Revolutionary technology: admitting when information does not exist.
 
 ## Your Prompting Performance Improvement Plan
 
@@ -232,6 +232,9 @@ Clarifications and qualifications revise the prompt and reset the approval gate.
 - Preserves explicit goals, constraints, exclusions, and supplied context.
 - Recovers facts that are safely discoverable before asking you questions.
 - Marks unresolved material information instead of inventing it.
+- Turns vague quality words into observable criteria without inventing your taste.
+- Requires real verification evidence instead of accepting confidence as proof.
+- Adds a concise completion report only when consequential handoff or risk warrants it; routine direct work stays compact.
 - Adds bounded execution controls only when the task materially needs them.
 - Asks before simplifying an explicit orchestration request.
 - Keeps prompt approval separate from permission to publish, deploy, delete, purchase, disclose, or change access.

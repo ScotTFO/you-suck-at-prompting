@@ -16,7 +16,7 @@ jobs:
       - name: Read plugin version
         id: version
         run: |
-          version="$(python -c 'import json; c=json.load(open("plugins/you-suck-at-prompting/.codex-plugin/plugin.json")); a=json.load(open("plugins/you-suck-at-prompting/.claude-plugin/plugin.json")); assert c["version"] == a["version"], "Codex and Claude versions differ"; print(c["version"])')"
+          version="$(python -c 'import json; p="plugins/you-suck-at-prompting/"; g=json.load(open(p+"plugin.json")); c=json.load(open(p+".codex-plugin/plugin.json")); a=json.load(open(p+".claude-plugin/plugin.json")); assert g["name"] == c["name"] == a["name"], "Agent Plugins, Codex, and Claude names differ"; assert g["version"] == c["version"] == a["version"], "Agent Plugins, Codex, and Claude versions differ"; print(c["version"])')"
           echo "version=$version" >> "$GITHUB_OUTPUT"
       - name: Create immutable GitHub release
         env:

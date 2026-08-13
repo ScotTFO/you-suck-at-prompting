@@ -12,6 +12,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
+AGENT_PLUGIN_PATH = PLUGIN_ROOT / "plugin.json"
+CODEX_MANIFEST_PATH = PLUGIN_ROOT / ".codex-plugin" / "plugin.json"
+CLAUDE_MANIFEST_PATH = PLUGIN_ROOT / ".claude-plugin" / "plugin.json"
+COPILOT_ADAPTER_PATH = (
+    PLUGIN_ROOT / "copilot" / "you-suck-at-prompting.instructions.md"
+)
 VALIDATE_WORKFLOW_PATH = ROOT / ".github" / "workflows" / "validate-plugin.yml"
 SKILL_PATH = PLUGIN_ROOT / "skills" / "you-suck-at-prompting" / "SKILL.md"
 REPAIR_CONTRACT_PATH = (
@@ -82,6 +88,42 @@ class PromptHookTests(unittest.TestCase):
         self.assertIn("[NEEDED: preserve or simplify]", EXPECTED_CONTEXT)
         self.assertIn("commandWindows", handler)
         self.assertNotIn("async", handler)
+
+    def test_agent_plugin_is_portable_hook_free_and_version_aligned(self) -> None:
+        agent_plugin = self.config(AGENT_PLUGIN_PATH)
+        codex_manifest = self.config(CODEX_MANIFEST_PATH)
+        claude_manifest = self.config(CLAUDE_MANIFEST_PATH)
+
+        self.assertEqual(
+            agent_plugin["$schema"],
+            "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+        )
+        self.assertEqual(agent_plugin["name"], "you-suck-at-prompting")
+        self.assertEqual(
+            agent_plugin["name"], codex_manifest["name"], claude_manifest["name"]
+        )
+        self.assertEqual(
+            agent_plugin["version"], codex_manifest["version"], claude_manifest["version"]
+        )
+        self.assertNotIn("hooks", agent_plugin)
+        self.assertNotIn("extensions", agent_plugin)
+
+    def test_copilot_adapter_preserves_the_visible_gate_and_boundaries(self) -> None:
+        adapter = COPILOT_ADAPTER_PATH.read_text(encoding="utf-8")
+
+        self.assertTrue(adapter.startswith("---\n"))
+        self.assertIn('applyTo: "**"', adapter)
+        self.assertEqual(adapter.count(KICKOFF), 1)
+        self.assertIn("load and follow the installed `you-suck-at-prompting` agent skill", adapter)
+        self.assertIn("Reply with an acknowledgement to use this prompt.", adapter)
+        self.assertIn("Draft rewritten prompt:", adapter)
+        self.assertIn("[NEEDED: ...]", adapter)
+        self.assertIn("prompt rewriting or critique", adapter)
+        self.assertIn("Execute it once without displaying the kickoff", adapter)
+        self.assertIn("A clarification, edit, or qualification", adapter)
+        self.assertIn("Never retain a real usage prompt automatically", adapter)
+        self.assertIn("`SAVE CASE`", adapter)
+        self.assertIn("separate approvals for publishing", adapter)
 
     def test_ci_validator_uses_the_same_hook_context(self) -> None:
         workflow = VALIDATE_WORKFLOW_PATH.read_text(encoding="utf-8")

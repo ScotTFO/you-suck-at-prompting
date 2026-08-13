@@ -1,7 +1,10 @@
+import ast
 import json
 import os
 import hashlib
+import re
 import subprocess
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -9,12 +12,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
+VALIDATE_WORKFLOW_PATH = ROOT / ".github" / "workflows" / "validate-plugin.yml"
 EXPECTED_CONTEXT = (
-    "MANDATORY: Prompt-only: output `You Suck At Prompting Rewritten prompt:` plus a fenced rewrite; no gate "
-    "or execution. Otherwise, do not execute first. Output that heading and fenced rewrite, then "
-    "`Reply with an acknowledgement to use this prompt.` Missing info: output `Draft rewritten prompt:` plus "
-    "`[NEEDED: ...]`, ask one question, no acknowledgement. A clear affirmative acknowledgement regardless of "
-    "capitalization executes latest rewrite once. Edits or qualifications reset. Preserve safety and authority."
+    "MANDATORY: Use you-suck-at-prompting. Prompt-only: exact `You Suck At Prompting Rewritten prompt:` + fence; "
+    "no gate. Else same + exact `Reply with an acknowledgement to use this prompt.` Missing: exact `Draft "
+    "rewritten prompt:` + `[NEEDED: ...]`; one question, no ack. Ack executes; edits reset. Preserve "
+    "safety/authority. For goals/loops/plans/graphs/agents/recurrence/review load execution-shapes. Excessive/"
+    "unsupported orchestration: draft `[NEEDED: preserve or simplify]`; ask which; never replace silently."
 )
 
 
@@ -68,8 +72,21 @@ class PromptHookTests(unittest.TestCase):
         self.assertEqual(handler["timeout"], 5)
         self.assertEqual(handler["additionalContextLimit"], 512)
         self.assertLessEqual(len(EXPECTED_CONTEXT), handler["additionalContextLimit"])
+        self.assertIn("load execution-shapes", EXPECTED_CONTEXT)
+        self.assertIn("[NEEDED: preserve or simplify]", EXPECTED_CONTEXT)
         self.assertIn("commandWindows", handler)
         self.assertNotIn("async", handler)
+
+    def test_ci_validator_uses_the_same_hook_context(self) -> None:
+        workflow = VALIDATE_WORKFLOW_PATH.read_text(encoding="utf-8")
+        match = re.search(
+            r"expected_context = \(\n(?P<body>.*?)\n\s+\)\n\s+if len\(expected_context\)",
+            workflow,
+            flags=re.DOTALL,
+        )
+        self.assertIsNotNone(match, "validate workflow has no expected_context block")
+        expression = "(\n" + textwrap.dedent(match.group("body")) + "\n)"
+        self.assertEqual(ast.literal_eval(expression), EXPECTED_CONTEXT)
 
     def test_hooks_emit_identical_constant_context_without_retaining_input(self) -> None:
         sentinel = "PRIVATE_PROMPT_MUST_NOT_APPEAR"

@@ -23,6 +23,9 @@ SKILL_PATH = PLUGIN_ROOT / "skills" / "you-suck-at-prompting" / "SKILL.md"
 REPAIR_CONTRACT_PATH = (
     PLUGIN_ROOT / "skills" / "you-suck-at-prompting" / "references" / "repair-contract.md"
 )
+MATERIALITY_CONTRACT_PATH = (
+    PLUGIN_ROOT / "skills" / "you-suck-at-prompting" / "references" / "materiality-and-authority.md"
+)
 KICKOFF = "Analyzing whether You Suck at Prompting… your prompt’s performance review is underway."
 EXPECTED_CONTEXT = (
     f"MANDATORY: Use you-suck-at-prompting. Rewrite/draft starts once with exact {KICKOFF}, then exact "
@@ -170,6 +173,42 @@ class PromptHookTests(unittest.TestCase):
         self.assertLess(skill.index(KICKOFF), skill.index("**APPROVAL-READY:**"))
         self.assertIn("Ack runs once, no kickoff", EXPECTED_CONTEXT)
         self.assertIn("Do not use it when a clear affirmative acknowledgement executes", skill)
+
+    def test_task_contract_takeaways_remain_selective_and_evidence_based(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        materiality = MATERIALITY_CONTRACT_PATH.read_text(encoding="utf-8")
+        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        for text in (skill, materiality, repair):
+            self.assertIn("Expected prompt impact:", text)
+            self.assertIn("Recommended default:", text)
+            self.assertLess(text.index("Expected prompt impact:"), text.index("Recommended default:"))
+        self.assertIn("If any condition fails, do not ask", materiality)
+        self.assertIn("permissions, deployment, deletion, sending, migration, publishing, purchases", materiality)
+        self.assertIn("Make vague quality terms observable", skill)
+        self.assertIn("smallest observable criteria", materiality)
+        self.assertIn("Confidence language alone is not verification", skill)
+        self.assertIn("every page or view of a multi-part artifact", skill)
+        self.assertIn("Confidence language alone does not count as evidence", repair)
+        self.assertIn("Inspect every page or view of a multi-part artifact", repair)
+        self.assertIn("Do not require explanatory meta-language", repair)
+        self.assertIn("result or artifact location", repair)
+        self.assertIn("actions awaiting separate approval", repair)
+        self.assertIn("Multiple routine local steps alone do not trigger it", repair)
+        self.assertIn("routine direct work stays compact", readme)
+        self.assertIn("the direct approach is a safe reversible default", skill)
+
+    def test_all_versioned_manifests_are_aligned_at_patch_version(self) -> None:
+        versions = {
+            self.config(CODEX_MANIFEST_PATH)["version"],
+            self.config(CLAUDE_MANIFEST_PATH)["version"],
+            self.config(AGENT_PLUGIN_PATH)["version"],
+        }
+
+        self.assertEqual(versions, {"0.5.1"})
+        self.assertNotIn("version", self.config(ROOT / ".claude-plugin" / "marketplace.json"))
+        self.assertNotIn("version", self.config(ROOT / ".agents" / "plugins" / "marketplace.json"))
 
 
 if __name__ == "__main__":

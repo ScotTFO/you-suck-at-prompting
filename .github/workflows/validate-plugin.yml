@@ -42,6 +42,7 @@ jobs:
 
           root = Path.cwd()
           plugin_root = root / "plugins" / "you-suck-at-prompting"
+          agent_plugin_path = plugin_root / "plugin.json"
           manifest_path = plugin_root / ".codex-plugin" / "plugin.json"
           marketplace_path = root / ".agents" / "plugins" / "marketplace.json"
           claude_manifest_path = plugin_root / ".claude-plugin" / "plugin.json"
@@ -50,11 +51,13 @@ jobs:
           skill_path = skill_root / "SKILL.md"
           openai_path = skill_root / "agents" / "openai.yaml"
           hook_path = plugin_root / "hooks" / "hooks.json"
+          copilot_adapter_path = plugin_root / "copilot" / "you-suck-at-prompting.instructions.md"
           hook_test_path = root / "tests" / "test_prompt_hook.py"
 
           required = [
-              manifest_path, marketplace_path, claude_manifest_path, claude_marketplace_path,
-              skill_path, openai_path, hook_path, hook_test_path,
+              agent_plugin_path, manifest_path, marketplace_path, claude_manifest_path,
+              claude_marketplace_path, skill_path, openai_path, hook_path,
+              copilot_adapter_path, hook_test_path,
               root / "README.md", root / "LICENSE",
           ]
           missing = [str(path.relative_to(root)) for path in required if not path.is_file()]
@@ -76,6 +79,7 @@ jobs:
           if leaked_paths:
               raise SystemExit("Private or generated paths are not releasable: " + ", ".join(leaked_paths))
 
+          agent_plugin = json.loads(agent_plugin_path.read_text(encoding="utf-8"))
           manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
           marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
           claude_manifest = json.loads(claude_manifest_path.read_text(encoding="utf-8"))
@@ -87,6 +91,13 @@ jobs:
               raise SystemExit("Plugin version must be strict stable semver")
           if claude_manifest.get("name") != manifest.get("name") or claude_manifest.get("version") != version:
               raise SystemExit("Codex and Claude plugin identities or versions differ")
+          expected_agent_schema = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+          if agent_plugin.get("$schema") != expected_agent_schema:
+              raise SystemExit("Portable Agent Plugins manifest schema is invalid")
+          if agent_plugin.get("name") != manifest.get("name") or agent_plugin.get("version") != version:
+              raise SystemExit("Agent Plugins, Codex, and Claude identities or versions differ")
+          if "hooks" in agent_plugin or "extensions" in agent_plugin:
+              raise SystemExit("Portable Agent Plugins manifest must not expose the Codex/Claude hook")
           if "hooks" in claude_manifest or "skills" in claude_manifest:
               raise SystemExit("Claude must use default hook and skill discovery")
           if claude_manifest.get("author") != {"name": "ScotTFO"}:
@@ -186,6 +197,25 @@ jobs:
           default_prompt = openai.get("interface", {}).get("default_prompt", "")
           if "$you-suck-at-prompting" not in default_prompt:
               raise SystemExit("Skill default prompt must name $you-suck-at-prompting")
+
+          adapter_text = copilot_adapter_path.read_text(encoding="utf-8")
+          if not adapter_text.startswith("---\n") or "\n---\n" not in adapter_text[4:]:
+              raise SystemExit("Copilot instruction adapter frontmatter is missing")
+          _, adapter_frontmatter, adapter_body = adapter_text.split("---\n", 2)
+          adapter_meta = yaml.safe_load(adapter_frontmatter)
+          if set(adapter_meta) != {"name", "description", "applyTo"} or adapter_meta.get("applyTo") != "**":
+              raise SystemExit("Copilot instruction adapter frontmatter is invalid")
+          adapter_requirements = [
+              "you-suck-at-prompting", "Analyzing whether You Suck at Prompting…",
+              "Reply with an acknowledgement to use this prompt.", "Draft rewritten prompt:",
+              "[NEEDED: ...]", "SAVE CASE", "Never retain a real usage prompt automatically",
+          ]
+          missing_adapter_requirements = [item for item in adapter_requirements if item not in adapter_body]
+          if missing_adapter_requirements:
+              raise SystemExit(
+                  "Copilot instruction adapter is missing required contracts: "
+                  + ", ".join(missing_adapter_requirements)
+              )
 
           scan_paths = [root / "README.md"] + [p for p in plugin_root.rglob("*") if p.is_file()]
           secret_patterns = [r"gh[pousr]_[A-Za-z0-9_]{20,}", r"sk-[A-Za-z0-9_-]{20,}", r"-----BEGIN [A-Z ]*PRIVATE KEY-----"]

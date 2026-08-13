@@ -7,7 +7,7 @@
 
 <p align="center">
   <img alt="Prompting status: on a PIP" src="https://img.shields.io/badge/prompting_status-on_a_PIP-ff4d4d?style=for-the-badge">
-  <img alt="Works with Codex and Claude Code" src="https://img.shields.io/badge/works_with-Codex_%2B_Claude_Code-6f42c1?style=for-the-badge">
+  <img alt="Works with Codex, Claude Code, and GitHub Copilot" src="https://img.shields.io/badge/works_with-Codex_%2B_Claude_Code_%2B_Copilot-6f42c1?style=for-the-badge">
   <img alt="Telemetry: absolutely not" src="https://img.shields.io/badge/telemetry-absolutely_not-2ea44f?style=for-the-badge">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-0969da?style=for-the-badge">
 </p>
@@ -17,6 +17,8 @@
   ·
   <a href="#install-for-claude-code"><strong>Install for Claude Code</strong></a>
   ·
+  <a href="#install-for-vs-code-github-copilot"><strong>Install for Copilot</strong></a>
+  ·
   <a href="#how-the-intervention-works"><strong>How it works</strong></a>
 </p>
 
@@ -25,7 +27,7 @@
 >
 > This is not punitive. We have all typed “make it better” and expected a machine to reconstruct the missing fourteen paragraphs from our tone.
 
-**You Suck at Prompting** is an installable Codex and Claude Code plugin that visibly rewrites every task request before execution.
+**You Suck at Prompting** is an installable Codex, Claude Code, and VS Code GitHub Copilot customization that visibly rewrites every task request before execution.
 
 It preserves what you meant, identifies anything important you forgot, adds bounded execution controls when the work actually needs them, protects the authority boundaries you definitely remembered to specify, and waits for your approval before the agent does anything.
 
@@ -147,14 +149,76 @@ claude plugin marketplace update scottfo
 claude plugin update you-suck-at-prompting@scottfo
 ```
 
+## Install for VS Code GitHub Copilot
+
+Copilot support has two parts: the plugin supplies the shared skill, and one personal instruction file makes the approval gate apply to every new Agent-mode task.
+
+1. In VS Code settings, append this repository to your existing `chat.plugins.marketplaces` list. Do not replace marketplaces already configured there.
+
+   ```jsonc
+   "chat.plugins.marketplaces": [
+     "ScotTFO/you-suck-at-prompting"
+   ]
+   ```
+
+2. Open the Extensions view, search for `@agentPlugins`, find **You Suck at Prompting**, and select **Install**. Review the source and trust prompt before confirming.
+3. Install the always-on instruction adapter without replacing your other Copilot instructions.
+
+   **Windows PowerShell:**
+
+   ```powershell
+   $instructionsDirectory = Join-Path $HOME ".copilot\instructions"
+   New-Item -ItemType Directory -Force -Path $instructionsDirectory | Out-Null
+   Invoke-WebRequest `
+     -Uri "https://raw.githubusercontent.com/ScotTFO/you-suck-at-prompting/main/plugins/you-suck-at-prompting/copilot/you-suck-at-prompting.instructions.md" `
+     -OutFile (Join-Path $instructionsDirectory "you-suck-at-prompting.instructions.md")
+   ```
+
+   **macOS or Linux:**
+
+   ```bash
+   mkdir -p "$HOME/.copilot/instructions"
+   curl -fL \
+     "https://raw.githubusercontent.com/ScotTFO/you-suck-at-prompting/main/plugins/you-suck-at-prompting/copilot/you-suck-at-prompting.instructions.md" \
+     -o "$HOME/.copilot/instructions/you-suck-at-prompting.instructions.md"
+   ```
+
+4. Start a new GitHub Copilot chat in **Agent** mode. Run **Chat: Open Customizations** and confirm that both the plugin skill and **You Suck at Prompting** instruction appear and are enabled.
+
+Agent plugins can be disabled by enterprise policy. If the Plugins view or `chat.plugins.enabled` is unavailable, ask your administrator to allow agent plugins and this marketplace.
+
+### Project-only Copilot installation
+
+To keep the customization in one repository instead of your personal profile, copy these release directories into the target project:
+
+```text
+plugins/you-suck-at-prompting/skills/you-suck-at-prompting/
+  -> .github/skills/you-suck-at-prompting/
+
+plugins/you-suck-at-prompting/copilot/you-suck-at-prompting.instructions.md
+  -> .github/instructions/you-suck-at-prompting.instructions.md
+```
+
+Commit those copied files if the project should share the behavior with collaborators. Start a new Agent-mode chat and verify both entries in **Chat: Open Customizations**.
+
+Copilot coverage applies to Chat in Agent mode. It does not affect inline code completions. Copilot can select the skill automatically, while the instruction adapter supplies the always-on gate; installing only the skill leaves automatic selection best-effort.
+
+### Copilot smoke test
+
+1. Confirm the skill and instruction appear in **Chat: Open Customizations**.
+2. Submit `Create a text file named hello.txt containing hello.` Confirm Copilot shows the rewritten prompt before using a tool or changing a file.
+3. Reply `yes`. Confirm Copilot performs the task once without showing the rewrite gate again.
+4. Start a new task and submit `Fix it`. Confirm Copilot shows a draft containing `[NEEDED: ...]`, asks one focused question, and does not request acknowledgement yet.
+
 ## Use it deliberately
 
-The shared `UserPromptSubmit` hook activates the visible rewrite gate for new task requests.
+Codex and Claude Code use the shared `UserPromptSubmit` hook to activate the visible rewrite gate for new task requests. VS Code GitHub Copilot uses the personal or project instruction adapter documented above; the plugin intentionally does not expose its plaintext Codex/Claude hook to VS Code.
 
 You can also invoke the skill directly when you want to audit, critique, clarify, or rewrite a prompt:
 
 - **Codex:** `$you-suck-at-prompting`
 - **Claude Code:** `/you-suck-at-prompting:you-suck-at-prompting`
+- **VS Code GitHub Copilot:** `/you-suck-at-prompting:you-suck-at-prompting`
 
 When the hook is disabled or unavailable, model-driven implicit invocation remains a best-effort fallback.
 
@@ -186,12 +250,12 @@ Clarifications and qualifications revise the prompt and reset the approval gate.
 > [!IMPORTANT]
 > **This plugin does not create a new destination for your prompts.**
 >
-> Normal Codex or Claude Code processing still applies. The plugin hook does not read, echo, store, or transmit the submitted prompt; it prints only a constant preflight instruction.
+> Normal Codex, Claude Code, or GitHub Copilot processing still applies. The Codex/Claude hook does not read, echo, store, or transmit the submitted prompt; it prints only a constant preflight instruction. Copilot uses a static instruction file and does not run that hook.
 
 <details>
 <summary><strong>Privacy, permissions, and the part where the responsible adults start nodding</strong></summary>
 
-This plugin contains one shared skill and one shared `UserPromptSubmit` command hook. Codex and Claude Code discover them through their native plugin contracts.
+This plugin contains one shared skill, one shared Codex/Claude `UserPromptSubmit` command hook, and one static Copilot instruction adapter. Each harness discovers only the components described in its installation instructions.
 
 The harness provides hook-event data on standard input, but the hook command never reads that input. It emits only a bounded, constant instruction telling the harness to display the rewrite gate.
 
@@ -203,9 +267,9 @@ The plugin has:
 - no credential requirement; and
 - no automatic modification of global instructions.
 
-The Claude manifest intentionally relies on the default `hooks/hooks.json` discovery path. Declaring another hook path would cause Claude Code to merge both definitions and run the preflight twice, which is one intervention more than anyone requested.
+The Claude manifest intentionally relies on the default `hooks/hooks.json` discovery path. Declaring another hook path would cause Claude Code to merge both definitions and run the preflight twice, which is one intervention more than anyone requested. The portable Agent Plugins manifest intentionally declares no hook, so VS Code does not try to parse the plaintext context response intended for Codex and Claude Code.
 
-Users can inspect and disable plugin hooks. Codex additionally requires explicit trust for non-managed hooks.
+Users can inspect and disable plugin hooks. Codex additionally requires explicit trust for non-managed hooks. Copilot users can disable the plugin or instruction independently in **Chat: Open Customizations**.
 
 Installing or trusting this plugin does not grant authority to send, publish, purchase, schedule, deploy, delete, disclose information, or change permissions.
 

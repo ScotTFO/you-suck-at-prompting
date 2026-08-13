@@ -1,13 +1,14 @@
 {
-  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "you-suck-at-prompting",
   "version": "0.5.0",
   "description": "Visibly rewrite every task, shape execution when material, and require approval before acting.",
   "author": {
-    "name": "ScotTFO"
+    "name": "ScotTFO",
+    "url": "https://github.com/ScotTFO"
   },
   "homepage": "https://github.com/ScotTFO/you-suck-at-prompting",
   "repository": "https://github.com/ScotTFO/you-suck-at-prompting",
   "license": "MIT",
-  "keywords": ["prompting", "prompt-quality", "agent-skills", "claude-code"]
+  "keywords": ["prompting", "prompt-quality", "agent-skills", "github-copilot", "vscode"]
 }

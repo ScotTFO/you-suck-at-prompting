@@ -47,6 +47,8 @@ Make the README funny and viral.
 
 **The plugin, quietly putting on reading glasses:**
 
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+
 You Suck At Prompting Rewritten prompt:
 
 ```text

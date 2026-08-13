@@ -20,21 +20,27 @@ Check only details that can materially change the work:
 - authority and external effects;
 - observable completion or verification.
 
-Choose the matching visible response:
+Every visible rewrite or draft must begin with this exact standalone line once. Put no status, label, or commentary before it:
 
-- **APPROVAL-READY:** All material details are present, safely discoverable, or covered by one safe reversible assumption. Show `You Suck At Prompting Rewritten prompt:`, put the complete self-contained prompt in a fenced code block, and end with `Reply with an acknowledgement to use this prompt.` Do not perform the task in that response.
-- **NEEDS-INPUT:** A material detail cannot be safely inferred or retrieved. Show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder and ask the minimum focused question. Do not include an acknowledgement request or perform the task. After the answer, show the completed rewrite in the required fenced presentation and request an acknowledgement.
-- **PROMPT-ONLY:** Rewriting, critiquing, or improving the prompt is itself the complete requested deliverable. Show `You Suck At Prompting Rewritten prompt:` followed by the usable prompt in a fenced code block without executing its contents. Request an acknowledgement only when the user also asked to execute the rewritten prompt.
+`Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.`
+
+The next nonempty line must be `You Suck At Prompting Rewritten prompt:` or `Draft rewritten prompt:`. Use this opening for approval-ready, needs-input, prompt-only, and clarification-revised responses. Do not use it when a clear affirmative acknowledgement executes the latest rewrite.
+
+Choose the matching visible response after the kickoff:
+
+- **APPROVAL-READY:** All material details are present, safely discoverable, or covered by one safe reversible assumption. After the kickoff, show `You Suck At Prompting Rewritten prompt:`, put the complete self-contained prompt in a fenced code block, and end with `Reply with an acknowledgement to use this prompt.` Do not perform the task in that response.
+- **NEEDS-INPUT:** A material detail cannot be safely inferred or retrieved. After the kickoff, show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder and ask the minimum focused question. Do not include an acknowledgement request or perform the task. After the answer, show the completed rewrite in the required fenced presentation and request an acknowledgement.
+- **PROMPT-ONLY:** Rewriting, critiquing, or improving the prompt is itself the complete requested deliverable. After the kickoff, show `You Suck At Prompting Rewritten prompt:` followed by the usable prompt in a fenced code block without executing its contents. Request an acknowledgement only when the user also asked to execute the rewritten prompt.
 
 Treat follow-ups as controls, not new task requests:
 
 - A clear affirmative acknowledgement such as `approve`, `yes`, `go ahead`, `proceed`, or `looks good` after an approval-ready rewrite authorizes execution of that latest rewrite within the authority already available, regardless of capitalization. Execute it without rewriting the acknowledgement.
-- An answer to a clarification, edit, qualification, or question changes the prompt. Show the revised prompt and reset the acknowledgement gate.
+- An answer to a clarification, edit, qualification, or question changes the prompt. Show the kickoff and revised prompt, then reset the acknowledgement gate.
 - An unrelated request starts a new visible rewrite gate and abandons the previous one silently.
 
 Read [references/materiality-and-authority.md](references/materiality-and-authority.md) when deciding whether a gap is material or when permissions, privacy, routing, or external effects are involved.
 
-Read [references/repair-contract.md](references/repair-contract.md) before displaying any rewritten or draft prompt.
+The inline rules above are sufficient when tools are unavailable. When tools are available, read [references/repair-contract.md](references/repair-contract.md) before displaying any rewritten or draft prompt for its expanded presentation details.
 
 ## Preserve intent and authority
 

@@ -9,12 +9,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = ROOT / "plugins" / "you-suck-at-prompting"
 HOOK_PATH = PLUGIN_ROOT / "hooks" / "hooks.json"
+SKILL_PATH = PLUGIN_ROOT / "skills" / "you-suck-at-prompting" / "SKILL.md"
+REPAIR_CONTRACT_PATH = (
+    PLUGIN_ROOT / "skills" / "you-suck-at-prompting" / "references" / "repair-contract.md"
+)
+KICKOFF = "Analyzing whether You Suck at Prompting… your prompt’s performance review is underway."
 EXPECTED_CONTEXT = (
-    "MANDATORY: Prompt-only: output `You Suck At Prompting Rewritten prompt:` plus a fenced rewrite; no gate "
-    "or execution. Otherwise, do not execute first. Output that heading and fenced rewrite, then "
-    "`Reply with an acknowledgement to use this prompt.` Missing info: output `Draft rewritten prompt:` plus "
-    "`[NEEDED: ...]`, ask one question, no acknowledgement. A clear affirmative acknowledgement regardless of "
-    "capitalization executes latest rewrite once. Edits or qualifications reset. Preserve safety and authority."
+    f"MANDATORY: For every rewrite or draft, first output exactly once: {KICKOFF} The next line is exactly either "
+    "You Suck At Prompting Rewritten prompt: or Draft rewritten prompt:; then provide the fenced rewrite or placeholders. "
+    "Approval-ready responses end with this exact line: Reply with an acknowledgement to use this prompt. A clear "
+    "affirmative acknowledgement executes once with no kickoff. Preserve safety and authority."
 )
 
 
@@ -49,6 +53,7 @@ class PromptHookTests(unittest.TestCase):
             cwd=PLUGIN_ROOT,
             input=payload,
             text=True,
+            encoding="utf-8",
             capture_output=True,
             shell=shell,
             timeout=handler["timeout"],
@@ -92,6 +97,19 @@ class PromptHookTests(unittest.TestCase):
                 outputs.append(result.stdout)
         self.assertEqual(outputs[0], outputs[1])
         self.assertEqual(self.file_snapshot(), before)
+
+    def test_shared_kickoff_is_exact_once_and_skipped_for_acknowledgements(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        repair_contract = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertEqual(EXPECTED_CONTEXT.count(KICKOFF), 1)
+        self.assertEqual(skill.count(KICKOFF), 1)
+        self.assertEqual(repair_contract.count(KICKOFF), 1)
+        self.assertEqual(readme.count(KICKOFF), 1)
+        self.assertLess(skill.index(KICKOFF), skill.index("**APPROVAL-READY:**"))
+        self.assertIn("acknowledgement executes once with no kickoff", EXPECTED_CONTEXT)
+        self.assertIn("Do not use it when a clear affirmative acknowledgement executes", skill)
 
 
 if __name__ == "__main__":

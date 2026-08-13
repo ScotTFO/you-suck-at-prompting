@@ -1,7 +1,7 @@
 interface:
   display_name: "You Suck at Prompting"
-  short_description: "Rewrite every task before approved execution"
-  default_prompt: "Use $you-suck-at-prompting to rewrite this request and wait for my approval."
+  short_description: "Rewrite and safely shape task execution"
+  default_prompt: "Use $you-suck-at-prompting to rewrite this request, shape execution only when needed, and wait for approval."
 
 policy:
   allow_implicit_invocation: true

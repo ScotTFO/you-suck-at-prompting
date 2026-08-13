@@ -1,7 +1,7 @@
 {
   "name": "you-suck-at-prompting",
-  "version": "0.3.2",
-  "description": "Visibly rewrite every task request and require approval before execution.",
+  "version": "0.4.0",
+  "description": "Visibly rewrite every task, shape execution when material, and require approval before acting.",
   "author": {
     "name": "ScotTFO",
     "url": "https://github.com/ScotTFO"
@@ -13,14 +13,14 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "You Suck at Prompting",
-    "shortDescription": "Rewrite every task before approved execution",
-    "longDescription": "Display a rewritten prompt for every task request, recover safely discoverable facts, mark unresolved material details, and wait for approval before execution while preserving intent and authority boundaries.",
+    "shortDescription": "Rewrite and safely shape task execution",
+    "longDescription": "Display a rewritten prompt for every task request, recover safely discoverable facts, add bounded execution controls only when material, mark unresolved details, and wait for approval while preserving intent and authority boundaries.",
     "developerName": "ScotTFO",
     "category": "Productivity",
     "capabilities": ["Interactive"],
     "defaultPrompt": [
       "Rewrite this request and wait for my approval before acting.",
-      "Show a safe, self-contained version of this task before execution.",
+      "Show a safe, self-contained version of this task and shape execution only when needed.",
       "Mark any unresolved material details before I approve this prompt."
     ]
   }

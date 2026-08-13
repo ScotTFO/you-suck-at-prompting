@@ -27,7 +27,7 @@
 
 **You Suck at Prompting** is an installable Codex and Claude Code plugin that visibly rewrites every task request before execution.
 
-It preserves what you meant, identifies anything important you forgot, protects the authority boundaries you definitely remembered to specify, and waits for your approval before the agent does anything.
+It preserves what you meant, identifies anything important you forgot, adds bounded execution controls when the work actually needs them, protects the authority boundaries you definitely remembered to specify, and waits for your approval before the agent does anything.
 
 In other words: it turns this—
 
@@ -46,6 +46,8 @@ Make the README funny and viral.
 ```
 
 **The plugin, quietly putting on reading glasses:**
+
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
 
 You Suck At Prompting Rewritten prompt:
 
@@ -102,6 +104,10 @@ flowchart TD
 ```
 
 The plugin does this for every new task request, including requests that are already clear or trivial. You installed a prompt chaperone. It takes the position seriously.
+
+When a task genuinely needs a goal, feedback loop, staged plan, dependency graph, multiple agents, recurring checks, research, a spike, deterministic processing, or independent review, the plugin adds only the controls needed to make that execution bounded and verifiable. One-step work stays one-step work. If you explicitly request an approach that looks excessive or unsupported, the plugin asks whether to preserve or simplify it instead of quietly overruling you.
+
+This shapes the rewritten prompt; it does not create agents, schedules, persistence, permissions, or authority that the host does not already provide.
 
 ## Install for Codex
 
@@ -162,6 +168,8 @@ Clarifications and qualifications revise the prompt and reset the approval gate.
 - Preserves explicit goals, constraints, exclusions, and supplied context.
 - Recovers facts that are safely discoverable before asking you questions.
 - Marks unresolved material information instead of inventing it.
+- Adds bounded execution controls only when the task materially needs them.
+- Asks before simplifying an explicit orchestration request.
 - Keeps prompt approval separate from permission to publish, deploy, delete, purchase, disclose, or change access.
 - Waits for acknowledgement before execution.
 
@@ -171,6 +179,7 @@ Clarifications and qualifications revise the prompt and reset the approval gate.
 - Turn “take a look” into “rewrite everything.”
 - Treat a polished prompt as permission to send, publish, purchase, or delete.
 - Add an MCP server, external service, telemetry, or credential requirement.
+- Create host capabilities, runtime persistence, agents, schedules, or permissions.
 - Automatically modify your global instructions.
 - Make a bad idea wise. It can only make the bad idea extremely well specified.
 

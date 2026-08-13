@@ -118,20 +118,22 @@ jobs:
               raise SystemExit("UserPromptSubmit must have exactly one handler")
           handler = handlers[0]
           expected_context = (
-              "MANDATORY: Prompt-only: output `You Suck At Prompting Rewritten prompt:` plus a fenced rewrite; no gate "
-              "or execution. Otherwise, do not execute first. Output that heading and fenced rewrite, then "
-              "`Reply with an acknowledgement to use this prompt.` Missing info: output `Draft rewritten prompt:` plus "
-              "`[NEEDED: ...]`, ask one question, no acknowledgement. A clear affirmative acknowledgement regardless of "
-              "capitalization executes latest rewrite once. Edits or qualifications reset. Preserve safety and authority."
+              "MANDATORY: Use you-suck-at-prompting. Rewrite/draft starts once with exact Analyzing whether You Suck at "
+              "Prompting… your prompt’s performance review is underway., then exact heading+fence. Approval ends exact "
+              "ack; prompt-only none. Missing: [NEEDED: ...]; ask once, no ack. Ack runs once, no kickoff. Preserve "
+              "safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/"
+              "unsupported orchestration: [NEEDED: preserve or simplify]; ask which; never replace silently."
           )
           if len(expected_context) > 512:
               raise SystemExit("Prompt hook context exceeds additionalContextLimit")
+          windows_context = expected_context.replace("’", "’’")
           expected_handler = {
               "type": "command",
-              "command": f"echo '{expected_context}'",
+              "command": f'echo "{expected_context}"',
               "commandWindows": (
                   "powershell.exe -NoProfile -NonInteractive -Command "
-                  f'"[Console]::Out.WriteLine(\'{expected_context}\')"'
+                  f'"[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);'
+                  f'[Console]::Out.WriteLine(\'{windows_context}\')"'
               ),
               "timeout": 5,
               "additionalContextLimit": 512,

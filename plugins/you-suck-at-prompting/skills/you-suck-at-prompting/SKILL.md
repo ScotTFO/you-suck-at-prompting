@@ -39,7 +39,7 @@ Every visible rewrite or draft also includes exactly one line outside the rewrit
 
 `Prompt performance rating: N/5 - <one-line funny comment>`
 
-Place the rating after the completed rewrite or draft and before the acknowledgement or clarification controls. Use 5 as best. Rate the effective prompt being repaired: for a request to rewrite a prompt, rate the supplied inner prompt; for a clarification, rate the combined clarified request. Do not show a rating when a clear acknowledgement executes the latest rewrite.
+Place the rating after the completed rewrite or draft and before the acknowledgement or clarification controls. Use 5 as best. Rate the user's initial prompt exactly as submitted before any rewrite, repair, assumption, or clarification. Never rate the rewritten prompt or let its added detail improve the score. For a meta-rewrite request, the supplied inner prompt is the initial prompt under review. When a clarification completes an earlier draft, keep the rating anchored to that original prompt instead of rating the combined clarified request. Do not show a rating when a clear acknowledgement executes the latest rewrite.
 
 Use this rubric:
 

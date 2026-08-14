@@ -10,7 +10,7 @@
 
 - Every approval-ready, needs-input, prompt-only, and clarification-revised response includes exactly one line outside the rewritten prompt: `Prompt performance rating: N/5 - <one-line funny comment>`.
 - Place the rating after the completed rewrite or draft and before the acknowledgement, focused question, `Expected prompt impact:`, or `Recommended default:` control.
-- Use 5 as best. Rate the effective prompt under repair; for meta-rewrite requests, rate the supplied inner prompt, and for clarification responses, rate the combined clarified request.
+- Use 5 as best. Rate the user's initial prompt exactly as submitted before any rewrite, repair, assumption, or clarification. Never rate the rewritten prompt or let its added detail improve the score. For meta-rewrite requests, the supplied inner prompt is the initial prompt under review. For clarification responses, keep the rating anchored to the original prompt rather than the combined clarified request.
 - The rating comment is prompt-directed, playful, PG-rated, one sentence, one line, and at most 120 characters. Do not use personal attacks, protected-characteristic jokes, profanity, question marks, or humor about sensitive subject matter; use gentle dry wording for serious prompts.
 - Do not show a rating during acknowledgement execution.
 

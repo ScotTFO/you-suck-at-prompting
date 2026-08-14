@@ -79,7 +79,7 @@ Then it asks the smallest useful question and tells you what the answer would ch
 
 ## The rating you absolutely did not request
 
-Every visible rewrite or draft also gets a `Prompt performance rating: N/5` line. Five means the prompt is already self-contained, scoped, authorized, and verifiable. Lower scores identify missing context, contradictions, unsafe authority, or repair work. The comment is a short, playful judgment of the prompt mechanics—not of you—and stays gentle when the subject is serious.
+Every visible rewrite or draft also gets a `Prompt performance rating: N/5` line. The score judges the user's initial prompt exactly as submitted, before the plugin repairs it; the polished rewrite earns no extra credit. Clarifications can improve the rewritten task without retroactively raising the original prompt's rating. Five means the initial prompt was already self-contained, scoped, authorized, and verifiable. Lower scores identify missing context, contradictions, unsafe authority, or repair work. The comment is a short, playful judgment of the prompt mechanics—not of you—and stays gentle when the subject is serious.
 
 ## Your Prompting Performance Improvement Plan
 

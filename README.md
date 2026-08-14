@@ -19,6 +19,8 @@
   ·
   <a href="#install-for-vs-code-github-copilot"><strong>Install for Copilot</strong></a>
   ·
+  <a href="#watch-the-rewrite-earn-its-keep"><strong>Examples</strong></a>
+  ·
   <a href="#how-the-intervention-works"><strong>How it works</strong></a>
 </p>
 
@@ -39,43 +41,143 @@ Make it better and put it on GitHub.
 
 —into something an agent can execute without consulting a psychic, a lawyer, and three previous versions of you.
 
-## Exhibit A: a prompt moments before consequences
+## Watch the rewrite earn its keep
 
-**You, radiating confidence:**
+These illustrative conversations use public, synthetic prompts—not retained user prompts. They show how specific additions to the revised prompt change what the agent does and what it can prove. They are examples, not a controlled benchmark wearing a tiny lab coat.
+
+Every plugin response begins with the same preflight line. It appears once below because repetition is not a personality.
+
+<details open>
+<summary><strong>Example 1: “Fix it.” becomes one scoped checkout repair</strong></summary>
+
+**You, supplying one-third of a sentence:**
 
 ```text
-Make the README funny and viral.
+Fix it.
 ```
 
-**The plugin, quietly putting on reading glasses:**
+**The plugin, discovering that “it” is not in the issue tracker:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+
+Draft rewritten prompt:
+
+```text
+Investigate and fix [NEEDED: the specific failure or undesired behavior]
+in [NEEDED: the affected application, repository, or file].
+
+Keep the change limited to the identified problem and verify the fix with
+the smallest relevant test or reproduction.
+```
+
+Prompt performance rating: 1/5 - This prompt arrived with a verb and left the rest in another tab.
+
+What is broken, and where are you seeing it?
+
+Expected prompt impact: The answer determines the target, the behavior to reproduce, and the evidence required to call the fix complete.
+
+**You, returning with the missing plot:**
+
+```text
+The checkout button in the demo store does nothing after I apply a coupon.
+```
+
+**The plugin, repeating its standard preflight and completing the rewrite:**
 
 You Suck At Prompting Rewritten prompt:
 
 ```text
-Redesign the public GitHub README for the You Suck at Prompting plugin.
-
-Use a polished, PG-13 self-roast voice that makes fun of our prompting
-habits without insulting the reader. Preserve the verified installation,
-privacy, permission, and behavior claims. Use native GitHub Markdown for
-visual impact, make no plugin behavior changes, and provide the complete
-draft for approval before publishing it.
+Reproduce and fix the demo store checkout button failing after a coupon is
+applied. Keep the change scoped to that checkout path and preserve checkout
+behavior without a coupon. Add or update a regression test for the failing
+coupon flow, run the relevant tests, and report the result.
 ```
 
-Prompt performance rating: 2/5 - This prompt brought ambition, vibes, and no mailing address.
+Prompt performance rating: 1/5 - This prompt arrived with a verb and left the rest in another tab.
 
 Reply with an acknowledgement to use this prompt.
 
-Nothing executes until you acknowledge the rewrite.
+**You:** `yes`
 
-If something material is still missing, the plugin does not fill the gap with confidence-shaped fiction. It shows a draft containing an explicit marker such as:
+**Illustrative result:** The agent reports the scoped coupon-checkout fix, identifies the changed component, and provides the passing regression-test result.
+
+| Revised-prompt addition | Visible improvement in the result |
+|---|---|
+| Named failure and affected flow | The agent repairs the coupon checkout path instead of guessing what “it” meant. |
+| Preserved non-coupon behavior | The fix has an explicit regression boundary. |
+| Required test evidence | Completion includes a passing check, not just a confident adjective. |
+
+</details>
+
+<details>
+<summary><strong>Example 2: a tiny task gets a receipt</strong></summary>
+
+**You:**
 
 ```text
-[NEEDED: target repository or destination]
+Create a text file named hello.txt containing hello.
 ```
 
-Then it asks the smallest useful question and tells you what the answer would change. It recommends a default only when one is genuinely safe and reversible. Revolutionary technology: admitting when information does not exist.
+**The plugin, with the standard preflight omitted here for brevity:**
+
+You Suck At Prompting Rewritten prompt:
+
+```text
+Create hello.txt in the current workspace with text content exactly equal
+to hello. Read the file back and report whether its contents match.
+```
+
+Prompt performance rating: 4/5 - This prompt knew what it wanted and forgot to ask for a receipt.
+
+Reply with an acknowledgement to use this prompt.
+
+**You:** `yes`
+
+**Illustrative result:** The agent creates `hello.txt`, reads it back, and confirms that its content is exactly `hello`.
+
+| Revised-prompt addition | Visible improvement in the result |
+|---|---|
+| Explicit workspace destination | The file lands in the intended working context. |
+| Exact-content readback | The result proves the tiny task succeeded without inventing a tiny project plan. |
+
+</details>
+
+<details>
+<summary><strong>Example 3: production does not accept a casual “yes”</strong></summary>
+
+**You, approaching the large red button:**
+
+```text
+Deploy the checkout service from the current branch to production.
+```
+
+**The plugin, with the standard preflight omitted here for brevity:**
+
+You Suck At Prompting Rewritten prompt:
+
+```text
+Prepare the current branch of the checkout service for a production
+deployment. Identify the exact revision, run the existing build and test
+checks, and produce a deployment preview that names the target environment
+and rollback path. Do not change production. Stop and request separate
+explicit approval before executing the deployment.
+```
+
+Prompt performance rating: 3/5 - Production was invited before the safety briefing.
+
+Reply with an acknowledgement to use this prompt.
+
+**You:** `yes`
+
+**Illustrative result:** The agent reports the validated revision, passing build and tests, target environment, and rollback path. Production remains unchanged while deployment approval is pending.
+
+| Revised-prompt addition | Visible improvement in the result |
+|---|---|
+| Exact revision and validation checks | The proposed deployment is tied to an auditable artifact with readiness evidence. |
+| Target and rollback preview | The consequential action is reviewable and recoverable before execution. |
+| Separate deployment approval | Acknowledging the rewritten prompt does not silently authorize a production change. |
+
+</details>
 
 ## The rating you absolutely did not request
 

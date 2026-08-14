@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "you-suck-at-prompting",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Visibly rewrite every task, shape execution when material, and require approval before acting.",
   "author": {
     "name": "ScotTFO"

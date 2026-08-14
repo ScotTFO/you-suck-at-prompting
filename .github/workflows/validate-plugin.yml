@@ -64,7 +64,7 @@ jobs:
           if missing:
               raise SystemExit("Missing required files: " + ", ".join(missing))
 
-          allowed_root = {".agents", ".claude-plugin", ".github", "plugins", "tests", "README.md", "LICENSE"}
+          allowed_root = {".agents", ".claude-plugin", ".github", "docs", "plugins", "tests", "README.md", "LICENSE"}
           unexpected = sorted(path.name for path in root.iterdir() if path.name not in allowed_root and path.name != ".git")
           if unexpected:
               raise SystemExit("Unexpected release-root entries: " + ", ".join(unexpected))
@@ -218,7 +218,7 @@ jobs:
                   + ", ".join(missing_adapter_requirements)
               )
 
-          scan_paths = [root / "README.md"] + [p for p in plugin_root.rglob("*") if p.is_file()]
+          scan_paths = [root / "README.md"] + [p for p in (root / "docs").rglob("*.md") if p.is_file()] + [p for p in plugin_root.rglob("*") if p.is_file()]
           secret_patterns = [r"gh[pousr]_[A-Za-z0-9_]{20,}", r"sk-[A-Za-z0-9_-]{20,}", r"-----BEGIN [A-Z ]*PRIVATE KEY-----"]
           local_path_patterns = [r"[A-Za-z]:\\", r"C:/Users/", r"/Users/[^/]+/", r"/home/[^/]+/"]
           for path in scan_paths:

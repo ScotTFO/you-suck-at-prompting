@@ -28,11 +28,10 @@ MATERIALITY_CONTRACT_PATH = (
 )
 KICKOFF = "Analyzing whether You Suck at Prompting… your prompt’s performance review is underway."
 EXPECTED_CONTEXT = (
-    f"MANDATORY: Use you-suck-at-prompting. Rewrite/draft starts once with exact {KICKOFF}, then exact "
-    "heading+fence. Approval ends exact ack; prompt-only none. Missing: [NEEDED: ...]; ask once, no ack. "
-    "Ack runs once, no kickoff. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: "
-    "load execution-shapes. Excessive/unsupported orchestration: [NEEDED: preserve or simplify]; ask which; "
-    "never replace silently."
+    f"MANDATORY: Use you-suck-at-prompting. Rewrite/draft {KICKOFF}, heading+fence. "
+    "Add Prompt performance rating: N/5 - comment; 5 best. Ack exact once, no rating/kickoff; prompt-only none. "
+    "Missing [NEEDED: ...]; ask once, no ack. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: "
+    "load execution-shapes. Excessive/unsupported orchestration: [NEEDED: preserve or simplify]; ask which; never replace silently."
 )
 
 
@@ -89,6 +88,8 @@ class PromptHookTests(unittest.TestCase):
         self.assertLessEqual(len(EXPECTED_CONTEXT), handler["additionalContextLimit"])
         self.assertIn("load execution-shapes", EXPECTED_CONTEXT)
         self.assertIn("[NEEDED: preserve or simplify]", EXPECTED_CONTEXT)
+        self.assertIn("Prompt performance rating: N/5 - comment", EXPECTED_CONTEXT)
+        self.assertIn("5 best", EXPECTED_CONTEXT)
         self.assertIn("commandWindows", handler)
         self.assertNotIn("async", handler)
 
@@ -124,6 +125,8 @@ class PromptHookTests(unittest.TestCase):
         self.assertIn("prompt rewriting or critique", adapter)
         self.assertIn("Execute it once without displaying the kickoff", adapter)
         self.assertIn("A clarification, edit, or qualification", adapter)
+        self.assertIn("Prompt performance rating: N/5", adapter)
+        self.assertIn("Use 5 as best", adapter)
         self.assertIn("Never retain a real usage prompt automatically", adapter)
         self.assertIn("`SAVE CASE`", adapter)
         self.assertIn("separate approvals for publishing", adapter)
@@ -171,7 +174,7 @@ class PromptHookTests(unittest.TestCase):
         self.assertEqual(repair_contract.count(KICKOFF), 1)
         self.assertEqual(readme.count(KICKOFF), 1)
         self.assertLess(skill.index(KICKOFF), skill.index("**APPROVAL-READY:**"))
-        self.assertIn("Ack runs once, no kickoff", EXPECTED_CONTEXT)
+        self.assertIn("Ack exact once, no rating/kickoff", EXPECTED_CONTEXT)
         self.assertIn("Do not use it when a clear affirmative acknowledgement executes", skill)
 
     def test_task_contract_takeaways_remain_selective_and_evidence_based(self) -> None:
@@ -198,15 +201,18 @@ class PromptHookTests(unittest.TestCase):
         self.assertIn("Multiple routine local steps alone do not trigger it", repair)
         self.assertIn("routine direct work stays compact", readme)
         self.assertIn("the direct approach is a safe reversible default", skill)
+        self.assertIn("Prompt performance rating: N/5", skill)
+        self.assertIn("question marks", skill)
+        self.assertIn("Prompt performance rating: N/5", repair)
 
-    def test_all_versioned_manifests_are_aligned_at_patch_version(self) -> None:
+    def test_all_versioned_manifests_are_aligned_at_feature_version(self) -> None:
         versions = {
             self.config(CODEX_MANIFEST_PATH)["version"],
             self.config(CLAUDE_MANIFEST_PATH)["version"],
             self.config(AGENT_PLUGIN_PATH)["version"],
         }
 
-        self.assertEqual(versions, {"0.5.1"})
+        self.assertEqual(versions, {"0.6.0"})
         self.assertNotIn("version", self.config(ROOT / ".claude-plugin" / "marketplace.json"))
         self.assertNotIn("version", self.config(ROOT / ".agents" / "plugins" / "marketplace.json"))
 

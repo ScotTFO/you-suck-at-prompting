@@ -1,7 +1,7 @@
 {
   "name": "you-suck-at-prompting",
   "version": "0.6.1",
-  "description": "Visibly rewrite every task, shape execution when material, and require approval before acting.",
+  "description": "Run excellent prompts as written and repair the rest before acting.",
   "author": {
     "name": "ScotTFO",
     "url": "https://github.com/ScotTFO"
@@ -13,15 +13,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "You Suck at Prompting",
-    "shortDescription": "Rewrite and safely shape task execution",
-    "longDescription": "Display a rewritten prompt for every task request, recover safely discoverable facts, add bounded execution controls only when material, mark unresolved details, and wait for approval while preserving intent and authority boundaries.",
+    "shortDescription": "Run great prompts; repair the rest",
+    "longDescription": "Audit every task request, run prompts rated exactly 5/5 as written, and visibly repair and approval-gate prompts rated 1-4 while preserving intent, safety, and authority boundaries.",
     "developerName": "ScotTFO",
     "category": "Productivity",
     "capabilities": ["Interactive"],
     "defaultPrompt": [
-      "Rewrite this request and wait for my approval before acting.",
-      "Show a safe, self-contained version of this task and shape execution only when needed.",
-      "Mark any unresolved material details before I approve this prompt."
+      "Audit this request; run it as written only if it earns 5/5, otherwise repair it and wait for approval.",
+      "Check whether this task is ready as written while preserving safety and authority boundaries.",
+      "Repair any material gaps in this prompt before acting."
     ]
   }
 }

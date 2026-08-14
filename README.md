@@ -16,7 +16,7 @@
 
 **You Suck at Prompting** is an installable customization for Codex, Claude Code, and VS Code GitHub Copilot Agent mode. It intercepts every task request for a brief disciplinary hearing: What are you asking for? Where? What counts as done? Who authorized the large red production button?
 
-Then it visibly rewrites the task, identifies missing decisions, grades the original prompt, preserves explicit intent and authority boundaries, and waits for your acknowledgement before the agent begins. Your prompt may call this micromanagement. Your future incident report will call it personal growth.
+Then it grades the original prompt. A genuine 5/5 earns sarcastic applause and goes straight to work; everything else gets visibly repaired, checked for missing decisions, and held for acknowledgement. Your prompt may call this micromanagement. Your future incident report will call it personal growth.
 
 The plugin adds execution controls only when the work needs them and asks instead of inventing material details. It adds no telemetry, credentials, external service, or new permissions. It is judgmental, not nosy.
 
@@ -57,7 +57,7 @@ What is broken, and where are you seeing it?
 
 After the user names the failure, the plugin replaces the placeholders, shows the complete rewrite, and waits for acknowledgement. Clarification repairs the task, not the original grade; the polished rewrite earns no extra credit. HR keeps receipts.
 
-See [two more prompts under formal review](docs/examples.md): a tiny file task that forgot its receipt and a production deployment that tried to enter the building with a casual `yes`.
+See [more prompts under formal review](docs/examples.md): an excellent request that threatens our job security, a strict output that leaves no room for jokes, a tiny file task that forgot its receipt, and a production deployment that tried to enter the building with a casual `yes`.
 
 ## Your prompt’s performance review has comments
 
@@ -71,18 +71,22 @@ Brevity is not misconduct. “Delete the obsolete fixture and rerun the unit tes
 
 ## The mandatory remedial training module
 
-Eight boxes now stand between your prompt and its next incident. This is called governance.
+An org chart now stands between your prompt and its next incident. This is called governance.
 
 ```mermaid
 flowchart TD
-    A["You submit a prompt"] --> B["Plugin rewrites and rates it"]
-    B --> C{"Material detail missing?"}
-    C -- "Yes" --> D["Show draft + ask one focused question"]
-    D --> B
-    C -- "No" --> E["Show approval-ready rewrite"]
-    E --> F{"You acknowledge it?"}
-    F -- "No" --> G["Nothing executes"]
-    F -- "Yes" --> H["Agent acts within existing authority"]
+    A["You submit a prompt"] --> B["Plugin audits and rates it"]
+    B --> C{"Exactly 5/5 with no repair or approval gap?"}
+    C -- "Yes" --> D{"Strict output contract?"}
+    D -- "Yes" --> E["Return pristine requested output"]
+    D -- "No" --> F["Applaud prompt + agent acts now"]
+    C -- "No" --> G{"Material detail missing?"}
+    G -- "Yes" --> H["Show draft + ask one focused question"]
+    G -- "No" --> I["Show approval-ready rewrite"]
+    H --> I
+    I --> J{"You acknowledge it?"}
+    J -- "No" --> K["Nothing executes"]
+    J -- "Yes" --> L["Agent acts within existing authority"]
 ```
 
 Prompt approval authorizes the displayed task within existing authority. It does not silently authorize publishing, deployment, purchase, deletion, disclosure, scheduling, or permission changes. The prompt may have improved; it has not been promoted to management.
@@ -118,7 +122,7 @@ See the complete [installation, upgrade, Copilot, project-only, and smoke-test g
 
 | The tiny bureaucrat does | The tiny bureaucrat is not authorized to do |
 |---|---|
-| Rewrites each new task into a visible, self-contained prompt. | Make a bad idea good. It can make the bad idea extremely well specified. |
+| Audits each new task, runs true 5/5 prompts as written, and repairs the rest visibly. | Make a bad idea good. It can make the bad idea extremely well specified. |
 | Recovers safely discoverable facts and marks unresolved material details. | Invent requirements, permissions, or user taste. Telepathy remains outside quarterly objectives. |
 | Requires real verification evidence when completion needs proof. | Accept confidence as a test result merely because it owns expensive shoes. |
 | Adds bounded execution controls only when material. | Create agents, schedules, persistence, tools, or host capabilities. An org chart is not a runtime. |
@@ -129,7 +133,7 @@ Codex and Claude Code use a constant-output hook that does not read, echo, store
 <details>
 <summary><strong>What if my prompt is already good?</strong></summary>
 
-It rewrites it anyway. The one day we waive inspection is the day someone hides “quickly deploy” in a parenthetical.
+If it truly earns 5/5, the plugin applauds with visible concern for its own career and the agent acts immediately. Exact, code-only, and machine-readable outputs skip even the joke so the plugin does not vandalize a good contract. Anything needing repair, an assumption, clarification, or additional approval still enters the rewrite gate.
 
 </details>
 

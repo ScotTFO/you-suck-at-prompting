@@ -1,6 +1,60 @@
 # More prompt interventions
 
-These are synthetic examples, not retained user prompts. They demonstrate how the rewritten prompt changes what an agent may do and what evidence it must return.
+These are synthetic examples, not retained user prompts. They demonstrate when a prompt runs unchanged, when output stays pristine, and how a repaired prompt changes what an agent may do.
+
+## An excellent prompt threatens layoffs
+
+**Original prompt:**
+
+```text
+Explain photosynthesis in one sentence for a 12-year-old.
+```
+
+**Plugin response:**
+
+Prompt performance rating: 5/5 - This prompt arrived complete; our résumé is now a business-continuity document.
+
+Plants use sunlight to turn water and carbon dioxide into food, releasing oxygen as a byproduct.
+
+The prompt is self-contained, scoped, authorized, and easy to verify, so the plugin does not rewrite it or add an acknowledgement turn. Management has begun discussing redeployment opportunities.
+
+## Exact output leaves no room for the exit interview
+
+**Original prompt:**
+
+```text
+Return exactly the word READY.
+```
+
+**Plugin response:**
+
+```text
+READY
+```
+
+The prompt still qualifies as READY-AS-WRITTEN, but its exact-output contract suppresses the rating and every other preflight marker.
+
+## An excellent inner prompt returns unchanged
+
+**Original prompt:**
+
+```text
+Improve this prompt: Rename `load_item` to `load_record`, update its local
+references, run the focused unit test, and do not commit or push.
+```
+
+**Plugin response:**
+
+Prompt performance rating: 5/5 - The prompt brought scope, proof, and restraint; our usefulness has entered formal review.
+
+Prompt unchanged:
+
+```text
+Rename `load_item` to `load_record`, update its local references, run the
+focused unit test, and do not commit or push.
+```
+
+The requested deliverable is prompt improvement, so the inner prompt is returned verbatim and is not executed.
 
 ## A tiny task gets a receipt
 

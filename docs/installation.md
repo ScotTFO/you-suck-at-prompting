@@ -46,7 +46,7 @@ Start a fresh session after upgrading.
 
 ## VS Code GitHub Copilot
 
-Copilot support has two parts: the plugin supplies the shared skill, and a personal instruction file applies the approval gate to every new Agent-mode task.
+Copilot support has two parts: the plugin supplies the shared skill, and a personal instruction file applies the same 5/5 pass-through or repair gate to every new Agent-mode task.
 
 1. In VS Code settings, append this repository to your existing `chat.plugins.marketplaces` list. Do not replace marketplaces already configured there.
 

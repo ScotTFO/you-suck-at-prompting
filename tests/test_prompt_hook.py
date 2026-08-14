@@ -28,10 +28,11 @@ MATERIALITY_CONTRACT_PATH = (
 )
 KICKOFF = "Analyzing whether You Suck at Prompting… your prompt’s performance review is underway."
 EXPECTED_CONTEXT = (
-    f"MANDATORY: Use you-suck-at-prompting. Rewrite/draft {KICKOFF}, heading+fence. "
-    "Add Prompt performance rating: N/5 - comment on user’s initial prompt; 5 best. Ack once, no rating/kickoff; prompt-only none. "
-    "Missing [NEEDED: ...]; ask once, no ack. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: "
-    "load execution-shapes. Excessive/unsupported: [NEEDED: preserve or simplify]; ask which; never replace silently."
+    "MANDATORY: Use you-suck-at-prompting. Rate initial prompt. Exactly 5/5, no repair/extra approval: "
+    "READY-AS-WRITTEN; normally lead Prompt performance rating: 5/5 - varied praise+fear of uselessness, then act; "
+    "exact/code/JSON: output only; prompt-only: Prompt unchanged:+fence. Else kickoff+rewrite/draft+fence+rating+ack; "
+    "missing [NEEDED: ...], ask once. Ack acts once without rating/kickoff. Preserve safety/authority. "
+    "Load execution-shapes when material; never silently replace explicit approach."
 )
 
 
@@ -86,11 +87,12 @@ class PromptHookTests(unittest.TestCase):
         self.assertEqual(handler["timeout"], 5)
         self.assertEqual(handler["additionalContextLimit"], 512)
         self.assertLessEqual(len(EXPECTED_CONTEXT), handler["additionalContextLimit"])
-        self.assertIn("load execution-shapes", EXPECTED_CONTEXT)
-        self.assertIn("[NEEDED: preserve or simplify]", EXPECTED_CONTEXT)
-        self.assertIn("Prompt performance rating: N/5 - comment", EXPECTED_CONTEXT)
-        self.assertIn("user’s initial prompt", EXPECTED_CONTEXT)
-        self.assertIn("5 best", EXPECTED_CONTEXT)
+        self.assertIn("Load execution-shapes", EXPECTED_CONTEXT)
+        self.assertIn("READY-AS-WRITTEN", EXPECTED_CONTEXT)
+        self.assertIn("Prompt performance rating: 5/5", EXPECTED_CONTEXT)
+        self.assertIn("exact/code/JSON: output only", EXPECTED_CONTEXT)
+        self.assertIn("Prompt unchanged:+fence", EXPECTED_CONTEXT)
+        self.assertIn("[NEEDED: ...]", EXPECTED_CONTEXT)
         self.assertIn("commandWindows", handler)
         self.assertNotIn("async", handler)
 
@@ -113,7 +115,7 @@ class PromptHookTests(unittest.TestCase):
         self.assertNotIn("hooks", agent_plugin)
         self.assertNotIn("extensions", agent_plugin)
 
-    def test_copilot_adapter_preserves_the_visible_gate_and_boundaries(self) -> None:
+    def test_copilot_adapter_preserves_preflight_paths_and_boundaries(self) -> None:
         adapter = COPILOT_ADAPTER_PATH.read_text(encoding="utf-8")
 
         self.assertTrue(adapter.startswith("---\n"))
@@ -129,6 +131,10 @@ class PromptHookTests(unittest.TestCase):
         self.assertIn("Prompt performance rating: N/5", adapter)
         self.assertIn("Use 5 as best", adapter)
         self.assertIn("Never rate the rewritten prompt", adapter)
+        self.assertIn("READY-AS-WRITTEN", adapter)
+        self.assertIn("execute immediately", adapter)
+        self.assertIn("Prompt unchanged:", adapter)
+        self.assertIn("machine-readable output", adapter)
         self.assertIn("Never retain a real usage prompt automatically", adapter)
         self.assertIn("`SAVE CASE`", adapter)
         self.assertIn("separate approvals for publishing", adapter)
@@ -166,18 +172,39 @@ class PromptHookTests(unittest.TestCase):
         self.assertEqual(outputs[0], outputs[1])
         self.assertEqual(self.file_snapshot(), before)
 
-    def test_shared_kickoff_is_exact_once_and_skipped_for_acknowledgements(self) -> None:
+    def test_repair_kickoff_is_exact_once_and_skipped_for_pass_through(self) -> None:
         skill = SKILL_PATH.read_text(encoding="utf-8")
         repair_contract = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
-        self.assertEqual(EXPECTED_CONTEXT.count(KICKOFF), 1)
+        self.assertEqual(EXPECTED_CONTEXT.count(KICKOFF), 0)
         self.assertEqual(skill.count(KICKOFF), 1)
         self.assertEqual(repair_contract.count(KICKOFF), 1)
         self.assertEqual(readme.count(KICKOFF), 1)
-        self.assertLess(skill.index(KICKOFF), skill.index("**APPROVAL-READY:**"))
-        self.assertIn("Ack once, no rating/kickoff", EXPECTED_CONTEXT)
+        self.assertLess(skill.index(KICKOFF), skill.index("Use the matching visible repair response"))
+        self.assertIn("Ack acts once without rating/kickoff", EXPECTED_CONTEXT)
         self.assertIn("Do not use it when a clear affirmative acknowledgement executes", skill)
+
+    def test_ready_as_written_contract_has_normal_strict_and_prompt_only_paths(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
+        behavior = (ROOT / "docs" / "behavior-and-safety.md").read_text(encoding="utf-8")
+
+        for text in (skill, repair, behavior):
+            self.assertIn("READY-AS-WRITTEN", text)
+            self.assertIn("exact", text.casefold())
+            self.assertIn("Prompt unchanged:", text)
+        self.assertIn("initial prompt earns exactly 5/5", skill)
+        self.assertIn("perform the requested work in the same response", skill)
+        self.assertIn("suppress the rating and every other preflight marker", skill)
+        self.assertIn("original prompt verbatim", skill)
+        self.assertIn("cannot retroactively enter READY-AS-WRITTEN", skill)
+        self.assertIn("additional consequential-action approval", skill)
+        self.assertIn("Do not manufacture a repair from optional improvements", skill)
+        self.assertIn("A requested length, tone, translation, heading, sentence count, or bullet count is not by itself strict", skill)
+        self.assertIn("Treat inputs described as supplied, attached, or provided as available", skill)
+        self.assertIn("Use these classification anchors", skill)
+        self.assertIn("Never stop after its rating", skill)
 
     def test_task_contract_takeaways_remain_selective_and_evidence_based(self) -> None:
         skill = SKILL_PATH.read_text(encoding="utf-8")
@@ -208,10 +235,12 @@ class PromptHookTests(unittest.TestCase):
         self.assertIn("Never rate the rewritten prompt", skill)
         self.assertIn("anchored to that original prompt", skill)
         self.assertIn("question marks", skill)
+        self.assertIn("plugin is becoming unnecessary", skill)
         self.assertIn("Prompt performance rating: N/5", repair)
         self.assertIn("user's initial prompt exactly as submitted", repair)
         self.assertIn("rather than the combined clarified request", repair)
         self.assertIn("polished rewrite earns no extra credit", readme)
+        self.assertIn("runs true 5/5 prompts as written", readme)
 
     def test_all_versioned_manifests_are_aligned_at_feature_version(self) -> None:
         versions = {

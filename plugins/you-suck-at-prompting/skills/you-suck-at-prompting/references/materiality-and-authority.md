@@ -5,7 +5,7 @@ A gap is material only when reasonable answers could change the outcome, scope, 
 ## Decision order
 
 1. Retrieve the answer from supplied sources, the repository, workspace rules, or available tools when safe.
-2. Preserve the request as written when the omission does not affect the result, while still displaying it under the visible rewrite gate.
+2. Preserve the request as written when it is already self-contained, scoped, authorized, verifiable, and needs no repair; only that 5/5 state may use READY-AS-WRITTEN.
 3. Use one explicit assumption when a single safe and reversible default preserves intent.
 4. Ask when alternatives are materially different or an answer would invent authority.
 

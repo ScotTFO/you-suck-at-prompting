@@ -1,13 +1,13 @@
 {
-  "description": "Display a rewritten prompt, shape execution when material, and require approval before acting.",
+  "description": "Run 5/5 prompts as written; repair and approval-gate the rest before acting.",
   "hooks": {
     "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"MANDATORY: Use you-suck-at-prompting. Rewrite/draft Analyzing whether You Suck at Prompting… your prompt’s performance review is underway., heading+fence. Add Prompt performance rating: N/5 - comment on user’s initial prompt; 5 best. Ack once, no rating/kickoff; prompt-only none. Missing [NEEDED: ...]; ask once, no ack. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/unsupported: [NEEDED: preserve or simplify]; ask which; never replace silently.\"",
-            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);[Console]::Out.WriteLine('MANDATORY: Use you-suck-at-prompting. Rewrite/draft Analyzing whether You Suck at Prompting… your prompt’’s performance review is underway., heading+fence. Add Prompt performance rating: N/5 - comment on user’’s initial prompt; 5 best. Ack once, no rating/kickoff; prompt-only none. Missing [NEEDED: ...]; ask once, no ack. Preserve safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/unsupported: [NEEDED: preserve or simplify]; ask which; never replace silently.')\"",
+            "command": "echo \"MANDATORY: Use you-suck-at-prompting. Rate initial prompt. Exactly 5/5, no repair/extra approval: READY-AS-WRITTEN; normally lead Prompt performance rating: 5/5 - varied praise+fear of uselessness, then act; exact/code/JSON: output only; prompt-only: Prompt unchanged:+fence. Else kickoff+rewrite/draft+fence+rating+ack; missing [NEEDED: ...], ask once. Ack acts once without rating/kickoff. Preserve safety/authority. Load execution-shapes when material; never silently replace explicit approach.\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"[Console]::OutputEncoding=[Text.UTF8Encoding]::new($false);[Console]::Out.WriteLine('MANDATORY: Use you-suck-at-prompting. Rate initial prompt. Exactly 5/5, no repair/extra approval: READY-AS-WRITTEN; normally lead Prompt performance rating: 5/5 - varied praise+fear of uselessness, then act; exact/code/JSON: output only; prompt-only: Prompt unchanged:+fence. Else kickoff+rewrite/draft+fence+rating+ack; missing [NEEDED: ...], ask once. Ack acts once without rating/kickoff. Preserve safety/authority. Load execution-shapes when material; never silently replace explicit approach.')\"",
             "timeout": 5,
             "additionalContextLimit": 512
           }

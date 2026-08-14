@@ -2,10 +2,13 @@
 
 You Suck at Prompting is a prompt-rewrite customization, not a new execution engine. It shapes the task given to the host while preserving the host’s existing policies, permissions, tools, and authority boundaries.
 
-## The visible gate
+## The prompt preflight
 
-For every new task request, the plugin displays a rewritten prompt before underlying work begins.
+For every new task request, the plugin rates the initial prompt and chooses the smallest valid intervention.
 
+- A self-contained, scoped, authorized, verifiable prompt that needs no repair earns exactly 5/5 and runs as written. The response normally begins with a varied sarcastic 5/5 compliment that also worries about the plugin becoming unnecessary.
+- A 5/5 prompt with an explicit exact/only/no-extra-text contract, code-only output, or parseable machine-readable output runs without any rating or preflight text so its output contract remains intact. Length, tone, translation, heading, sentence-count, and bullet-count constraints remain ordinary READY-AS-WRITTEN.
+- A prompt-only request whose supplied inner prompt earns 5/5 returns `Prompt unchanged:` and the original prompt verbatim after the rating; it is not executed.
 - A complete request produces an approval-ready rewrite and waits for acknowledgement.
 - A materially incomplete request produces a draft with `[NEEDED: ...]`, asks the minimum focused question, and does not request acknowledgement yet.
 - A request whose deliverable is prompt rewriting returns the usable prompt without executing it.
@@ -13,11 +16,11 @@ For every new task request, the plugin displays a rewritten prompt before underl
 - A clarification, edit, or qualification revises the prompt and resets the acknowledgement gate.
 - An unrelated request begins a new gate instead of resurrecting abandoned work.
 
-The rewrite preserves explicit goals, constraints, exclusions, supplied context, and verification. It recovers safely discoverable facts before asking questions and marks unresolved material details instead of inventing them.
+READY-AS-WRITTEN is unavailable when any repair, assumption, clarification, missing authority, or additional consequential-action approval remains. Optional enhancements are not repairs. Rewrites preserve explicit goals, constraints, exclusions, supplied context, and verification. Inputs described as supplied remain available unless context proves otherwise, and the plugin recovers safely discoverable facts before asking questions instead of inventing gaps.
 
 ## Prompt performance ratings
 
-Every visible rewrite or draft includes one `Prompt performance rating: N/5 - ...` line. The score judges the user’s initial prompt exactly as submitted, before the rewrite adds detail or polish. Clarification can improve the rewritten task without retroactively raising the original score.
+Every visible rewrite or draft includes one `Prompt performance rating: N/5 - ...` line. A normal READY-AS-WRITTEN response begins with its 5/5 line; strict output suppresses it. The score judges the user’s initial prompt exactly as submitted, before a rewrite adds detail or polish. Clarification can improve the rewritten task without retroactively raising the original score or entering READY-AS-WRITTEN.
 
 The comment is short, playful, and directed at the prompt mechanics—not the person. Humor stays gentle when the subject is serious or sensitive. Acknowledgement execution does not display another rating.
 
@@ -54,7 +57,7 @@ The distributed plugin has:
 - no credential requirement; and
 - no automatic modification of global instructions.
 
-Codex and Claude Code use one shared `UserPromptSubmit` command hook. The host provides hook-event data on standard input, but the command never reads, echoes, stores, or transmits it. The command emits only a bounded constant instruction telling the host to apply the visible rewrite gate.
+Codex and Claude Code use one shared `UserPromptSubmit` command hook. The host provides hook-event data on standard input, but the command never reads, echoes, stores, or transmits it. The command emits only a bounded constant instruction telling the host to apply the prompt preflight.
 
 VS Code GitHub Copilot uses a static instruction adapter and does not run the Codex/Claude hook. Users can disable the plugin, hook, or Copilot instruction through their host’s customization controls. Codex requires explicit trust for non-managed hooks.
 

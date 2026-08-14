@@ -129,12 +129,11 @@ jobs:
               raise SystemExit("UserPromptSubmit must have exactly one handler")
           handler = handlers[0]
           expected_context = (
-              "MANDATORY: Use you-suck-at-prompting. Rewrite/draft Analyzing whether You Suck at Prompting… your prompt’s "
-              "performance review is underway., heading+fence. Add Prompt performance rating: N/5 - comment on user’s initial prompt; "
-              "5 best. Ack once, "
-              "no rating/kickoff; prompt-only none. Missing [NEEDED: ...]; ask once, no ack. Preserve safety/authority. "
-              "Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/unsupported: "
-              "[NEEDED: preserve or simplify]; ask which; never replace silently."
+              "MANDATORY: Use you-suck-at-prompting. Rate initial prompt. Exactly 5/5, no repair/extra approval: "
+              "READY-AS-WRITTEN; normally lead Prompt performance rating: 5/5 - varied praise+fear of uselessness, then act; "
+              "exact/code/JSON: output only; prompt-only: Prompt unchanged:+fence. Else kickoff+rewrite/draft+fence+rating+ack; "
+              "missing [NEEDED: ...], ask once. Ack acts once without rating/kickoff. Preserve safety/authority. "
+              "Load execution-shapes when material; never silently replace explicit approach."
           )
           if len(expected_context) > 512:
               raise SystemExit("Prompt hook context exceeds additionalContextLimit")
@@ -208,6 +207,7 @@ jobs:
               raise SystemExit("Copilot instruction adapter frontmatter is invalid")
           adapter_requirements = [
               "you-suck-at-prompting", "Analyzing whether You Suck at Prompting…",
+              "READY-AS-WRITTEN", "Prompt unchanged:",
               "Reply with an acknowledgement to use this prompt.", "Draft rewritten prompt:",
               "[NEEDED: ...]", "SAVE CASE", "Never retain a real usage prompt automatically",
           ]

@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "you-suck-at-prompting",
-  "version": "0.6.1",
-  "description": "Visibly rewrite every task, shape execution when material, and require approval before acting.",
+  "version": "0.7.0",
+  "description": "Run excellent prompts as written and repair the rest before acting.",
   "author": {
     "name": "ScotTFO",
     "url": "https://github.com/ScotTFO"

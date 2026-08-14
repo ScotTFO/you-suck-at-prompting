@@ -249,7 +249,7 @@ class PromptHookTests(unittest.TestCase):
             self.config(AGENT_PLUGIN_PATH)["version"],
         }
 
-        self.assertEqual(versions, {"0.6.1"})
+        self.assertEqual(versions, {"0.7.0"})
         self.assertNotIn("version", self.config(ROOT / ".claude-plugin" / "marketplace.json"))
         self.assertNotIn("version", self.config(ROOT / ".agents" / "plugins" / "marketplace.json"))
 

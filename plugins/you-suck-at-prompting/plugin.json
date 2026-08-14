@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "you-suck-at-prompting",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Run excellent prompts as written and repair the rest before acting.",
   "author": {
     "name": "ScotTFO",

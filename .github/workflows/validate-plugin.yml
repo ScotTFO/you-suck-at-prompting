@@ -129,11 +129,11 @@ jobs:
               raise SystemExit("UserPromptSubmit must have exactly one handler")
           handler = handlers[0]
           expected_context = (
-              "MANDATORY: Use you-suck-at-prompting. Rewrite/draft starts once with exact Analyzing whether You Suck at "
-              "Prompting… your prompt’s performance review is underway., then exact heading+fence. Approval ends exact "
-              "ack; prompt-only none. Missing: [NEEDED: ...]; ask once, no ack. Ack runs once, no kickoff. Preserve "
-              "safety/authority. Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/"
-              "unsupported orchestration: [NEEDED: preserve or simplify]; ask which; never replace silently."
+              "MANDATORY: Use you-suck-at-prompting. Rewrite/draft Analyzing whether You Suck at Prompting… your prompt’s "
+              "performance review is underway., heading+fence. Add Prompt performance rating: N/5 - comment; 5 best. Ack exact once, "
+              "no rating/kickoff; prompt-only none. Missing [NEEDED: ...]; ask once, no ack. Preserve safety/authority. "
+              "Goals/loops/plans/graphs/agents/recurrence/review: load execution-shapes. Excessive/unsupported orchestration: "
+              "[NEEDED: preserve or simplify]; ask which; never replace silently."
           )
           if len(expected_context) > 512:
               raise SystemExit("Prompt hook context exceeds additionalContextLimit")

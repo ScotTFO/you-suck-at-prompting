@@ -29,7 +29,7 @@
 
 **You Suck at Prompting** is an installable Codex, Claude Code, and VS Code GitHub Copilot customization that visibly rewrites every task request before execution.
 
-It preserves what you meant, identifies anything important you forgot, adds bounded execution controls when the work actually needs them, protects the authority boundaries you definitely remembered to specify, and waits for your approval before the agent does anything.
+It preserves what you meant, identifies anything important you forgot, gives the original prompt a tiny performance review, adds bounded execution controls when the work actually needs them, protects the authority boundaries you definitely remembered to specify, and waits for your approval before the agent does anything.
 
 In other words: it turns this—
 
@@ -63,6 +63,8 @@ visual impact, make no plugin behavior changes, and provide the complete
 draft for approval before publishing it.
 ```
 
+Prompt performance rating: 2/5 - This prompt brought ambition, vibes, and no mailing address.
+
 Reply with an acknowledgement to use this prompt.
 
 Nothing executes until you acknowledge the rewrite.
@@ -74,6 +76,10 @@ If something material is still missing, the plugin does not fill the gap with co
 ```
 
 Then it asks the smallest useful question and tells you what the answer would change. It recommends a default only when one is genuinely safe and reversible. Revolutionary technology: admitting when information does not exist.
+
+## The rating you absolutely did not request
+
+Every visible rewrite or draft also gets a `Prompt performance rating: N/5` line. Five means the prompt is already self-contained, scoped, authorized, and verifiable. Lower scores identify missing context, contradictions, unsafe authority, or repair work. The comment is a short, playful judgment of the prompt mechanics—not of you—and stays gentle when the subject is serious.
 
 ## Your Prompting Performance Improvement Plan
 

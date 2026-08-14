@@ -6,6 +6,14 @@
 - Put the rewrite or draft heading on the next nonempty line.
 - Do not display the kickoff when a clear affirmative acknowledgement executes the latest complete rewrite.
 
+## Prompt performance rating
+
+- Every approval-ready, needs-input, prompt-only, and clarification-revised response includes exactly one line outside the rewritten prompt: `Prompt performance rating: N/5 - <one-line funny comment>`.
+- Place the rating after the completed rewrite or draft and before the acknowledgement, focused question, `Expected prompt impact:`, or `Recommended default:` control.
+- Use 5 as best. Rate the effective prompt under repair; for meta-rewrite requests, rate the supplied inner prompt, and for clarification responses, rate the combined clarified request.
+- The rating comment is prompt-directed, playful, PG-rated, one sentence, one line, and at most 120 characters. Do not use personal attacks, protected-characteristic jokes, profanity, question marks, or humor about sensitive subject matter; use gentle dry wording for serious prompts.
+- Do not show a rating during acknowledgement execution.
+
 ## Approval-ready prompts
 
 Return a compact task that another capable agent can execute without rereading the original conversation.
@@ -22,6 +30,8 @@ Return a compact task that another capable agent can execute without rereading t
 - End with the standalone line `Reply with an acknowledgement to use this prompt.`
 - Do not execute the underlying task in the same response.
 
+The rating line appears after the closing fence and before the acknowledgement line. The acknowledgement remains the final line.
+
 The acknowledgement line is mandatory for every approval-ready response and must be its final line. The response is incomplete if the heading, nonempty fence, or acknowledgement line is missing.
 
 Use this exact outer form: the exact heading, a nonempty fenced prompt, and then the exact acknowledgement line. Do not stop after the closing fence.
@@ -37,11 +47,15 @@ Use this exact outer form: the exact heading, a nonempty fenced prompt, and then
 - Do not include an acknowledgement request while any placeholder remains.
 - Treat the answer as prompt input, not authorization for an external effect.
 
+Place the rating line after the draft content and before the focused question and its impact/default controls.
+
 After the user answers, replace the placeholders, display the complete prompt under `You Suck At Prompting Rewritten prompt:` in a fenced code block, and request an acknowledgement.
 
 ## Prompt-only requests and follow-ups
 
 When rewriting is the requested deliverable, return the kickoff, `You Suck At Prompting Rewritten prompt:`, and the usable rewritten prompt in a fenced code block, then stop. Do not execute it or imply that execution was requested. If the user asked for both rewriting and execution, use the approval-ready contract.
+
+Prompt-only responses include the rating after the closing fence. Acknowledgement follow-ups include no rating.
 
 A clear affirmative acknowledgement executes the latest complete rewrite without another rewrite gate or kickoff, regardless of wording or capitalization. Examples include `approve`, `yes`, `go ahead`, `proceed`, and `looks good`. A clarification answer, edit, qualification, or question creates a kickoff, a revised displayed prompt, and a new acknowledgement gate.
 

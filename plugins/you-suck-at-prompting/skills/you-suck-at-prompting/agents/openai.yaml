@@ -1,7 +1,7 @@
 interface:
   display_name: "You Suck at Prompting"
-  short_description: "Run great prompts; repair the rest"
-  default_prompt: "Use $you-suck-at-prompting to run this request as written only if it earns 5/5; otherwise repair it and wait for approval."
+  short_description: "Repair material prompt gaps"
+  default_prompt: "Use $you-suck-at-prompting to audit this prompt and repair only material gaps."
 
 policy:
   allow_implicit_invocation: true

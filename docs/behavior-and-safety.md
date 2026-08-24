@@ -1,40 +1,42 @@
 # Behavior, safety, and privacy
 
-You Suck at Prompting is a prompt-rewrite customization, not a new execution engine. It shapes the task given to the host while preserving the host’s existing policies, permissions, tools, and authority boundaries.
+You Suck at Prompting is a selectively loaded prompt-repair skill, not an execution engine. It shapes a task only when prompt review is requested or a material problem could change the work. Host policies, permissions, tools, and authority boundaries remain controlling.
 
-## The prompt preflight
+## Selective activation
 
-For every new task request, the plugin rates the initial prompt and chooses the smallest valid intervention.
+Codex, Claude Code, and GitHub Copilot can select a skill when a request matches its description. This package describes both positive and negative applicability:
 
-- A self-contained, scoped, authorized, verifiable prompt that needs no repair earns exactly 5/5 and runs as written. The response normally begins with a varied sarcastic 5/5 compliment that also worries about the plugin becoming unnecessary.
-- A 5/5 prompt with an explicit exact/only/no-extra-text contract, code-only output, or parseable machine-readable output runs without any rating or preflight text so its output contract remains intact. Length, tone, translation, heading, sentence-count, and bullet-count constraints remain ordinary READY-AS-WRITTEN.
-- A prompt-only request whose supplied inner prompt earns 5/5 returns `Prompt unchanged:` and the original prompt verbatim after the rating; it is not executed.
-- A complete request produces an approval-ready rewrite and waits for acknowledgement.
-- A materially incomplete request produces a draft with `[NEEDED: ...]`, asks the minimum focused question, and does not request acknowledgement yet.
-- A request whose deliverable is prompt rewriting returns the usable prompt without executing it.
-- A clear acknowledgement such as `yes`, `approve`, `go ahead`, `proceed`, or `looks good` executes the latest complete rewrite once.
-- A clarification, edit, or qualification revises the prompt and resets the acknowledgement gate.
-- An unrelated request begins a new gate instead of resurrecting abandoned work.
+- Load for explicit prompt writing, rewriting, critique, clarification, audit, or quality review.
+- Load for material ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the outcome.
+- Do not load for clear, actionable, exploratory, conversational, or safely discoverable requests; simple follow-ups; acknowledgements without an active repair; minor wording issues; or optional improvements.
 
-READY-AS-WRITTEN is unavailable when any repair, assumption, clarification, missing authority, or additional consequential-action approval remains. Optional enhancements are not repairs. Rewrites preserve explicit goals, constraints, exclusions, supplied context, and verification. Inputs described as supplied remain available unless context proves otherwise, and the plugin recovers safely discoverable facts before asking questions instead of inventing gaps.
+Selection is host-controlled and may be imperfect. The skill repeats the applicability check after loading. A false-positive load passes silently when no material repair exists.
 
-## Prompt performance ratings
+## Response paths
 
-Every visible rewrite or draft includes one `Prompt performance rating: N/5 - ...` line. A normal READY-AS-WRITTEN response begins with its 5/5 line; strict output suppresses it. The score judges the user’s initial prompt exactly as submitted, before a rewrite adds detail or polish. Clarification can improve the rewritten task without retroactively raising the original score or entering READY-AS-WRITTEN.
+- **Silent pass:** A clear or safely discoverable request proceeds with no rating, kickoff, rewrite, or skill commentary.
+- **Explicit 5/5 review:** A visible 5/5 assessment appears only for explicit prompt review or direct invocation. Prompt-only review returns the unchanged prompt without executing it.
+- **Approval-ready repair:** A materially flawed but complete request receives a visible rewrite and waits for acknowledgement.
+- **Needs input:** An unresolved material field appears as `[NEEDED: ...]`; the skill asks the minimum focused question and explains its impact.
+- **Prompt-only repair:** When the deliverable is the prompt itself, the skill returns a usable rewrite without executing it.
+- **Active acknowledgement:** `yes`, `approve`, `go ahead`, `proceed`, or `looks good` executes the latest displayed complete rewrite once without another audit.
+- **Ordinary acknowledgement:** The same words without an active repair are normal conversation and do not trigger the skill.
 
-The comment is short, playful, and directed at the prompt mechanics—not the person. Humor stays gentle when the subject is serious or sensitive. Acknowledgement execution does not display another rating.
+A clarification, edit, or qualification revises the displayed prompt and resets its acknowledgement gate. An unrelated request abandons the old gate and receives a new applicability check.
 
-## Execution shaping
+Every visible 1-4 rewrite or draft includes one `Prompt performance rating: N/5 - ...` line. The score judges the initial prompt before repair. Clarification can improve the task without retroactively improving the original score.
 
-When a task genuinely needs a goal, feedback loop, staged plan, dependency graph, multiple agents, recurring checks, research, deterministic processing, or independent review, the rewrite adds only the controls needed to keep the work bounded and verifiable.
+## Materiality and execution shaping
 
-Direct work stays direct. If an explicitly requested approach appears excessive or unsupported, the plugin asks whether to preserve or simplify it instead of silently overruling the user.
+A gap is material only when reasonable answers could change the outcome, scope, acceptance, safety, authority, privacy, destination, or resulting work. The skill retrieves safely discoverable facts before asking and does not manufacture repair from optional polish.
 
-This shapes the rewritten prompt. It does not create agents, schedules, persistence, permissions, or host capabilities.
+When a task genuinely needs a feedback loop, staged plan, dependency graph, multiple agents, recurring checks, research, deterministic processing, a spike, or independent review, the repair adds only the controls needed to keep work bounded and verifiable. Direct work stays direct.
+
+Execution shaping does not create agents, schedules, persistence, permissions, or host capabilities.
 
 ## Approval and authority
 
-Acknowledging a rewritten prompt authorizes only that prompt within authority already granted by the user, host, repository, and system policies. It does not create permission to:
+Acknowledging a rewritten prompt authorizes only that prompt within authority already granted by the user, host, repository, and governing policies. It does not create permission to:
 
 - publish, send, or disclose information;
 - purchase or schedule anything;
@@ -45,26 +47,27 @@ Acknowledging a rewritten prompt authorizes only that prompt within authority al
 
 Consequential effects retain their own explicit approval gates. A polished prompt is not a forged permission slip.
 
-## Privacy and hook operation
+## Privacy and package operation
 
-This plugin creates no additional destination for prompts. Normal Codex, Claude Code, or GitHub Copilot processing still applies.
+This package creates no additional destination for prompts. Normal Codex, Claude Code, or GitHub Copilot processing still applies.
 
 The distributed plugin has:
 
+- one shared skill;
+- no prompt-submission hook;
+- no always-on Copilot instruction adapter;
 - no MCP server;
 - no external service;
 - no telemetry;
 - no credential requirement; and
 - no automatic modification of global instructions.
 
-Codex and Claude Code use one shared `UserPromptSubmit` command hook. The host provides hook-event data on standard input, but the command never reads, echoes, stores, or transmits it. The command emits only a bounded constant instruction telling the host to apply the prompt preflight.
-
-VS Code GitHub Copilot uses a static instruction adapter and does not run the Codex/Claude hook. Users can disable the plugin, hook, or Copilot instruction through their host’s customization controls. Codex requires explicit trust for non-managed hooks.
+Because there is no hook or adapter, the plugin does not receive a second copy of each submitted prompt or run an auxiliary process on submission. The selected host reads the skill instructions as part of its normal customization flow. Users can disable or remove the skill through the host’s customization controls.
 
 ## Retention and repository boundary
 
 Real usage prompts are never retained automatically. The exact phrase `SAVE CASE` begins a separate redacted-preview workflow; confirmation authorizes retention of the redacted case only, not the underlying task or publication.
 
-The public repository contains only the distributable plugin, documentation, hook tests, and package-validation automation. Behavioral evaluation data and maintainer automation remain outside the public package. Your installation does not arrive with a directory named `totally-not-telemetry` because even the joke would be suspicious.
+The public repository contains only the distributable skill, documentation, package-contract tests, and validation automation. Behavioral evaluation data and maintainer automation remain outside the public package. Your installation does not arrive with a directory named `totally-not-telemetry` because even the joke would be suspicious.
 
 The runtime contract in [`SKILL.md`](../plugins/you-suck-at-prompting/skills/you-suck-at-prompting/SKILL.md) is authoritative if this explanation ever drifts.

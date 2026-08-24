@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "you-suck-at-prompting",
-  "version": "0.7.0",
-  "description": "Run excellent prompts as written and repair the rest before acting.",
+  "version": "0.8.0",
+  "description": "Repair prompts selectively when material gaps would change the work.",
   "author": {
     "name": "ScotTFO"
   },

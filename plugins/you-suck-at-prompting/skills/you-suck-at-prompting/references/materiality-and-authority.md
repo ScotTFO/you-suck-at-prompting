@@ -5,9 +5,10 @@ A gap is material only when reasonable answers could change the outcome, scope, 
 ## Decision order
 
 1. Retrieve the answer from supplied sources, the repository, workspace rules, or available tools when safe.
-2. Preserve the request as written when it is already self-contained, scoped, authorized, verifiable, and needs no repair; only that 5/5 state may use READY-AS-WRITTEN.
-3. Use one explicit assumption when a single safe and reversible default preserves intent.
-4. Ask when alternatives are materially different or an answer would invent authority.
+2. If no material problem remains, pass the request through silently. A loaded skill is not evidence that repair is needed.
+3. Show a 5/5 assessment only when the user explicitly requested prompt review or directly invoked the skill.
+4. Use one explicit assumption when a single safe and reversible default preserves intent.
+5. Ask when alternatives are materially different or an answer would invent authority.
 
 ## Clarification impact
 

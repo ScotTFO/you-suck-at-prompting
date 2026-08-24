@@ -9,7 +9,7 @@
     {
       "name": "you-suck-at-prompting",
       "source": "./plugins/you-suck-at-prompting",
-      "description": "Visibly rewrite every task, shape execution when material, and require approval before acting.",
+      "description": "Selectively repair prompts with material gaps while clear requests proceed normally.",
       "category": "productivity"
     }
   ]

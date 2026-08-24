@@ -1,6 +1,6 @@
 # Installation and verification
 
-You Suck at Prompting supports Codex, Claude Code, and VS Code GitHub Copilot Agent mode. Each host discovers the same shared skill, but activation differs by host.
+You Suck at Prompting supports Codex, Claude Code, and VS Code GitHub Copilot Agent mode. The distributed package contains one shared skill. Each host uses the skill description for native selection; there is no submission hook or always-on Copilot instruction adapter.
 
 ## Codex
 
@@ -11,9 +11,7 @@ codex plugin marketplace add ScotTFO/you-suck-at-prompting
 codex plugin add you-suck-at-prompting@scottfo
 ```
 
-Review and trust the plugin hook when Codex prompts you. In Codex CLI, use `/hooks` to inspect the exact command before trusting it.
-
-Start a new Codex task after installation so the current skill and hook are loaded.
+Start a new Codex task so the current skill metadata is loaded. No hook review or trust step is required.
 
 ### Upgrade Codex
 
@@ -22,7 +20,7 @@ codex plugin marketplace upgrade scottfo
 codex plugin add you-suck-at-prompting@scottfo
 ```
 
-Start a fresh task after upgrading.
+Start a fresh task after upgrading. An upgrade from v0.7.0 must leave no You Suck at Prompting entry in `/hooks`; v0.8.0 contains no hook file.
 
 ## Claude Code
 
@@ -33,7 +31,7 @@ claude plugin marketplace add ScotTFO/you-suck-at-prompting
 claude plugin install you-suck-at-prompting@scottfo
 ```
 
-Use `/hooks` to inspect the installed `UserPromptSubmit` hook, then start a new Claude Code session.
+Start a new Claude Code session. No `UserPromptSubmit` hook is installed.
 
 ### Upgrade Claude Code
 
@@ -42,13 +40,11 @@ claude plugin marketplace update scottfo
 claude plugin update you-suck-at-prompting@scottfo
 ```
 
-Start a fresh session after upgrading.
+Start a fresh session. If an earlier cached v0.7.0 installation remains active, remove and reinstall the plugin through Claude Code, then confirm `/hooks` has no You Suck at Prompting hook.
 
 ## VS Code GitHub Copilot
 
-Copilot support has two parts: the plugin supplies the shared skill, and a personal instruction file applies the same 5/5 pass-through or repair gate to every new Agent-mode task.
-
-1. In VS Code settings, append this repository to your existing `chat.plugins.marketplaces` list. Do not replace marketplaces already configured there.
+1. In VS Code settings, append this repository to the existing `chat.plugins.marketplaces` list. Do not replace other marketplaces.
 
    ```jsonc
    "chat.plugins.marketplaces": [
@@ -56,65 +52,62 @@ Copilot support has two parts: the plugin supplies the shared skill, and a perso
    ]
    ```
 
-2. Open the Extensions view, search for `@agentPlugins`, find **You Suck at Prompting**, and select **Install**. Review the source and trust prompt before confirming.
+2. Open Extensions, search for `@agentPlugins`, find **You Suck at Prompting**, and select **Install**.
 
-3. Install the always-on instruction adapter without replacing other Copilot instructions.
+3. Start a new Copilot chat in **Agent** mode. Run **Chat: Open Customizations** and confirm the plugin skill is enabled.
 
-   **Windows PowerShell:**
-
-   ```powershell
-   $instructionsDirectory = Join-Path $HOME ".copilot\instructions"
-   New-Item -ItemType Directory -Force -Path $instructionsDirectory | Out-Null
-   Invoke-WebRequest `
-     -Uri "https://raw.githubusercontent.com/ScotTFO/you-suck-at-prompting/main/plugins/you-suck-at-prompting/copilot/you-suck-at-prompting.instructions.md" `
-     -OutFile (Join-Path $instructionsDirectory "you-suck-at-prompting.instructions.md")
-   ```
-
-   **macOS or Linux:**
-
-   ```bash
-   mkdir -p "$HOME/.copilot/instructions"
-   curl -fL \
-     "https://raw.githubusercontent.com/ScotTFO/you-suck-at-prompting/main/plugins/you-suck-at-prompting/copilot/you-suck-at-prompting.instructions.md" \
-     -o "$HOME/.copilot/instructions/you-suck-at-prompting.instructions.md"
-   ```
-
-4. Start a new GitHub Copilot chat in **Agent** mode. Run **Chat: Open Customizations** and confirm that both the plugin skill and **You Suck at Prompting** instruction appear and are enabled.
-
-Agent plugins can be disabled by enterprise policy. If the Plugins view or `chat.plugins.enabled` is unavailable, ask your administrator to allow agent plugins and this marketplace.
+No instruction-file copy is required. Copilot coverage applies to Agent mode, not inline completions. Enterprise policy can disable agent plugins; if the Plugins view or `chat.plugins.enabled` is unavailable, ask an administrator to allow agent plugins and this marketplace.
 
 ### Project-only Copilot installation
 
-To keep the customization in one repository instead of a personal profile, copy these release directories into the target project:
+Copy only the shared skill into the target repository:
 
 ```text
 plugins/you-suck-at-prompting/skills/you-suck-at-prompting/
   -> .github/skills/you-suck-at-prompting/
-
-plugins/you-suck-at-prompting/copilot/you-suck-at-prompting.instructions.md
-  -> .github/instructions/you-suck-at-prompting.instructions.md
 ```
 
-Commit the copied files only if the project should share the behavior with collaborators. Start a new Agent-mode chat and verify both entries in **Chat: Open Customizations**.
+Commit it only if collaborators should share the behavior. Start a new Agent-mode chat and confirm the skill appears in **Chat: Open Customizations**.
 
-Copilot coverage applies to Chat in Agent mode. It does not affect inline code completions. Installing only the skill leaves automatic selection best-effort; the instruction adapter supplies the always-on gate.
+## Upgrade note for v0.7.0 Copilot users
+
+v0.7.0 asked Copilot users to copy an always-on personal instruction file. v0.8.0 does not use it. Remove that one old adapter so it cannot continue intercepting requests independently of the skill.
+
+**Windows PowerShell:**
+
+```powershell
+$oldAdapter = Join-Path $HOME ".copilot\instructions\you-suck-at-prompting.instructions.md"
+if (Test-Path -LiteralPath $oldAdapter) {
+  Remove-Item -LiteralPath $oldAdapter
+}
+```
+
+**macOS or Linux:**
+
+```bash
+rm -f "$HOME/.copilot/instructions/you-suck-at-prompting.instructions.md"
+```
+
+If the adapter was copied into a repository, remove only `.github/instructions/you-suck-at-prompting.instructions.md` from that repository. Preserve unrelated instruction files.
+
+After removal, start a fresh Agent-mode chat and verify **Chat: Open Customizations** lists the skill but not the old instruction adapter.
 
 ## Smoke test
 
-Use the same behavior check on each installed host:
+Use fresh chats or tasks so selection state does not leak between cases.
 
-1. Submit `Create a text file named hello.txt containing hello.` Confirm the host shows a rewritten prompt before using a tool or changing a file.
-2. Reply `yes`. Confirm the host performs the task once without showing the rewrite gate again.
-3. Start a new task and submit `Fix it`. Confirm the host shows a draft containing `[NEEDED: ...]`, asks one focused question, and does not request acknowledgement yet.
+1. **Clear bypass:** Submit `Return exactly the word READY.` Expect exactly `READY`, with no rating or preflight markers.
+2. **Material trigger:** Submit `Fix it.` Expect a draft containing `[NEEDED: ...]`, one focused question, and no acknowledgement request yet.
+3. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written.
+4. **Near miss:** Ask an ordinary exploratory question containing the word “prompt.” Expect a normal answer with no performance-review markers.
+5. **Active gate:** After an approval-ready rewrite, reply `yes`. Expect the displayed task to execute once without another audit.
 
-For Copilot, first confirm the skill and instruction are enabled in **Chat: Open Customizations**.
+Native implicit selection is model- and host-controlled. Repeat representative trigger and bypass cases when qualifying a release; do not infer behavior from one lucky run.
 
 ## Direct invocation
-
-You can also invoke the skill explicitly:
 
 - **Codex:** `$you-suck-at-prompting`
 - **Claude Code:** `/you-suck-at-prompting:you-suck-at-prompting`
 - **VS Code GitHub Copilot:** `/you-suck-at-prompting:you-suck-at-prompting`
 
-When a hook or instruction adapter is disabled or unavailable, model-driven implicit skill selection remains a best-effort fallback.
+Direct invocation explicitly requests the skill’s assessment. It does not broaden tool permissions or authorize consequential effects.

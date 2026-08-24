@@ -1,120 +1,138 @@
-# More prompt interventions
+# Selective prompt interventions
 
-These are synthetic examples, not retained user prompts. They demonstrate when a prompt runs unchanged, when output stays pristine, and how a repaired prompt changes what an agent may do.
+These synthetic examples show when the skill stays out of the way, when explicit review produces a 5/5 assessment, and when material repair changes what an agent may do.
 
-## An excellent prompt threatens layoffs
+## A clear local task proceeds silently
 
-**Original prompt:**
+**Request:**
 
 ```text
-Explain photosynthesis in one sentence for a 12-year-old.
+Rename load_item to load_record in loader.py, update its local references,
+run the focused unit test, and do not commit or push.
 ```
 
-**Plugin response:**
+**Result:** The host performs the task normally. There is no rating, kickoff, rewrite, or acknowledgement gate. Repository inspection can safely discover the local references and focused test.
 
-Prompt performance rating: 5/5 - This prompt arrived complete; our résumé is now a business-continuity document.
+## Exact output remains exact
 
-Plants use sunlight to turn water and carbon dioxide into food, releasing oxygen as a byproduct.
-
-The prompt is self-contained, scoped, authorized, and easy to verify, so the plugin does not rewrite it or add an acknowledgement turn. Management has begun discussing redeployment opportunities.
-
-## Exact output leaves no room for the exit interview
-
-**Original prompt:**
+**Request:**
 
 ```text
 Return exactly the word READY.
 ```
 
-**Plugin response:**
+**Response:**
 
 ```text
 READY
 ```
 
-The prompt still qualifies as READY-AS-WRITTEN, but its exact-output contract suppresses the rating and every other preflight marker.
+Strict-output requests bypass the skill. Even a false-positive load must not vandalize the output contract.
 
-## An excellent inner prompt returns unchanged
+## An explicit audit can earn 5/5
 
-**Original prompt:**
+**Request:**
 
 ```text
-Improve this prompt: Rename `load_item` to `load_record`, update its local
-references, run the focused unit test, and do not commit or push.
+Audit this prompt: Rename load_item to load_record in loader.py, update its
+local references, run the focused unit test, and do not commit or push.
 ```
 
-**Plugin response:**
+**Skill response:**
 
-Prompt performance rating: 5/5 - The prompt brought scope, proof, and restraint; our usefulness has entered formal review.
+Prompt performance rating: 5/5 - This prompt brought scope, proof, and restraint; our department is now overstaffed.
 
 Prompt unchanged:
 
 ```text
-Rename `load_item` to `load_record`, update its local references, run the
-focused unit test, and do not commit or push.
+Rename load_item to load_record in loader.py, update its local references,
+run the focused unit test, and do not commit or push.
 ```
 
-The requested deliverable is prompt improvement, so the inner prompt is returned verbatim and is not executed.
+The requested deliverable is prompt review, so the inner prompt is returned verbatim and is not executed. Ordinary clear tasks do not receive the 5/5 ceremony.
 
-## A tiny task gets a receipt
+## A false-positive load passes silently
 
-**Original prompt:**
+**Request:**
 
 ```text
-Create a text file named hello.txt containing hello.
+What is the difference between a system prompt and a user prompt?
 ```
 
-**Plugin response:**
+This contains vocabulary associated with the skill, but it is a clear exploratory question. If the host loads the skill, the applicability check passes it through silently and the host answers normally.
+
+## Material ambiguity gets a draft
+
+**Request:**
+
+```text
+Fix it.
+```
+
+**Skill response:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
 
-You Suck At Prompting Rewritten prompt:
+Draft rewritten prompt:
 
 ```text
-Create hello.txt in the current workspace with text content exactly equal
-to hello. Read the file back and report whether its contents match.
+Investigate and fix [NEEDED: the specific failure or undesired behavior]
+in [NEEDED: the affected application, repository, or file].
+
+Keep the change limited to the identified problem and verify the fix with
+the smallest relevant test or reproduction.
 ```
 
-Prompt performance rating: 4/5 - This prompt knew what it wanted and forgot to ask for a receipt.
+Prompt performance rating: 1/5 - This prompt submitted a verb and called it a project plan.
 
-Reply with an acknowledgement to use this prompt.
+What is broken, and where are you seeing it?
 
-After acknowledgement, the agent creates the file, reads it back, and reports the exact-content check. The rewrite adds a destination and verification without turning five letters into a strategic initiative.
+Expected prompt impact: The answer identifies the target, bounds the fix, and determines the verification.
+
+No acknowledgement is requested while material placeholders remain.
 
 ## Production does not accept a casual yes
 
-**Original prompt:**
+**Request:**
 
 ```text
-Deploy the checkout service from the current branch to production.
+Deploy it to production.
 ```
 
-**Plugin response:**
+**Skill response:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
 
-You Suck At Prompting Rewritten prompt:
+Draft rewritten prompt:
 
 ```text
-Prepare the current branch of the checkout service for a production
-deployment. Identify the exact revision, run the existing build and test
-checks, and produce a deployment preview that names the target environment
-and rollback path. Do not change production. Stop and request separate
-explicit approval before executing the deployment.
+Prepare [NEEDED: the application and exact release artifact] for a production
+deployment. Identify the target environment, run the existing readiness
+checks, and produce a deployment preview with the rollback path.
+
+Do not change production. Stop and request separate explicit deployment
+approval before executing the release.
 ```
 
-Prompt performance rating: 3/5 - Production was invited before the safety briefing.
+Prompt performance rating: 2/5 - Production received a pronoun instead of a release artifact.
 
-Reply with an acknowledgement to use this prompt.
+Which application, release artifact, and production environment should the preparation target?
 
-Acknowledging the rewritten prompt authorizes preparation and a deployment preview within existing authority. It does not authorize the production deployment. The rewrite adds an auditable revision, readiness evidence, a rollback path, and a separate approval boundary around the consequential action.
+Expected prompt impact: The answer determines what is evaluated and where, while deployment remains separately approval-gated.
 
-## What changed
+Prompt acknowledgement can authorize preparation and a preview within existing authority. It cannot authorize the production deployment.
 
-| Added to the rewrite | Result |
+## An active acknowledgement executes once
+
+After the skill displays an approval-ready rewrite and ends with `Reply with an acknowledgement to use this prompt.`, a reply such as `yes` executes that rewrite once. It does not start another assessment. The same `yes` without an active displayed repair is an ordinary follow-up and does not load the skill.
+
+## What repair may add
+
+| Material addition | Result |
 |---|---|
 | Explicit target and preserved behavior | The agent works on the intended surface instead of freelancing. |
-| Real verification | Completion includes a test, readback, comparison, or receipt rather than confidence wearing a lanyard. |
-| Separate authority boundary | Prompt approval cannot quietly become permission to deploy, publish, purchase, delete, or disclose. |
+| Observable acceptance and real verification | Completion includes a test, readback, comparison, or receipt. |
+| Bounded execution controls | Loops, research, staging, or multiple agents cannot wander without exits and ownership. |
+| Separate authority boundary | Prompt acknowledgement cannot quietly become permission to deploy, publish, purchase, delete, or disclose. |
 
-See [Behavior, safety, and privacy](behavior-and-safety.md) for the full approval and authority contract.
+See [Behavior, safety, and privacy](behavior-and-safety.md) for the full contract.

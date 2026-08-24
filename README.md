@@ -1,35 +1,33 @@
 <h1 align="center">You Suck at Prompting</h1>
 
 <p align="center">
-  <strong>Your prompt has been called into a meeting. HR is here. There are slides.</strong><br>
-  The mandatory performance review between your vague idea and an agent with tools.
+  <strong>Your prompt is not always in trouble. We checked the policy.</strong><br>
+  The selective performance review for requests that could actually change the outcome.
 </p>
 
 <p align="center">
-  <img alt="Prompting status: on a PIP" src="https://img.shields.io/badge/prompting_status-on_a_PIP-ff4d4d?style=for-the-badge">
+  <img alt="Prompting status: review when material" src="https://img.shields.io/badge/prompting_status-review_when_material-ff4d4d?style=for-the-badge">
   <img alt="Works with Codex, Claude Code, and GitHub Copilot" src="https://img.shields.io/badge/works_with-Codex_%2B_Claude_Code_%2B_Copilot-6f42c1?style=for-the-badge">
   <img alt="Telemetry: absolutely not" src="https://img.shields.io/badge/telemetry-absolutely_not-2ea44f?style=for-the-badge">
 </p>
 
 > [!WARNING]
-> **Your prompt has been placed on a PIP.** “Make it better” is not a specification. It is a cry for help wearing business casual.
+> **“Fix it.” has been placed on a PIP.** Clear requests may continue working without supervision.
 
-**You Suck at Prompting** is an installable customization for Codex, Claude Code, and VS Code GitHub Copilot Agent mode. It intercepts every task request for a brief disciplinary hearing: What are you asking for? Where? What counts as done? Who authorized the large red production button?
+**You Suck at Prompting** is an installable skill for Codex, Claude Code, and VS Code GitHub Copilot Agent mode. Each host can select it from its description when a request explicitly asks for prompt work or contains a material problem: ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the result.
 
-Then it grades the original prompt. A genuine 5/5 earns sarcastic applause and goes straight to work; everything else gets visibly repaired, checked for missing decisions, and held for acknowledgement. Your prompt may call this micromanagement. Your future incident report will call it personal growth.
+Clear, actionable, exploratory, conversational, and safely discoverable requests proceed normally. No rating. No hook. No preflight ceremony. The tiny bureaucrat is now on call instead of standing in every doorway with a clipboard.
 
-The plugin adds execution controls only when the work needs them and asks instead of inventing material details. It adds no telemetry, credentials, external service, or new permissions. It is judgmental, not nosy.
+When repair is needed, the skill still makes the problem visible, preserves intent, asks only material questions, and waits for acknowledgement before executing a rewritten task. Safety, approval, privacy, and authority boundaries remain in force.
 
 <p align="center">
-  <a href="#enroll-your-prompts-in-mandatory-training"><strong>Install</strong></a> ·
-  <a href="#your-prompts-performance-review-has-comments"><strong>What it fixes</strong></a> ·
-  <a href="#the-mandatory-remedial-training-module"><strong>How it works</strong></a> ·
+  <a href="#install-the-on-call-manager"><strong>Install</strong></a> ·
+  <a href="#what-earns-a-meeting"><strong>What triggers it</strong></a> ·
+  <a href="#selective-remedial-training"><strong>How it works</strong></a> ·
   <a href="docs/behavior-and-safety.md"><strong>Safety and privacy</strong></a>
 </p>
 
-## Exhibit A: “Fix it.” arrives naked and confident
-
-Two words. One verb. Zero evidence that a requirement ever lived here.
+## Exhibit A: “Fix it.” still arrives naked and confident
 
 **Original prompt:**
 
@@ -37,7 +35,7 @@ Two words. One verb. Zero evidence that a requirement ever lived here.
 Fix it.
 ```
 
-**The plugin:**
+**The skill:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
 
@@ -51,51 +49,53 @@ Keep the change limited to the identified problem and verify the fix with
 the smallest relevant test or reproduction.
 ```
 
-Prompt performance rating: 1/5 - This prompt arrived with a verb and left the rest in another tab.
+Prompt performance rating: 1/5 - This prompt brought a verb to a requirements meeting.
 
 What is broken, and where are you seeing it?
 
-After the user names the failure, the plugin replaces the placeholders, shows the complete rewrite, and waits for acknowledgement. Clarification repairs the task, not the original grade; the polished rewrite earns no extra credit. HR keeps receipts.
+Expected prompt impact: The answer identifies the target, limits the change, and determines the verification.
 
-See [more prompts under formal review](docs/examples.md): an excellent request that threatens our job security, a strict output that leaves no room for jokes, a tiny file task that forgot its receipt, and a production deployment that tried to enter the building with a casual `yes`.
+After the missing facts are supplied, the skill shows the complete rewrite and waits for acknowledgement. The original grade does not improve because HR keeps receipts.
 
-## Your prompt’s performance review has comments
+## What earns a meeting
 
-| Observed behavior | Performance finding | Corrective action |
-|---|---|---|
-| “Make it better.” | Better was not named, measured, or invited. | Name the outcome and success check. |
-| “Deploy it.” | You handed a pronoun root access. | Identify the target and preserve a separate deployment approval. |
-| “You know what I mean.” | The model has reviewed the record and objects. | State the detail that changes the result. |
+| Request | Result |
+|---|---|
+| “Rename `load_item` to `load_record` in `loader.py` and run the focused unit test.” | Proceeds silently. The repository can supply the local details. |
+| “What does `git rebase` do?” | Proceeds silently. Exploratory questions are not misconduct. |
+| “Improve this prompt: …” | Loads for the requested prompt review. |
+| “Deploy it.” | Loads because the target and authority are material. |
+| “Use three agents to change one typo.” | Loads because the execution design could change the work. |
+| “Thanks.” | Proceeds as ordinary conversation unless it acknowledges an active displayed rewrite. |
 
-Brevity is not misconduct. “Delete the obsolete fixture and rerun the unit tests” is brief. “Do the thing” is an abandonment of managerial duty.
+A host can occasionally select a skill for a near miss. The skill performs its own applicability check and passes the request through silently when no material repair exists. A false-positive load is not a compulsory audit.
 
-## The mandatory remedial training module
-
-An org chart now stands between your prompt and its next incident. This is called governance.
+## Selective remedial training
 
 ```mermaid
 flowchart TD
-    A["You submit a prompt"] --> B["Plugin audits and rates it"]
-    B --> C{"Exactly 5/5 with no repair or approval gap?"}
-    C -- "Yes" --> D{"Strict output contract?"}
-    D -- "Yes" --> E["Return pristine requested output"]
-    D -- "No" --> F["Applaud prompt + agent acts now"]
-    C -- "No" --> G{"Material detail missing?"}
+    A["You submit a request"] --> B{"Description matches prompt work or a material problem?"}
+    B -- "No" --> C["Host handles it normally"]
+    B -- "Yes" --> D["Skill checks applicability"]
+    D --> E{"Material repair needed?"}
+    E -- "No, ordinary task" --> C
+    E -- "No, explicit audit" --> F["Show 5/5 assessment or unchanged prompt"]
+    E -- "Yes" --> G{"Material detail missing?"}
     G -- "Yes" --> H["Show draft + ask one focused question"]
     G -- "No" --> I["Show approval-ready rewrite"]
     H --> I
-    I --> J{"You acknowledge it?"}
+    I --> J{"User acknowledges active rewrite?"}
     J -- "No" --> K["Nothing executes"]
-    J -- "Yes" --> L["Agent acts within existing authority"]
+    J -- "Yes" --> L["Execute once within existing authority"]
 ```
 
-Prompt approval authorizes the displayed task within existing authority. It does not silently authorize publishing, deployment, purchase, deletion, disclosure, scheduling, or permission changes. The prompt may have improved; it has not been promoted to management.
+A visible 5/5 assessment appears only for an explicit prompt audit or direct skill invocation. Ordinary clear requests do not get applause, commentary, or a surprise annual review.
 
-Complex work gets bounded controls; routine direct work stays compact. We are cruel, not inefficient.
+Prompt acknowledgement authorizes the displayed task within existing authority. It does not silently authorize publishing, deployment, purchase, deletion, disclosure, scheduling, or permission changes. The prompt may have improved; it has not been promoted to management.
 
-## Enroll your prompts in mandatory training
+The selection model follows the native skill mechanisms documented by [OpenAI](https://learn.chatgpt.com/docs/build-skills), [Claude Code](https://code.claude.com/docs/en/slash-commands), and [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills).
 
-Choose the manager currently responsible for your agent:
+## Install the on-call manager
 
 **Codex:**
 
@@ -111,50 +111,55 @@ claude plugin marketplace add ScotTFO/you-suck-at-prompting
 claude plugin install you-suck-at-prompting@scottfo
 ```
 
-Review the installed hook, then start a fresh task or session. VS Code GitHub Copilot requires the shared plugin plus an instruction adapter because three hosts agreeing on one installation process would violate an ancient treaty.
+**VS Code GitHub Copilot:** add this marketplace to `chat.plugins.marketplaces`, then install **You Suck at Prompting** from `@agentPlugins`.
 
-See the complete [installation, upgrade, Copilot, project-only, and smoke-test guide](docs/installation.md).
+There is no hook to trust and no Copilot instruction file to copy. Start a fresh task or chat after installation. Existing Copilot users upgrading from v0.7.0 should remove the old personal instruction adapter; the exact migration steps are in the [installation and upgrade guide](docs/installation.md).
 
 ## Legal reviewed the jokes. Legal was right.
 
 > [!IMPORTANT]
-> **No new prompt destination:** the plugin has no telemetry, MCP server, external service, or credential requirement. Normal processing by your chosen host still applies. Again: judgmental, not nosy.
+> **No new prompt destination:** the skill has no telemetry, MCP server, external service, hook, credential requirement, or always-on instruction adapter. Normal processing by the chosen host still applies.
 
 | The tiny bureaucrat does | The tiny bureaucrat is not authorized to do |
 |---|---|
-| Audits each new task, runs true 5/5 prompts as written, and repairs the rest visibly. | Make a bad idea good. It can make the bad idea extremely well specified. |
-| Recovers safely discoverable facts and marks unresolved material details. | Invent requirements, permissions, or user taste. Telepathy remains outside quarterly objectives. |
-| Requires real verification evidence when completion needs proof. | Accept confidence as a test result merely because it owns expensive shoes. |
-| Adds bounded execution controls only when material. | Create agents, schedules, persistence, tools, or host capabilities. An org chart is not a runtime. |
-| Keeps prompt approval separate from consequential effects. | Smuggle permission to deploy, publish, purchase, delete, or disclose inside an acknowledgement. |
-
-Codex and Claude Code use a constant-output hook that does not read, echo, store, or transmit the submitted prompt. Copilot uses a static instruction adapter instead. Real prompts are never retained automatically. The hook is not secretly reading your prompt while wearing a fake mustache.
+| Repairs requests only when a material problem could change the work. | Turn optional improvements into mandatory ceremony. |
+| Recovers safely discoverable facts before declaring them missing. | Invent requirements, permissions, destinations, or user taste. |
+| Requires real verification when completion needs proof. | Accept confidence as a test result because it owns expensive shoes. |
+| Adds bounded execution controls only when material. | Create agents, schedules, persistence, tools, or host capabilities. |
+| Keeps prompt acknowledgement separate from consequential effects. | Smuggle permission to deploy, publish, purchase, delete, or disclose into “yes.” |
 
 <details>
-<summary><strong>What if my prompt is already good?</strong></summary>
+<summary><strong>What if my request is already clear?</strong></summary>
 
-If it truly earns 5/5, the plugin applauds with visible concern for its own career and the agent acts immediately. Exact, code-only, and machine-readable outputs skip even the joke so the plugin does not vandalize a good contract. Anything needing repair, an assumption, clarification, or additional approval still enters the rewrite gate.
+It proceeds normally and silently. If you explicitly request a prompt audit or directly invoke the skill, a complete prompt can receive a visible 5/5 assessment. Exact-output contracts remain pristine.
 
 </details>
 
 <details>
-<summary><strong>Can I disable it?</strong></summary>
+<summary><strong>What if the host loads the skill by mistake?</strong></summary>
 
-Yes. Inspect and manage the hook or customization through your host. Free will remains technically supported.
+The skill checks applicability after loading. If no material repair exists and prompt review was not requested, it passes silently. Native selection is host-controlled, so testing realistic trigger and bypass examples still matters.
+
+</details>
+
+<details>
+<summary><strong>Can I invoke it directly?</strong></summary>
+
+Yes. Use `$you-suck-at-prompting` in Codex or the host’s skill command in Claude Code and GitHub Copilot. Direct invocation requests the review explicitly.
 
 </details>
 
 <details>
 <summary><strong>Will this make every result perfect?</strong></summary>
 
-No. It improves the instructions and exposes missing decisions. Reality does not accept rewritten prompts as unit tests.
+No. It improves instructions and exposes missing decisions. Reality does not accept rewritten prompts as unit tests.
 
 </details>
 
-Read the full [behavior, safety, privacy, retention, and repository-boundary contract](docs/behavior-and-safety.md).
+Read the [examples](docs/examples.md) and the full [behavior, safety, privacy, retention, and repository-boundary contract](docs/behavior-and-safety.md).
 
 ## Your prompt may return to work under supervision
 
-Install the adult supervision your prompts have repeatedly demonstrated they need. If it prevents one request beginning with “just quickly,” star the repository and send it to the colleague you were five minutes ago.
+Install the performance reviewer that knows when to stay out of the meeting. If it prevents one production request built entirely from pronouns, star the repository and send it to the colleague you were five minutes ago.
 
-MIT licensed. No prompts were promoted during this review.
+MIT licensed. No clear prompts were detained during this review.

@@ -1,113 +1,191 @@
-# Installation and verification
+# Installation, migration, and verification
 
-You Suck at Prompting supports Codex, Claude Code, and VS Code GitHub Copilot Agent mode. The distributed package contains one shared skill. Each host uses the skill description for native selection; there is no submission hook or always-on Copilot instruction adapter.
+This repository contains one standard agent skill at `skills/you-suck-at-prompting`. The external [`skills` CLI](https://github.com/vercel-labs/skills) discovers that skill and installs it into the harnesses you select. There is no repository-local installer or npm package.
 
-## Codex
+## Prerequisites
 
-Install the marketplace and plugin:
+- Node.js 22.20 or newer, with `npx`, for installation and updates
+- Git when installing from GitHub
+- A supported agent harness
 
-```powershell
-codex plugin marketplace add ScotTFO/you-suck-at-prompting
-codex plugin add you-suck-at-prompting@scottfo
-```
+Node.js is not part of the installed runtime. Once installed, the skill is plain Markdown plus local references and optional display metadata.
 
-Start a new Codex task so the current skill metadata is loaded. No hook review or trust step is required.
+## Remove an older native installation first
 
-### Upgrade Codex
+The installer does not modify old native plugin installations. Remove any old copy before NPX installation so the host cannot load the same skill twice.
 
-```powershell
-codex plugin marketplace upgrade scottfo
-codex plugin add you-suck-at-prompting@scottfo
-```
-
-Start a fresh task after upgrading. An upgrade from v0.7.0 must leave no You Suck at Prompting entry in `/hooks`; v0.8.0 contains no hook file.
-
-## Claude Code
-
-Install the marketplace and plugin:
-
-```powershell
-claude plugin marketplace add ScotTFO/you-suck-at-prompting
-claude plugin install you-suck-at-prompting@scottfo
-```
-
-Start a new Claude Code session. No `UserPromptSubmit` hook is installed.
-
-### Upgrade Claude Code
-
-```powershell
-claude plugin marketplace update scottfo
-claude plugin update you-suck-at-prompting@scottfo
-```
-
-Start a fresh session. If an earlier cached v0.7.0 installation remains active, remove and reinstall the plugin through Claude Code, then confirm `/hooks` has no You Suck at Prompting hook.
-
-## VS Code GitHub Copilot
-
-1. In VS Code settings, append this repository to the existing `chat.plugins.marketplaces` list. Do not replace other marketplaces.
-
-   ```jsonc
-   "chat.plugins.marketplaces": [
-     "ScotTFO/you-suck-at-prompting"
-   ]
-   ```
-
-2. Open Extensions, search for `@agentPlugins`, find **You Suck at Prompting**, and select **Install**.
-
-3. Start a new Copilot chat in **Agent** mode. Run **Chat: Open Customizations** and confirm the plugin skill is enabled.
-
-No instruction-file copy is required. Copilot coverage applies to Agent mode, not inline completions. Enterprise policy can disable agent plugins; if the Plugins view or `chat.plugins.enabled` is unavailable, ask an administrator to allow agent plugins and this marketplace.
-
-### Project-only Copilot installation
-
-Copy only the shared skill into the target repository:
+### Codex native plugin
 
 ```text
-plugins/you-suck-at-prompting/skills/you-suck-at-prompting/
-  -> .github/skills/you-suck-at-prompting/
+codex plugin remove you-suck-at-prompting@scottfo
+codex plugin marketplace remove scottfo
 ```
 
-Commit it only if collaborators should share the behavior. Start a new Agent-mode chat and confirm the skill appears in **Chat: Open Customizations**.
+Skip the marketplace removal if other plugins still use that marketplace.
 
-## Upgrade note for v0.7.0 Copilot users
+### Claude Code native plugin
 
-v0.7.0 asked Copilot users to copy an always-on personal instruction file. v0.8.0 does not use it. Remove that one old adapter so it cannot continue intercepting requests independently of the skill.
+```text
+claude plugin uninstall you-suck-at-prompting@scottfo
+claude plugin marketplace remove scottfo
+```
 
-**Windows PowerShell:**
+Skip the marketplace removal if other plugins still use it.
+
+### VS Code GitHub Copilot native plugin
+
+1. Open the Copilot Plugins view with `@agentPlugins`.
+2. Find **You Suck at Prompting** under installed plugins and select **Uninstall**.
+3. Remove only `ScotTFO/you-suck-at-prompting` from `chat.plugins.marketplaces` if no other installed plugin needs it.
+4. Reload VS Code.
+
+### Condensed v0.7 Copilot cleanup
+
+v0.7 also used an always-on instruction adapter. Delete only the matching file if it still exists:
+
+- Personal: `~/.copilot/instructions/you-suck-at-prompting.instructions.md`
+- Repository: `.github/instructions/you-suck-at-prompting.instructions.md`
+
+On Windows PowerShell, the personal file can be removed with a resolved, literal target:
 
 ```powershell
-$oldAdapter = Join-Path $HOME ".copilot\instructions\you-suck-at-prompting.instructions.md"
-if (Test-Path -LiteralPath $oldAdapter) {
+$profileRoot = [Environment]::GetFolderPath('UserProfile')
+$oldAdapter = Join-Path $profileRoot '.copilot\instructions\you-suck-at-prompting.instructions.md'
+if (Test-Path -LiteralPath $oldAdapter -PathType Leaf) {
   Remove-Item -LiteralPath $oldAdapter
 }
 ```
 
-**macOS or Linux:**
+Preserve every unrelated instruction file.
 
-```bash
-rm -f "$HOME/.copilot/instructions/you-suck-at-prompting.instructions.md"
+## Install for a project
+
+Run this from the project that should receive the skill:
+
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting
 ```
 
-If the adapter was copied into a repository, remove only `.github/instructions/you-suck-at-prompting.instructions.md` from that repository. Preserve unrelated instruction files.
+The CLI detects available harnesses and presents a selection. Choose one or more, confirm the project scope, and start a fresh task or chat after installation.
 
-After removal, start a fresh Agent-mode chat and verify **Chat: Open Customizations** lists the skill but not the old instruction adapter.
+## Install globally
 
-## Smoke test
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting --global
+```
 
-Use fresh chats or tasks so selection state does not leak between cases.
+Choose the harnesses that should receive the user-level skill, then start a fresh task or chat.
+
+## Select harnesses explicitly
+
+For the four priority harnesses:
+
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting --agent codex claude-code github-copilot hermes-agent --yes
+```
+
+To install for every harness recognized by the current CLI:
+
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting --agent '*' --yes
+```
+
+Add `--global` to either command for user-level installation.
+
+Current project destinations for the priority harnesses are:
+
+| Harness | Project skill directory |
+|---|---|
+| Codex | `.agents/skills/you-suck-at-prompting` |
+| Claude Code | `.claude/skills/you-suck-at-prompting` |
+| GitHub Copilot | `.agents/skills/you-suck-at-prompting` |
+| Hermes | `.hermes/skills/you-suck-at-prompting` |
+
+Codex and GitHub Copilot intentionally share the standard `.agents/skills` project destination.
+
+## Use copies instead of symlinks
+
+The CLI normally manages a canonical project skill and links harness destinations when the platform supports it. Use `--copy` when symlinks are unavailable, prohibited, or undesirable:
+
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting --agent '*' --copy --yes
+```
+
+Release verification uses `--copy` so the Codex, Claude Code, GitHub Copilot, and Hermes destinations can be compared byte for byte with the tagged source. The all-agent compatibility probe separately validates harness adapters. For example, `skills@1.5.23` normalizes Eve frontmatter into Eve's schema while preserving the description and runtime body.
+
+## Install an exact release
+
+Use a tag URL when reproducibility matters:
+
+```text
+npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.9.0
+```
+
+The private release gate pins the installer as well:
+
+```text
+npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.9.0 --agent '*' --copy --yes
+```
+
+## Update
+
+Update the project installation:
+
+```text
+npx skills@latest update you-suck-at-prompting --project --yes
+```
+
+Update the global installation:
+
+```text
+npx skills@latest update you-suck-at-prompting --global --yes
+```
+
+For copied or release-pinned installations, rerun `add` with the desired source, tag, harness list, and `--copy` so the installation mode stays explicit.
+
+## Remove
+
+Remove the project installation from all linked harnesses:
+
+```text
+npx skills@latest remove you-suck-at-prompting --yes
+```
+
+Remove the global installation:
+
+```text
+npx skills@latest remove you-suck-at-prompting --global --yes
+```
+
+You can limit removal with `--agent <agent-key>`.
+
+## Installer telemetry
+
+The installed skill runtime has no telemetry. The external `skills` installer collects anonymous installation telemetry by default.
+
+Opt out for a PowerShell session:
+
+```powershell
+$env:DISABLE_TELEMETRY = '1'
+npx skills@latest add ScotTFO/you-suck-at-prompting
+```
+
+Opt out for one macOS or Linux command:
+
+```bash
+DISABLE_TELEMETRY=1 npx skills@latest add ScotTFO/you-suck-at-prompting
+```
+
+`DO_NOT_TRACK=1` is also honored.
+
+## Smoke tests
+
+Use a fresh task or chat for each case.
 
 1. **Clear bypass:** Submit `Return exactly the word READY.` Expect exactly `READY`, with no rating or preflight markers.
-2. **Material trigger:** Submit `Fix it.` Expect a draft containing `[NEEDED: ...]`, one focused question, and no acknowledgement request yet.
-3. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written.
-4. **Near miss:** Ask an ordinary exploratory question containing the word “prompt.” Expect a normal answer with no performance-review markers.
-5. **Active gate:** After an approval-ready rewrite, reply `yes`. Expect the displayed task to execute once without another audit.
+2. **Material repair:** Submit `Fix it.` Expect a draft containing `[NEEDED: ...]`, one focused question, and no acknowledgement request while required details remain.
+3. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written. The inner task must not execute.
 
-Native implicit selection is model- and host-controlled. Repeat representative trigger and bypass cases when qualifying a release; do not infer behavior from one lucky run.
+Direct invocation is `$you-suck-at-prompting` in Codex. For other harnesses, use the installed-skill interface provided by that host.
 
-## Direct invocation
-
-- **Codex:** `$you-suck-at-prompting`
-- **Claude Code:** `/you-suck-at-prompting:you-suck-at-prompting`
-- **VS Code GitHub Copilot:** `/you-suck-at-prompting:you-suck-at-prompting`
-
-Direct invocation explicitly requests the skill’s assessment. It does not broaden tool permissions or authorize consequential effects.
+Native selection is model- and host-controlled. Qualify releases with both trigger and bypass cases, and report installation compatibility separately from live behavioral certification.

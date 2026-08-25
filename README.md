@@ -2,44 +2,50 @@
 
 <p align="center">
   <strong>Your prompt is not always in trouble. We checked the policy.</strong><br>
-  The selective performance review for requests that could actually change the outcome.
+  A selective performance review for requests that could actually change the outcome.
 </p>
 
 <p align="center">
   <img alt="Prompting status: review when material" src="https://img.shields.io/badge/prompting_status-review_when_material-ff4d4d?style=for-the-badge">
-  <img alt="Works with Codex, Claude Code, and GitHub Copilot" src="https://img.shields.io/badge/works_with-Codex_%2B_Claude_Code_%2B_Copilot-6f42c1?style=for-the-badge">
-  <img alt="Telemetry: absolutely not" src="https://img.shields.io/badge/telemetry-absolutely_not-2ea44f?style=for-the-badge">
+  <img alt="Standard agent skill" src="https://img.shields.io/badge/package-standard_agent_skill-6f42c1?style=for-the-badge">
+  <img alt="Skill runtime telemetry: none" src="https://img.shields.io/badge/skill_runtime_telemetry-none-2ea44f?style=for-the-badge">
 </p>
 
 > [!WARNING]
 > **“Fix it.” has been placed on a PIP.** Clear requests may continue working without supervision.
 
-**You Suck at Prompting** is an installable skill for Codex, Claude Code, and VS Code GitHub Copilot Agent mode. Each host can select it from its description when a request explicitly asks for prompt work or contains a material problem: ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the result.
+## Install
 
-Clear, actionable, exploratory, conversational, and safely discoverable requests proceed normally. No rating. No hook. No preflight ceremony. The tiny bureaucrat is now on call instead of standing in every doorway with a clipboard.
+You need Node.js 22.20 or newer for installation and updates. The installed skill itself is plain Markdown and does not need Node.js.
 
-When repair is needed, the skill still makes the problem visible, preserves intent, asks only material questions, and waits for acknowledgement before executing a rewritten task. Safety, approval, privacy, and authority boundaries remain in force.
+### Project
 
-<p align="center">
-  <a href="#install-the-on-call-manager"><strong>Install</strong></a> ·
-  <a href="#what-earns-a-meeting"><strong>What triggers it</strong></a> ·
-  <a href="#selective-remedial-training"><strong>How it works</strong></a> ·
-  <a href="docs/behavior-and-safety.md"><strong>Safety and privacy</strong></a>
-</p>
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting
+```
 
-## Exhibit A: “Fix it.” still arrives naked and confident
+### Global
 
-**Original prompt:**
+```text
+npx skills@latest add ScotTFO/you-suck-at-prompting --global
+```
+
+The installer detects available harnesses and lets you choose where the skill goes. For CI, explicit harness selection, pinned releases, removal of older native plugins, and systems that need `--copy`, use the [complete installation and migration guide](docs/installation.md).
+
+> [!IMPORTANT]
+> Already installed the old Codex, Claude Code, or VS Code Copilot plugin? Remove it first. Two copies produce two tiny managers, and neither accepts shared accountability.
+
+The [`skills` CLI](https://github.com/vercel-labs/skills) can install this standard skill for every harness it currently supports. Release verification explicitly checks Codex, Claude Code, GitHub Copilot, and Hermes destinations. Behavioral certification is reported separately from installation compatibility.
+
+## Exhibit A: a verb arrives without adult supervision
+
+**Before:**
 
 ```text
 Fix it.
 ```
 
-**The skill:**
-
-Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
-
-Draft rewritten prompt:
+**After:**
 
 ```text
 Investigate and fix [NEEDED: the specific failure or undesired behavior]
@@ -49,117 +55,42 @@ Keep the change limited to the identified problem and verify the fix with
 the smallest relevant test or reproduction.
 ```
 
-Prompt performance rating: 1/5 - This prompt brought a verb to a requirements meeting.
-
-What is broken, and where are you seeing it?
-
-Expected prompt impact: The answer identifies the target, limits the change, and determines the verification.
-
-After the missing facts are supplied, the skill shows the complete rewrite and waits for acknowledgement. The original grade does not improve because HR keeps receipts.
+The skill asks what is broken and where. It does not request acknowledgement while material placeholders remain. Once the missing facts are supplied, it shows the complete repair and waits before execution. HR keeps the original 1/5 rating for training purposes.
 
 ## What earns a meeting
 
 | Request | Result |
 |---|---|
-| “Rename `load_item` to `load_record` in `loader.py` and run the focused unit test.” | Proceeds silently. The repository can supply the local details. |
+| “Rename `load_item` to `load_record` in `loader.py` and run the focused unit test.” | Proceeds silently. Local details are safely discoverable. |
 | “What does `git rebase` do?” | Proceeds silently. Exploratory questions are not misconduct. |
-| “Improve this prompt: …” | Loads for the requested prompt review. |
+| “Improve this prompt: …” | Loads because prompt review is the requested work. |
 | “Deploy it.” | Loads because the target and authority are material. |
-| “Use three agents to change one typo.” | Loads because the execution design could change the work. |
-| “Thanks.” | Proceeds as ordinary conversation unless it acknowledges an active displayed rewrite. |
+| “Thanks.” | Proceeds normally unless it acknowledges an active displayed rewrite. |
 
-A host can occasionally select a skill for a near miss. The skill performs its own applicability check and passes the request through silently when no material repair exists. A false-positive load is not a compulsory audit.
+The host uses the skill description to decide whether to load it. The skill then checks applicability again. A near miss passes through silently, with no rating, kickoff, rewrite, or surprise annual review.
 
-## Selective remedial training
+## The performance contract
 
-```mermaid
-flowchart TD
-    A["You submit a request"] --> B{"Description matches prompt work or a material problem?"}
-    B -- "No" --> C["Host handles it normally"]
-    B -- "Yes" --> D["Skill checks applicability"]
-    D --> E{"Material repair needed?"}
-    E -- "No, ordinary task" --> C
-    E -- "No, explicit audit" --> F["Show 5/5 assessment or unchanged prompt"]
-    E -- "Yes" --> G{"Material detail missing?"}
-    G -- "Yes" --> H["Show draft + ask one focused question"]
-    G -- "No" --> I["Show approval-ready rewrite"]
-    H --> I
-    I --> J{"User acknowledges active rewrite?"}
-    J -- "No" --> K["Nothing executes"]
-    J -- "Yes" --> L["Execute once within existing authority"]
-```
+- Preserve the user’s goal, scope, constraints, voice, and explicit choices.
+- Recover safely discoverable facts before calling them missing.
+- Repair only material problems that could change the result.
+- Ask one focused question when a required decision is still unknown.
+- Keep prompt acknowledgement separate from permission to publish, deploy, purchase, delete, disclose, schedule, or change access.
+- Never create tools, agents, persistence, schedules, or authority the host did not already provide.
 
-A visible 5/5 assessment appears only for an explicit prompt audit or direct skill invocation. Ordinary clear requests do not get applause, commentary, or a surprise annual review.
+Direct invocation requests a visible review. In Codex, use `$you-suck-at-prompting`. Other harnesses expose installed skills through their own skill interface.
 
-Prompt acknowledgement authorizes the displayed task within existing authority. It does not silently authorize publishing, deployment, purchase, deletion, disclosure, scheduling, or permission changes. The prompt may have improved; it has not been promoted to management.
+## Privacy reviewed the clipboard
 
-The selection model follows the native skill mechanisms documented by [OpenAI](https://learn.chatgpt.com/docs/build-skills), [Claude Code](https://code.claude.com/docs/en/slash-commands), and [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills).
+The skill runtime has no telemetry, MCP server, hook, credential requirement, external service, or always-on instruction file. Normal processing by the selected host still applies.
 
-## Install the on-call manager
+The external `skills` installer collects anonymous telemetry by default. Set `DISABLE_TELEMETRY=1` or `DO_NOT_TRACK=1` while running it to opt out. See the [installation guide](docs/installation.md) for shell-specific examples.
 
-**Codex:**
+## The filing cabinet
 
-```powershell
-codex plugin marketplace add ScotTFO/you-suck-at-prompting
-codex plugin add you-suck-at-prompting@scottfo
-```
-
-**Claude Code:**
-
-```powershell
-claude plugin marketplace add ScotTFO/you-suck-at-prompting
-claude plugin install you-suck-at-prompting@scottfo
-```
-
-**VS Code GitHub Copilot:** add this marketplace to `chat.plugins.marketplaces`, then install **You Suck at Prompting** from `@agentPlugins`.
-
-There is no hook to trust and no Copilot instruction file to copy. Start a fresh task or chat after installation. Existing Copilot users upgrading from v0.7.0 should remove the old personal instruction adapter; the exact migration steps are in the [installation and upgrade guide](docs/installation.md).
-
-## Legal reviewed the jokes. Legal was right.
-
-> [!IMPORTANT]
-> **No new prompt destination:** the skill has no telemetry, MCP server, external service, hook, credential requirement, or always-on instruction adapter. Normal processing by the chosen host still applies.
-
-| The tiny bureaucrat does | The tiny bureaucrat is not authorized to do |
-|---|---|
-| Repairs requests only when a material problem could change the work. | Turn optional improvements into mandatory ceremony. |
-| Recovers safely discoverable facts before declaring them missing. | Invent requirements, permissions, destinations, or user taste. |
-| Requires real verification when completion needs proof. | Accept confidence as a test result because it owns expensive shoes. |
-| Adds bounded execution controls only when material. | Create agents, schedules, persistence, tools, or host capabilities. |
-| Keeps prompt acknowledgement separate from consequential effects. | Smuggle permission to deploy, publish, purchase, delete, or disclose into “yes.” |
-
-<details>
-<summary><strong>What if my request is already clear?</strong></summary>
-
-It proceeds normally and silently. If you explicitly request a prompt audit or directly invoke the skill, a complete prompt can receive a visible 5/5 assessment. Exact-output contracts remain pristine.
-
-</details>
-
-<details>
-<summary><strong>What if the host loads the skill by mistake?</strong></summary>
-
-The skill checks applicability after loading. If no material repair exists and prompt review was not requested, it passes silently. Native selection is host-controlled, so testing realistic trigger and bypass examples still matters.
-
-</details>
-
-<details>
-<summary><strong>Can I invoke it directly?</strong></summary>
-
-Yes. Use `$you-suck-at-prompting` in Codex or the host’s skill command in Claude Code and GitHub Copilot. Direct invocation requests the review explicitly.
-
-</details>
-
-<details>
-<summary><strong>Will this make every result perfect?</strong></summary>
-
-No. It improves instructions and exposes missing decisions. Reality does not accept rewritten prompts as unit tests.
-
-</details>
-
-Read the [examples](docs/examples.md) and the full [behavior, safety, privacy, retention, and repository-boundary contract](docs/behavior-and-safety.md).
-
-## Your prompt may return to work under supervision
-
-Install the performance reviewer that knows when to stay out of the meeting. If it prevents one production request built entirely from pronouns, star the repository and send it to the colleague you were five minutes ago.
+- [Installation, migration, updates, removal, and smoke tests](docs/installation.md)
+- [Three representative behaviors](docs/examples.md)
+- [Behavior, safety, privacy, retention, and repository boundaries](docs/behavior-and-safety.md)
+- [Canonical skill runtime](skills/you-suck-at-prompting/SKILL.md)
 
 MIT licensed. No clear prompts were detained during this review.

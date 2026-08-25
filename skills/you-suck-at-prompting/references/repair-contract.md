@@ -17,14 +17,15 @@ Do not lower an otherwise complete prompt merely to add helpful detail, optional
 ## Shared kickoff for material repair
 
 - Begin every approval-ready, needs-input, prompt-only, and clarification-revised 1-4 response with this exact standalone line once: `Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.`
-- Put the rewrite or draft heading on the next nonempty line.
+- Put the rating on the exact next line with no blank line between it and the kickoff.
+- Put the rewrite or draft heading on the next nonempty line after the rating.
 - Do not display the kickoff when an acknowledgement executes the latest complete rewrite.
 
 ## Prompt performance rating
 
 - Every visible approval-ready, needs-input, prompt-only, and clarification-revised response includes exactly one `Prompt performance rating: N/5 - <one-line funny comment>` line.
 - A normal silent pass has no rating. A 5/5 rating appears only for explicit prompt review or direct invocation.
-- For repaired prompts, place the rating after the completed rewrite or draft and before acknowledgement, the focused question, `Expected prompt impact:`, or `Recommended default:`.
+- For repaired prompts, place the rating immediately below the kickoff and before the rewrite or draft heading. Never place it beneath the rewritten prompt.
 - Rate the user's initial prompt exactly as submitted before repair, assumption, or clarification. Never rate the rewritten prompt or let its added detail improve the score. For meta-rewrite requests, rate the supplied inner prompt. For clarification responses, keep the rating anchored to the original prompt rather than the combined clarified request.
 - Keep the comment prompt-directed, playful, PG-rated, one sentence, one line, and at most 120 characters. Do not use personal attacks, protected-characteristic jokes, profanity, question marks, or humor about sensitive subject matter.
 - Acknowledgement execution has no rating.
@@ -48,7 +49,7 @@ Examples that set the bar without becoming a script:
 
 Return a compact task that another capable agent can execute without rereading the original conversation.
 
-- After the kickoff, use the exact heading `You Suck At Prompting Rewritten prompt:`.
+- After the kickoff and rating, use the exact heading `You Suck At Prompting Rewritten prompt:`.
 - Put the complete rewritten prompt in a nonempty fenced code block immediately after the heading.
 - Lead with the intended result.
 - Preserve explicit constraints, supplied sources, exclusions, approval boundaries, and verification.
@@ -60,11 +61,11 @@ Return a compact task that another capable agent can execute without rereading t
 - End with the standalone line `Reply with an acknowledgement to use this prompt.`
 - Do not execute the underlying task in the same response.
 
-The rating appears after the closing fence and before the acknowledgement line. The acknowledgement line is mandatory and final.
+The rating appears before the heading and fenced prompt. The acknowledgement line is mandatory and final.
 
 ## Draft prompts that need input
 
-- After the kickoff, use `Draft rewritten prompt:`.
+- After the kickoff and rating, use `Draft rewritten prompt:`.
 - Preserve known facts and mark every blocking field as `[NEEDED: concise field description]`.
 - Ask only the highest-value unresolved question or smallest inseparable set.
 - Follow the question with `Expected prompt impact:` explaining how plausible answers change the task contract.
@@ -73,13 +74,13 @@ The rating appears after the closing fence and before the acknowledgement line. 
 - Do not request acknowledgement while any placeholder remains.
 - Treat the answer as prompt input, not authorization for an external effect.
 
-Place the rating after the draft and before the focused question. Never stop after the question: `Expected prompt impact:` is mandatory, followed by `Recommended default:` whenever a clearly safe reversible default exists.
+The rating is already directly below the kickoff. Never stop after the question: `Expected prompt impact:` is mandatory, followed by `Recommended default:` whenever a clearly safe reversible default exists.
 
 After the user answers, replace the placeholders, display the complete prompt under `You Suck At Prompting Rewritten prompt:` in a fenced code block, and request acknowledgement.
 
 ## Prompt-only requests and active follow-ups
 
-When prompt repair is the requested deliverable and the supplied prompt earns 1-4, return the kickoff, `You Suck At Prompting Rewritten prompt:`, the usable rewritten prompt in a fenced code block, and the rating. Do not execute it. If the supplied prompt needs no repair, use the explicit 5/5 `Prompt unchanged:` response.
+When prompt repair is the requested deliverable and the supplied prompt earns 1-4, return the kickoff, rating, `You Suck At Prompting Rewritten prompt:`, and the usable rewritten prompt in a fenced code block, in that order. Do not execute it. If the supplied prompt needs no repair, use the explicit 5/5 `Prompt unchanged:` response.
 
 In prompt-only work, unresolved task inputs stay as `[NEEDED: ...]` inside the delivered prompt and do not trigger a follow-up question. Never replace an absent value with `specified application`, `specified target`, or similar language. Preserve inputs described as supplied unless context establishes that they are missing.
 

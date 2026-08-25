@@ -24,7 +24,7 @@ Selection is host-controlled and may be imperfect. The skill repeats the applica
 
 A clarification, edit, or qualification revises the displayed prompt and resets its acknowledgement gate. An unrelated request abandons the old gate and receives a new applicability check.
 
-Every visible 1-4 rewrite or draft includes one `Prompt performance rating: N/5 - ...` line. The score judges the initial prompt before repair. Clarification can improve the task without retroactively improving the original score.
+Every visible 1-4 rewrite or draft puts one `Prompt performance rating: N/5 - ...` line immediately below the kickoff and before the rewrite heading. The score judges the initial prompt before repair. Its position makes that target visible. Clarification can improve the task without retroactively improving the original score.
 
 That rating line carries one real punchline. The voice is slightly brutal and playful, but the joke targets prompt mechanics, never the person. Generic comments such as `Needs more detail` fail the personality contract. Serious and sensitive subjects get dry plugin self-deprecation instead of jokes about the subject.
 

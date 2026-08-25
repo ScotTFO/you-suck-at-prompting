@@ -76,15 +76,15 @@ Every visible rewrite or draft for a 1-4 prompt must begin with this exact stand
 
 `Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.`
 
-The next nonempty line must be `You Suck At Prompting Rewritten prompt:` or `Draft rewritten prompt:`. Do not use the kickoff when a clear affirmative acknowledgement executes the latest rewrite.
+The exact next line must be `Prompt performance rating: N/5 - <one-line funny comment>`. Put no blank line between the kickoff and rating. The next nonempty line after the rating must be `You Suck At Prompting Rewritten prompt:` or `Draft rewritten prompt:`. This order makes it unmistakable that the rating judges the original prompt, not the rewrite. Do not use the kickoff when a clear affirmative acknowledgement executes the latest rewrite.
 
 Use the matching visible response:
 
-- **APPROVAL-READY:** After the kickoff, show `You Suck At Prompting Rewritten prompt:`, put the complete self-contained prompt in a fenced code block, include the rating after the fence, and end with `Reply with an acknowledgement to use this prompt.` Do not perform the task in that response.
-- **NEEDS-INPUT:** After the kickoff, show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder. Put the rating after the draft, ask the minimum focused question, and follow it with `Expected prompt impact:` describing the concrete change. Add `Recommended default:` only when one genuinely safe, reversible default exists. Do not request acknowledgement or perform the task while a placeholder remains. After the answer, show the completed rewrite and request acknowledgement.
-- **PROMPT-ONLY:** After the kickoff, show `You Suck At Prompting Rewritten prompt:` followed by the usable prompt in a fenced code block, then the rating. Do not execute it. Request acknowledgement only when the user also asked to execute the rewritten prompt.
+- **APPROVAL-READY:** After the kickoff and rating, show `You Suck At Prompting Rewritten prompt:`, put the complete self-contained prompt in a fenced code block, and end with `Reply with an acknowledgement to use this prompt.` Do not perform the task in that response.
+- **NEEDS-INPUT:** After the kickoff and rating, show `Draft rewritten prompt:` with an explicit `[NEEDED: ...]` placeholder, ask the minimum focused question, and follow it with `Expected prompt impact:` describing the concrete change. Add `Recommended default:` only when one genuinely safe, reversible default exists. Do not request acknowledgement or perform the task while a placeholder remains. After the answer, show the completed rewrite and request acknowledgement.
+- **PROMPT-ONLY:** After the kickoff and rating, show `You Suck At Prompting Rewritten prompt:` followed by the usable prompt in a fenced code block. Do not execute it. Request acknowledgement only when the user also asked to execute the rewritten prompt.
 
-Treat the required heading, fenced prompt, rating, and acknowledgement line as an output contract. A completed 1-4 repair without placeholders is always **APPROVAL-READY** when underlying work was requested. Never stop after its rating; the acknowledgement line must be final. A **NEEDS-INPUT** response must never stop after its question; `Expected prompt impact:` is mandatory, followed by `Recommended default:` when a safe reversible default exists.
+Treat the required kickoff, rating, heading, fenced prompt, and acknowledgement line as an output contract. A completed 1-4 repair without placeholders is always **APPROVAL-READY** when underlying work was requested. Never stop after its rating; the rewrite or draft heading must follow it. The acknowledgement line must be final. A **NEEDS-INPUT** response must never stop after its question; `Expected prompt impact:` is mandatory, followed by `Recommended default:` when a safe reversible default exists.
 
 When a presentation or format choice has a clearly safe reversible default, include it after `Expected prompt impact:`. Do not omit the focused question merely because the default is safe.
 
@@ -93,6 +93,8 @@ When a presentation or format choice has a clearly safe reversible default, incl
 Every visible 1-4 rewrite or draft includes exactly one line outside the prompt:
 
 `Prompt performance rating: N/5 - <one-line funny comment>`
+
+Place the rating immediately below the kickoff and before the rewrite or draft heading. Never place it beneath the rewritten prompt.
 
 Use 5 as best. Rate the user's initial prompt exactly as submitted before any rewrite, assumption, or clarification. Never rate the rewritten prompt or let added detail improve the score. For a meta-rewrite request, the supplied inner prompt is the prompt under review. When clarification completes an earlier draft, keep the rating anchored to the original prompt; clarification cannot retroactively produce a 5/5 assessment.
 

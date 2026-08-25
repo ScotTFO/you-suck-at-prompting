@@ -160,7 +160,7 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertGreaterEqual(len(short.group(1)), 25)
         self.assertLessEqual(len(short.group(1)), 64)
 
-    def test_v080_behavior_contract_is_unchanged(self) -> None:
+    def test_selective_behavior_contract_is_preserved(self) -> None:
         skill = SKILL_PATH.read_text(encoding="utf-8")
         repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
         materiality = MATERIALITY_CONTRACT_PATH.read_text(encoding="utf-8")
@@ -198,6 +198,26 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("Prompting Performance Improvement Plan", skill)
         self.assertIn("lint messages wearing fake mustaches", skill)
         self.assertIn("never the user's intelligence", repair)
+
+    def test_rating_is_directly_below_kickoff_and_before_rewrite(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
+        examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
+
+        for text in (skill, repair):
+            self.assertIn("rating immediately below the kickoff", text)
+            self.assertIn("before the rewrite or draft heading", text)
+            self.assertIn("Never place it beneath the rewritten prompt", text)
+
+        material_example = examples.split("## Material repair", 1)[1].split(
+            "## Explicit review", 1
+        )[0]
+        kickoff_index = material_example.index(KICKOFF)
+        rating_index = material_example.index("Prompt performance rating:")
+        heading_index = material_example.index("Draft rewritten prompt:")
+        self.assertLess(kickoff_index, rating_index)
+        self.assertLess(rating_index, heading_index)
+        self.assertIn(f"{KICKOFF}\nPrompt performance rating:", material_example)
 
     def test_readme_is_short_and_installation_is_above_the_example(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

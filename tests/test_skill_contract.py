@@ -10,6 +10,7 @@ OPENAI_PATH = SKILL_ROOT / "agents" / "openai.yaml"
 REPAIR_CONTRACT_PATH = SKILL_ROOT / "references" / "repair-contract.md"
 MATERIALITY_CONTRACT_PATH = SKILL_ROOT / "references" / "materiality-and-authority.md"
 VERSION_PATH = ROOT / "VERSION"
+VALIDATION_WORKFLOW_PATH = ROOT / ".github" / "workflows" / "validate-skill.yml"
 KICKOFF = (
     "Analyzing whether You Suck at Prompting… your prompt’s performance "
     "review is underway."
@@ -115,6 +116,18 @@ class SkillPackageContractTests(unittest.TestCase):
         raw = VERSION_PATH.read_text(encoding="utf-8")
         self.assertRegex(raw, r"^\d+\.\d+\.\d+\n?$")
         self.assertGreaterEqual(tuple(map(int, raw.strip().split("."))), (0, 9, 0))
+
+    def test_validation_workflow_keeps_the_protected_validate_context(self) -> None:
+        workflow = VALIDATION_WORKFLOW_PATH.read_text(encoding="utf-8")
+        self.assertRegex(workflow, r"(?m)^  validate:\s*$")
+        self.assertRegex(workflow, r"(?m)^    name: validate\s*$")
+        for dependency in (
+            "offline-contract",
+            "version-policy",
+            "pinned-installer",
+            "latest-discovery",
+        ):
+            self.assertIn(f"      - {dependency}\n", workflow)
 
     def test_skill_uses_the_exact_selective_description(self) -> None:
         metadata = self.skill_frontmatter()

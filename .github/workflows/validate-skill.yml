@@ -296,3 +296,43 @@ jobs:
               raise SystemExit("skills@latest did not discover exactly one skill")
           if "you-suck-at-prompting" not in clean:
               raise SystemExit("expected skill name was not listed")
+
+  validate:
+    name: validate
+    if: ${{ always() }}
+    needs:
+      - offline-contract
+      - version-policy
+      - pinned-installer
+      - latest-discovery
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every skill-package check
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          OFFLINE_CONTRACT: ${{ needs.offline-contract.result }}
+          VERSION_POLICY: ${{ needs.version-policy.result }}
+          PINNED_INSTALLER: ${{ needs.pinned-installer.result }}
+          LATEST_DISCOVERY: ${{ needs.latest-discovery.result }}
+        run: |
+          python - <<'PY'
+          import os
+
+          expected = {
+              "OFFLINE_CONTRACT": "success",
+              "VERSION_POLICY": (
+                  "success" if os.environ["EVENT_NAME"] == "pull_request" else "skipped"
+              ),
+              "PINNED_INSTALLER": "success",
+              "LATEST_DISCOVERY": "success",
+          }
+          actual = {name: os.environ[name] for name in expected}
+          failures = {
+              name: {"expected": expected[name], "actual": actual[name]}
+              for name in expected
+              if actual[name] != expected[name]
+          }
+          if failures:
+              raise SystemExit(f"skill-package validation failed: {failures}")
+          print("Every skill-package validation job passed")
+          PY

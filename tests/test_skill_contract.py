@@ -185,6 +185,20 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("If any condition fails, do not ask", materiality)
         self.assertIn("Never treat a polished prompt as authorization", materiality)
 
+    def test_visible_reviews_require_a_memorable_prompt_directed_roast(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
+
+        for text in (skill, repair):
+            self.assertIn("one real punchline", text)
+            self.assertIn("Make it sting for half a second", text)
+            self.assertIn("Slightly brutal means candid plus funny, not cruel", text)
+            self.assertIn("serious or sensitive", text)
+            self.assertIn("rating comment carries the joke", text.casefold())
+        self.assertIn("Prompting Performance Improvement Plan", skill)
+        self.assertIn("lint messages wearing fake mustaches", skill)
+        self.assertIn("never the user's intelligence", repair)
+
     def test_readme_is_short_and_installation_is_above_the_example(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         words = re.findall(r"\b[\w’'-]+\b", readme)
@@ -198,12 +212,13 @@ class SkillPackageContractTests(unittest.TestCase):
 
     def test_installation_is_the_complete_lifecycle_contract(self) -> None:
         install = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
+        version = VERSION_PATH.read_text(encoding="utf-8").strip()
         required = (
             "Node.js 22.20",
             "--agent codex claude-code github-copilot hermes-agent",
             "--agent '*'",
             "--copy",
-            "tree/v0.9.0",
+            f"tree/v{version}",
             "update you-suck-at-prompting --project",
             "update you-suck-at-prompting --global",
             "remove you-suck-at-prompting --yes",

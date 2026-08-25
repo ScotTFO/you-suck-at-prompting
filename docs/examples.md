@@ -29,6 +29,7 @@ Fix it.
 **Skill response:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+Prompt performance rating: 1/5 - This prompt filed a verb, lost the target, and still requested expedited handling.
 
 Draft rewritten prompt:
 
@@ -39,8 +40,6 @@ in [NEEDED: the affected application, repository, or file].
 Keep the change limited to the identified problem and verify the fix with
 the smallest relevant test or reproduction.
 ```
-
-Prompt performance rating: 1/5 - This prompt filed a verb, lost the target, and still requested expedited handling.
 
 What is broken, and where are you seeing it?
 

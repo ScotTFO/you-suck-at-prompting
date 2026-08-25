@@ -40,7 +40,7 @@ Keep the change limited to the identified problem and verify the fix with
 the smallest relevant test or reproduction.
 ```
 
-Prompt performance rating: 1/5 - This prompt submitted a verb and called it a project plan.
+Prompt performance rating: 1/5 - This prompt filed a verb, lost the target, and still requested expedited handling.
 
 What is broken, and where are you seeing it?
 
@@ -59,7 +59,7 @@ local references, run the focused unit test, and do not commit or push.
 
 **Skill response:**
 
-Prompt performance rating: 5/5 - This prompt brought scope, proof, and restraint; our department is now overstaffed.
+Prompt performance rating: 5/5 - Annoyingly complete; the Prompting Improvement Department has begun layoffs.
 
 Prompt unchanged:
 

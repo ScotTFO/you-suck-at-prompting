@@ -26,6 +26,8 @@ A clarification, edit, or qualification revises the displayed prompt and resets 
 
 Every visible 1-4 rewrite or draft includes one `Prompt performance rating: N/5 - ...` line. The score judges the initial prompt before repair. Clarification can improve the task without retroactively improving the original score.
 
+That rating line carries one real punchline. The voice is slightly brutal and playful, but the joke targets prompt mechanics, never the person. Generic comments such as `Needs more detail` fail the personality contract. Serious and sensitive subjects get dry plugin self-deprecation instead of jokes about the subject.
+
 ## Materiality and execution shaping
 
 A gap is material only when reasonable answers could change the outcome, scope, acceptance, safety, authority, privacy, destination, or resulting work. The skill retrieves safely discoverable facts before asking and does not manufacture repair from optional polish.

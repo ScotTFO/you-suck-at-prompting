@@ -1,4 +1,4 @@
-name: publish plugin release
+name: publish skill release
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Read plugin version
+      - name: Read VERSION
         id: version
         run: |
-          version="$(python -c 'import json; p="plugins/you-suck-at-prompting/"; g=json.load(open(p+"plugin.json")); c=json.load(open(p+".codex-plugin/plugin.json")); a=json.load(open(p+".claude-plugin/plugin.json")); assert g["name"] == c["name"] == a["name"], "Agent Plugins, Codex, and Claude names differ"; assert g["version"] == c["version"] == a["version"], "Agent Plugins, Codex, and Claude versions differ"; print(c["version"])')"
+          version="$(python -c 'import pathlib,re; raw=pathlib.Path("VERSION").read_text(encoding="utf-8"); assert re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+\n?", raw), "VERSION must be strict stable semver"; print(raw.strip())')"
           echo "version=$version" >> "$GITHUB_OUTPUT"
       - name: Create immutable GitHub release
         env:

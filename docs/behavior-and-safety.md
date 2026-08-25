@@ -4,7 +4,7 @@ You Suck at Prompting is a selectively loaded prompt-repair skill, not an execut
 
 ## Selective activation
 
-Codex, Claude Code, and GitHub Copilot can select a skill when a request matches its description. This package describes both positive and negative applicability:
+Supported agent harnesses can select a skill when a request matches its description. This package describes both positive and negative applicability. Installation compatibility and live behavioral certification are reported separately.
 
 - Load for explicit prompt writing, rewriting, critique, clarification, audit, or quality review.
 - Load for material ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the outcome.
@@ -49,20 +49,22 @@ Consequential effects retain their own explicit approval gates. A polished promp
 
 ## Privacy and package operation
 
-This package creates no additional destination for prompts. Normal Codex, Claude Code, or GitHub Copilot processing still applies.
+This skill creates no additional destination for prompts. Normal processing by the selected harness still applies.
 
-The distributed plugin has:
+The skill runtime has no telemetry.
 
-- one shared skill;
+The distributed skill has:
+
+- one Markdown runtime;
 - no prompt-submission hook;
 - no always-on Copilot instruction adapter;
 - no MCP server;
 - no external service;
-- no telemetry;
+- no runtime telemetry;
 - no credential requirement; and
 - no automatic modification of global instructions.
 
-Because there is no hook or adapter, the plugin does not receive a second copy of each submitted prompt or run an auxiliary process on submission. The selected host reads the skill instructions as part of its normal customization flow. Users can disable or remove the skill through the host’s customization controls.
+Because there is no hook or adapter, the skill does not receive a second copy of each submitted prompt or run an auxiliary process on submission. The selected host reads the skill instructions as part of its normal customization flow. The external `skills` installer collects anonymous installation telemetry by default; set `DISABLE_TELEMETRY=1` or `DO_NOT_TRACK=1` during installation to opt out. See the [installation guide](installation.md) for lifecycle commands.
 
 ## Retention and repository boundary
 
@@ -70,4 +72,4 @@ Real usage prompts are never retained automatically. The exact phrase `SAVE CASE
 
 The public repository contains only the distributable skill, documentation, package-contract tests, and validation automation. Behavioral evaluation data and maintainer automation remain outside the public package. Your installation does not arrive with a directory named `totally-not-telemetry` because even the joke would be suspicious.
 
-The runtime contract in [`SKILL.md`](../plugins/you-suck-at-prompting/skills/you-suck-at-prompting/SKILL.md) is authoritative if this explanation ever drifts.
+The runtime contract in [`SKILL.md`](../skills/you-suck-at-prompting/SKILL.md) is authoritative if this explanation ever drifts.

@@ -1,0 +1,338 @@
+name: validate skill package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-contract:
+    name: offline contract (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Validate layout, behavior, privacy, version, and docs
+        run: python -B -m unittest tests.test_skill_contract
+
+  version-policy:
+    name: enforce runtime version policy
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Require a version increase for runtime changes
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          root = Path.cwd()
+          raw = (root / "VERSION").read_text(encoding="utf-8")
+          if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+\n?", raw):
+              raise SystemExit("VERSION must contain one strict stable semver")
+          version = raw.strip()
+          current = tuple(map(int, version.split(".")))
+          base = f"origin/{os.environ['BASE_REF']}"
+          changed = subprocess.check_output(
+              ["git", "diff", "--name-only", f"{base}...HEAD"],
+              text=True,
+          ).splitlines()
+
+          runtime_prefix = "skills/you-suck-at-prompting/"
+          runtime_changed = any(path.startswith(runtime_prefix) for path in changed)
+          if runtime_changed:
+              probe = subprocess.run(
+                  ["git", "show", f"{base}:VERSION"],
+                  text=True,
+                  capture_output=True,
+                  check=False,
+              )
+              if probe.returncode == 0:
+                  base_version = probe.stdout.strip()
+              else:
+                  legacy = subprocess.check_output(
+                      [
+                          "git",
+                          "show",
+                          (
+                              f"{base}:plugins/you-suck-at-prompting/"
+                              ".codex-plugin/plugin.json"
+                          ),
+                      ],
+                      text=True,
+                  )
+                  base_version = json.loads(legacy)["version"]
+              if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", base_version):
+                  raise SystemExit("base release version is not strict semver")
+              previous = tuple(map(int, base_version.split(".")))
+              if current <= previous:
+                  raise SystemExit(
+                      f"Runtime changes require VERSION above {base_version}; found {version}"
+                  )
+
+          if os.environ.get("HEAD_REF", "").startswith("codex/skill-improvement-"):
+              allowed_exact = {
+                  "VERSION",
+                  f"{runtime_prefix}SKILL.md",
+                  f"{runtime_prefix}agents/openai.yaml",
+              }
+              reference_prefix = f"{runtime_prefix}references/"
+              invalid = [
+                  path
+                  for path in changed
+                  if path not in allowed_exact
+                  and not (
+                      path.startswith(reference_prefix)
+                      and path.endswith(".md")
+                  )
+              ]
+              if invalid:
+                  raise SystemExit(
+                      "Automated improvement PR changed non-release paths: "
+                      + ", ".join(invalid)
+                  )
+
+          print(f"Validated runtime version policy at {version}")
+          PY
+
+  pinned-installer:
+    name: skills 1.5.23 project copy (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.20.0"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install all harness copies and compare fingerprints
+        shell: python
+        run: |
+          import hashlib
+          import os
+          import shutil
+          import subprocess
+          import tempfile
+          from pathlib import Path
+
+          repository = Path.cwd().resolve()
+          source = repository / "skills" / "you-suck-at-prompting"
+          name = "you-suck-at-prompting"
+
+          def fingerprint(root: Path) -> str:
+              digest = hashlib.sha256()
+              for path in sorted(item for item in root.rglob("*") if item.is_file()):
+                  relative = path.relative_to(root).as_posix().encode("utf-8")
+                  digest.update(relative)
+                  digest.update(b"\0")
+                  digest.update(path.read_bytes())
+                  digest.update(b"\0")
+              return digest.hexdigest()
+
+          npx = shutil.which("npx.cmd") or shutil.which("npx")
+          if not npx:
+              raise SystemExit("npx was not found")
+          env = dict(os.environ)
+          env["DISABLE_TELEMETRY"] = "1"
+          env["CI"] = "true"
+
+          with tempfile.TemporaryDirectory(prefix="ysap-skills-install-") as raw:
+              project = Path(raw)
+              subprocess.run(["git", "init", "-q"], cwd=project, check=True)
+              command = [
+                  npx,
+                  "--yes",
+                  "skills@1.5.23",
+                  "add",
+                  str(repository),
+                  "--skill",
+                  name,
+                  "--agent",
+                  "*",
+                  "--copy",
+                  "--yes",
+              ]
+              result = subprocess.run(
+                  command,
+                  cwd=project,
+                  env=env,
+                  text=True,
+                  encoding="utf-8",
+                  errors="replace",
+                  capture_output=True,
+                  check=False,
+              )
+              if result.returncode:
+                  raise SystemExit((result.stderr or result.stdout)[-2000:])
+
+              priority = {
+                  "codex": project / ".agents" / "skills" / name,
+                  "claude-code": project / ".claude" / "skills" / name,
+                  "github-copilot": project / ".agents" / "skills" / name,
+                  "hermes-agent": project / ".hermes" / "skills" / name,
+              }
+              expected = fingerprint(source)
+              for agent, installed in priority.items():
+                  if not installed.is_dir():
+                      raise SystemExit(f"{agent} destination is missing: {installed}")
+                  if installed.is_symlink():
+                      raise SystemExit(f"{agent} destination is not a copy")
+                  if fingerprint(installed) != expected:
+                      raise SystemExit(f"{agent} copy differs from the source skill")
+
+              installed_roots = {
+                  path.parent.resolve()
+                  for path in project.rglob("SKILL.md")
+                  if path.parent.name == name
+              }
+              if not installed_roots:
+                  raise SystemExit("installer produced no skill copies")
+              eve = (project / "agent" / "skills" / name).resolve()
+              mismatches = [
+                  path.as_posix()
+                  for path in installed_roots
+                  if path != eve and fingerprint(path) != expected
+              ]
+              if mismatches:
+                  raise SystemExit(
+                      "installed skill fingerprints differ: " + ", ".join(mismatches)
+                  )
+
+              # Eve deliberately rewrites standard skill frontmatter into its own
+              # root-agent schema. Verify the adapted copy preserves the runtime.
+              if eve in installed_roots:
+                  source_text = (source / "SKILL.md").read_text(encoding="utf-8")
+                  eve_text = (eve / "SKILL.md").read_text(encoding="utf-8")
+                  source_meta, source_body = source_text[4:].split("\n---\n", 1)
+                  eve_meta, eve_body = eve_text[4:].split("\n---\n", 1)
+                  source_description = next(
+                      line.split(":", 1)[1].strip()
+                      for line in source_meta.splitlines()
+                      if line.startswith("description:")
+                  )
+                  eve_description = next(
+                      line.split(":", 1)[1].strip().strip('"')
+                      for line in eve_meta.splitlines()
+                      if line.startswith("description:")
+                  )
+                  if source_description != eve_description:
+                      raise SystemExit("Eve adapter changed the skill description")
+                  if source_body.lstrip("\n") != eve_body.lstrip("\n"):
+                      raise SystemExit("Eve adapter changed the skill runtime body")
+                  for relative in (
+                      "agents/openai.yaml",
+                      "references/execution-shapes.md",
+                      "references/materiality-and-authority.md",
+                      "references/repair-contract.md",
+                  ):
+                      if (source / relative).read_bytes() != (eve / relative).read_bytes():
+                          raise SystemExit(f"Eve adapter changed {relative}")
+              print(
+                  f"Verified {len(installed_roots)} project destinations; "
+                  f"raw copies use source fingerprint {expected}"
+              )
+
+  latest-discovery:
+    name: latest CLI discovers one skill
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.20.0"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Probe current CLI compatibility
+        shell: python
+        run: |
+          import os
+          import re
+          import shutil
+          import subprocess
+          from pathlib import Path
+
+          npx = shutil.which("npx")
+          env = dict(os.environ)
+          env["DISABLE_TELEMETRY"] = "1"
+          result = subprocess.run(
+              [npx, "--yes", "skills@latest", "add", ".", "--list"],
+              cwd=Path.cwd(),
+              env=env,
+              text=True,
+              encoding="utf-8",
+              errors="replace",
+              capture_output=True,
+              check=False,
+          )
+          output = result.stdout + result.stderr
+          clean = re.sub(r"\x1b\[[0-9;]*m", "", output)
+          print(clean)
+          if result.returncode:
+              raise SystemExit("skills@latest discovery failed")
+          if not re.search(r"Found\s+1\s+skill\b", clean):
+              raise SystemExit("skills@latest did not discover exactly one skill")
+          if "you-suck-at-prompting" not in clean:
+              raise SystemExit("expected skill name was not listed")
+
+  validate:
+    name: validate
+    if: ${{ always() }}
+    needs:
+      - offline-contract
+      - version-policy
+      - pinned-installer
+      - latest-discovery
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every skill-package check
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          OFFLINE_CONTRACT: ${{ needs.offline-contract.result }}
+          VERSION_POLICY: ${{ needs.version-policy.result }}
+          PINNED_INSTALLER: ${{ needs.pinned-installer.result }}
+          LATEST_DISCOVERY: ${{ needs.latest-discovery.result }}
+        run: |
+          python - <<'PY'
+          import os
+
+          expected = {
+              "OFFLINE_CONTRACT": "success",
+              "VERSION_POLICY": (
+                  "success" if os.environ["EVENT_NAME"] == "pull_request" else "skipped"
+              ),
+              "PINNED_INSTALLER": "success",
+              "LATEST_DISCOVERY": "success",
+          }
+          actual = {name: os.environ[name] for name in expected}
+          failures = {
+              name: {"expected": expected[name], "actual": actual[name]}
+              for name in expected
+              if actual[name] != expected[name]
+          }
+          if failures:
+              raise SystemExit(f"skill-package validation failed: {failures}")
+          print("Every skill-package validation job passed")
+          PY

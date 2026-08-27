@@ -9,6 +9,7 @@ SKILL_PATH = SKILL_ROOT / "SKILL.md"
 OPENAI_PATH = SKILL_ROOT / "agents" / "openai.yaml"
 REPAIR_CONTRACT_PATH = SKILL_ROOT / "references" / "repair-contract.md"
 MATERIALITY_CONTRACT_PATH = SKILL_ROOT / "references" / "materiality-and-authority.md"
+PROGRAMMING_GIT_CONTRACT_PATH = SKILL_ROOT / "references" / "programming-and-git-isolation.md"
 VERSION_PATH = ROOT / "VERSION"
 VALIDATION_WORKFLOW_PATH = ROOT / ".github" / "workflows" / "validate-skill.yml"
 KICKOFF = (
@@ -20,10 +21,14 @@ EXPECTED_DESCRIPTION = (
     "rewrite, critique, clarify, or quality-check a prompt, directly invokes You Suck at "
     "Prompting, or when a task request has a material problem such as ambiguity, conflicting "
     "constraints, missing authority, unclear scope or destination, missing success criteria, "
-    "or an execution design that could change the outcome. Do not use it for clear, actionable, "
-    "exploratory, conversational, or safely discoverable requests, simple follow-ups or "
-    "acknowledgements, minor wording issues, or optional improvements. If no material repair "
-    "is needed, proceed silently unless prompt review is the requested deliverable."
+    "or an execution design that could change the outcome, or a programming mutation that lacks "
+    "safe Git isolation. Also inspect programming requests that may create or change "
+    "repository-tracked files to decide whether a dedicated branch in the current checkout or "
+    "a branch-backed linked worktree is appropriate. Do not use it for clear non-programming "
+    "requests, exploratory or conversational work, read-only programming, non-Git directories, "
+    "simple follow-ups or acknowledgements, minor wording issues, or optional improvements. If "
+    "no material repair or Git isolation change is needed, proceed silently unless prompt review "
+    "is the requested deliverable."
 )
 
 
@@ -64,6 +69,7 @@ class SkillPackageContractTests(unittest.TestCase):
             [
                 "execution-shapes.md",
                 "materiality-and-authority.md",
+                "programming-and-git-isolation.md",
                 "repair-contract.md",
             ],
         )
@@ -128,6 +134,7 @@ class SkillPackageContractTests(unittest.TestCase):
             "latest-discovery",
         ):
             self.assertIn(f"      - {dependency}\n", workflow)
+        self.assertIn('"references/programming-and-git-isolation.md"', workflow)
 
     def test_skill_uses_the_exact_selective_description(self) -> None:
         metadata = self.skill_frontmatter()
@@ -184,6 +191,30 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertEqual(repair.count(KICKOFF), 1)
         self.assertIn("If any condition fails, do not ask", materiality)
         self.assertIn("Never treat a polished prompt as authorization", materiality)
+
+    def test_programming_git_isolation_contract_is_conditional_and_safe(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
+        git_contract = PROGRAMMING_GIT_CONTRACT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn("Treat programming as a context, not a blanket trigger", skill)
+        self.assertIn("A tracked mutation on an unisolated, unsafe, or unknown checkout", skill)
+        self.assertIn(
+            "Read [references/programming-and-git-isolation.md]",
+            skill,
+        )
+        self.assertIn("branch or worktree creation is deferred until acknowledgement", skill)
+        self.assertIn("programming request that may create or change Git-tracked files", repair)
+        for phrase in (
+            "dedicated task branch in the current checkout",
+            "dedicated branch-backed linked worktree",
+            "dirty-file ownership",
+            "Do not initialize Git",
+            "Never open `.env` files",
+            "bare coordinator",
+            "high risk",
+        ):
+            self.assertIn(phrase, git_contract)
 
     def test_visible_reviews_require_a_memorable_prompt_directed_roast(self) -> None:
         skill = SKILL_PATH.read_text(encoding="utf-8")
@@ -253,12 +284,10 @@ class SkillPackageContractTests(unittest.TestCase):
         for claim in required:
             self.assertIn(claim, install)
 
-    def test_examples_are_trimmed_to_three_behaviors(self) -> None:
+    def test_examples_cover_the_isolation_behavior(self) -> None:
         examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
         headings = re.findall(r"(?m)^## (.+)$", examples)
-        self.assertEqual(
-            headings, ["Clear bypass", "Material repair", "Explicit review"]
-        )
+        self.assertEqual(headings, ["Clear bypass", "Material repair", "Programming isolation", "Explicit review"])
 
     def test_runtime_and_installer_telemetry_are_not_conflated(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

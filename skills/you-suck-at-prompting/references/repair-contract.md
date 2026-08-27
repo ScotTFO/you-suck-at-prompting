@@ -6,6 +6,8 @@ When the request is clear, actionable, exploratory, conversational, safely disco
 
 If the host selected the skill for a near miss, treat it as a false-positive load and apply the same silent-pass rule. Skill selection is an invitation to check applicability, not a mandate to perform a review.
 
+A programming request that may create or change Git-tracked files is not a clear pass when the available context shows missing, unsafe, or unknown task isolation. Read `references/programming-and-git-isolation.md` and make the isolation choice visible before the work begins. Read-only programming and work outside Git remain pass-through.
+
 A visible 5/5 assessment is allowed only when the user explicitly asks for prompt review or directly invokes the skill:
 
 - For prompt review as the complete deliverable, begin with one `Prompt performance rating: 5/5 - <one-line funny comment>` line, then `Prompt unchanged:` and the original prompt verbatim in a nonempty fenced code block. Do not execute it or request acknowledgement.

@@ -1,6 +1,6 @@
 ---
 name: you-suck-at-prompting
-description: Use this skill to audit or repair prompts when the user explicitly asks to write, rewrite, critique, clarify, or quality-check a prompt, directly invokes You Suck at Prompting, or when a task request has a material problem such as ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the outcome. Do not use it for clear, actionable, exploratory, conversational, or safely discoverable requests, simple follow-ups or acknowledgements, minor wording issues, or optional improvements. If no material repair is needed, proceed silently unless prompt review is the requested deliverable.
+description: Use this skill to audit or repair prompts when the user explicitly asks to write, rewrite, critique, clarify, or quality-check a prompt, directly invokes You Suck at Prompting, or when a task request has a material problem such as ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the outcome, or a programming mutation that lacks safe Git isolation. Also inspect programming requests that may create or change repository-tracked files to decide whether a dedicated branch in the current checkout or a branch-backed linked worktree is appropriate. Do not use it for clear non-programming requests, exploratory or conversational work, read-only programming, non-Git directories, simple follow-ups or acknowledgements, minor wording issues, or optional improvements. If no material repair or Git isolation change is needed, proceed silently unless prompt review is the requested deliverable.
 ---
 
 # You Suck at Prompting
@@ -29,10 +29,12 @@ Set the bar, but do not copy these lines mechanically:
 Read the conversation and available project or tool context first. Retrieve facts that are safely discoverable before treating them as missing. Then make an applicability decision:
 
 - **EXPLICIT REVIEW:** The user asks to write, rewrite, critique, clarify, audit, or quality-check a prompt, or directly invokes this skill. Assess the supplied prompt and return the requested prompt-review deliverable.
-- **MATERIAL REPAIR:** The underlying task has a gap or conflict that could change its outcome, scope, acceptance, safety, authority, privacy, destination, or execution design. Repair it before acting.
+- **MATERIAL REPAIR:** The underlying task has a gap or conflict that could change its outcome, scope, acceptance, safety, authority, privacy, destination, execution design, or Git isolation. Repair it before acting.
 - **PASS:** The request is clear and actionable, exploratory or conversational, safely discoverable, a simple follow-up, or needs only optional polish. Proceed with the underlying request silently. Do not show a rating, kickoff, rewrite, preflight explanation, or mention this skill.
 
 A host may load this skill for a near miss. A false-positive load does not make repair mandatory. If no material repair exists, use **PASS** unless prompt review is the requested deliverable.
+
+Treat programming as a context, not a blanket trigger. Feature work, fixes, refactors, migrations, upgrades, code generation, and tracked code, configuration, test, or infrastructure changes are programming mutations. Planning, review, explanation, diagnosis, and test execution without tracked changes are read-only programming and use **PASS**.
 
 Check only details that can materially change the work:
 
@@ -48,7 +50,10 @@ Do not manufacture a repair from optional improvements. Missing citations, categ
 
 Use these anchors:
 
-- Clear local tasks such as a named edit plus a focused test use **PASS** even when repository inspection is needed to locate details.
+- Clear local tasks with an existing task-specific branch or branch-backed linked worktree use **PASS** even when repository inspection is needed to locate details. A tracked mutation on an unisolated, unsafe, or unknown checkout uses **MATERIAL REPAIR**; read-only programming still uses **PASS**.
+- For a tracked mutation, use a read-only preflight and state the location choice. A dedicated branch in the current checkout or a branch-backed linked worktree is execution work, so do not create either before acknowledgement; the rewrite must proceed without creating either before acknowledgement.
+- Every visible rewrite for a tracked mutation must say that branch or worktree creation waits for acknowledgement (for example, `Do not create the branch or worktree until acknowledgement.`), even when the user asked only for a prompt review.
+- If another material defect already requires a rewrite, include the selected or existing isolation location in that same rewrite. Missing isolation alone is still a visible 1-4 repair.
 - Exploratory questions, ordinary conversation, acknowledgements without an active repair, and strict-output requests use **PASS**.
 - Minor wording issues and optional improvements use **PASS**.
 - Conflicting constraints, unresolved consequential targets, missing authority, unclear destinations, acceptance gaps that could change the result, and unbounded or outcome-changing execution designs use **MATERIAL REPAIR**.
@@ -127,6 +132,8 @@ Treat follow-ups to an active displayed repair as controls:
 
 Read [references/materiality-and-authority.md](references/materiality-and-authority.md) when deciding whether a gap is material or when permissions, privacy, routing, or external effects are involved.
 
+Read [references/programming-and-git-isolation.md](references/programming-and-git-isolation.md) when a request may create or change repository-tracked files or when Git state affects where work should occur.
+
 The inline rules are sufficient when tools are unavailable. When tools are available, read [references/repair-contract.md](references/repair-contract.md) before displaying any rewritten or draft prompt.
 
 ## Shape execution only when material
@@ -152,4 +159,4 @@ Execution shaping does not create agents, schedules, persistence, permissions, t
 
 ## Final check
 
-Before responding, confirm that a clear or safely discoverable request passed silently, visible 5/5 appeared only for explicit review or direct invocation, any material repair is visible before underlying work, unresolved fields are explicit, active acknowledgements execute exactly once, and neither pass-through nor repair broadens the user's authority or side-effect envelope.
+Before responding, confirm that a clear or safely discoverable request passed silently, visible 5/5 appeared only for explicit review or direct invocation, any material repair is visible before underlying work, unresolved fields are explicit, active acknowledgements execute exactly once, branch or worktree creation is deferred until acknowledgement, and neither pass-through nor repair broadens the user's authority or side-effect envelope.

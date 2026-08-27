@@ -8,7 +8,8 @@ Supported agent harnesses can select a skill when a request matches its descript
 
 - Load for explicit prompt writing, rewriting, critique, clarification, audit, or quality review.
 - Load for material ambiguity, conflicting constraints, missing authority, unclear scope or destination, missing success criteria, or an execution design that could change the outcome.
-- Do not load for clear, actionable, exploratory, conversational, or safely discoverable requests; simple follow-ups; acknowledgements without an active repair; minor wording issues; or optional improvements.
+- Load for programming requests that may create or change repository-tracked files when task isolation is missing, unsafe, or unknown.
+- Do not load for clear, actionable, exploratory, conversational, or safely discoverable requests; read-only programming; work outside Git; simple follow-ups; acknowledgements without an active repair; minor wording issues; or optional improvements.
 
 Selection is host-controlled and may be imperfect. The skill repeats the applicability check after loading. A false-positive load passes silently when no material repair exists.
 
@@ -31,6 +32,16 @@ That rating line carries one real punchline. The voice is slightly brutal and pl
 ## Materiality and execution shaping
 
 A gap is material only when reasonable answers could change the outcome, scope, acceptance, safety, authority, privacy, destination, or resulting work. The skill retrieves safely discoverable facts before asking and does not manufacture repair from optional polish.
+
+## Programming and Git isolation
+
+Programming is treated as a context, not a blanket trigger. Feature work, fixes, refactors, migrations, upgrades, code generation, and tracked code, configuration, test, or infrastructure changes may need isolation. Planning, review, explanation, diagnosis, and test execution without tracked changes remain read-only passes.
+
+For a tracked mutation, the skill performs a read-only preflight covering the repository root and bare state, branch or detached state, tracked and untracked status, registered worktrees, a usable base or default ref, and applicable repository rules. It repeats the check for each repository in a multi-repository request and never opens credential files or copies untracked secrets.
+
+The rewrite makes one location choice visible: reuse an existing task-specific branch or linked worktree; use a dedicated branch in the current checkout for a clean bounded solo change or clearly related dirty changes; use a branch-backed linked worktree when dirty ownership is unrelated or unclear, another task is active, work is parallel, the coordinator is bare, or the change is high risk. A host-managed isolated detached worktree is reused as-is. A non-Git directory is not initialized. If Git context is unavailable, the rewrite embeds this read-only preflight and decision rule. If dirty ownership or a usable base is unclear, it asks one focused question with concrete impact.
+
+Branch or worktree creation waits for acknowledgement. The skill never grants authority to stash, reset, clean, overwrite, move existing edits, commit, push, merge, rebase, delete, or publish.
 
 When a task genuinely needs a feedback loop, staged plan, dependency graph, multiple agents, recurring checks, research, deterministic processing, a spike, or independent review, the repair adds only the controls needed to keep work bounded and verifiable. Direct work stays direct.
 

@@ -118,13 +118,13 @@ Release verification uses `--copy` so the Codex, Claude Code, GitHub Copilot, an
 Use a tag URL when reproducibility matters:
 
 ```text
-npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.11.0
+npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.12.0
 ```
 
 The private release gate pins the installer as well:
 
 ```text
-npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.11.0 --agent '*' --copy --yes
+npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.12.0 --agent '*' --copy --yes
 ```
 
 ## Update

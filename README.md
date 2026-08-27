@@ -61,7 +61,8 @@ The skill asks what is broken and where. It does not request acknowledgement whi
 
 | Request | Result |
 |---|---|
-| “Rename `load_item` to `load_record` in `loader.py` and run the focused unit test.” | Proceeds silently. Local details are safely discoverable. |
+| “Rename `load_item` to `load_record` in `loader.py` and run the focused unit test.” | Checks Git isolation when tracked files may change; reuses a safe task branch or worktree silently. |
+| “Read `loader.py` and explain how `load_item` works.” | Proceeds silently. Read-only programming does not need Git ceremony. |
 | “What does `git rebase` do?” | Proceeds silently. Exploratory questions are not misconduct. |
 | “Improve this prompt: …” | Loads because prompt review is the requested work. |
 | “Deploy it.” | Loads because the target and authority are material. |
@@ -74,6 +75,7 @@ The host uses the skill description to decide whether to load it. The skill then
 - Preserve the user’s goal, scope, constraints, voice, and explicit choices.
 - Recover safely discoverable facts before calling them missing.
 - Repair only material problems that could change the result.
+- For tracked programming mutations, inspect Git context and choose a dedicated branch in the current checkout or a branch-backed linked worktree without creating either before acknowledgement.
 - Give every visible review one slightly brutal, playful punchline aimed at the prompt mechanics. Beige feedback goes back to training.
 - Ask one focused question when a required decision is still unknown.
 - Keep prompt acknowledgement separate from permission to publish, deploy, purchase, delete, disclose, schedule, or change access.
@@ -90,7 +92,7 @@ The external `skills` installer collects anonymous telemetry by default. Set `DI
 ## The filing cabinet
 
 - [Installation, migration, updates, removal, and smoke tests](docs/installation.md)
-- [Three representative behaviors](docs/examples.md)
+- [Four representative behaviors](docs/examples.md)
 - [Behavior, safety, privacy, retention, and repository boundaries](docs/behavior-and-safety.md)
 - [Canonical skill runtime](skills/you-suck-at-prompting/SKILL.md)
 

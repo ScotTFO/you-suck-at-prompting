@@ -243,9 +243,10 @@ jobs:
                       raise SystemExit("Eve adapter changed the skill runtime body")
                   for relative in (
                       "agents/openai.yaml",
-                      "references/execution-shapes.md",
-                      "references/materiality-and-authority.md",
-                      "references/repair-contract.md",
+                  "references/execution-shapes.md",
+                  "references/materiality-and-authority.md",
+                  "references/programming-and-git-isolation.md",
+                  "references/repair-contract.md",
                   ):
                       if (source / relative).read_bytes() != (eve / relative).read_bytes():
                           raise SystemExit(f"Eve adapter changed {relative}")

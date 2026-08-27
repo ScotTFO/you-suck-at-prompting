@@ -1,7 +1,7 @@
 interface:
   display_name: "You Suck at Prompting"
-  short_description: "Repair material prompt gaps"
-  default_prompt: "Use $you-suck-at-prompting to audit this prompt and repair only material gaps."
+  short_description: "Repair prompts and choose safe Git isolation"
+  default_prompt: "Use $you-suck-at-prompting to audit this prompt, repair material gaps, and choose safe Git isolation for tracked changes."
 
 policy:
   allow_implicit_invocation: true

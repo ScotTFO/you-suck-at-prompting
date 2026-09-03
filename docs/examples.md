@@ -74,15 +74,7 @@ Keep the change limited to src/client.py. Run tests/test_client.py and
 report the result. Do not commit or push.
 ```
 
-Reply with an acknowledgement to use this prompt.
-
-**Acknowledgement:**
-
-```text
-Yes.
-```
-
-The agent executes the complete rewrite once within the existing authority, then reports the changed file and the focused test result. It does not show another rating or ask for the same acknowledgement again.
+The agent executes the complete rewrite once within the existing authority, then reports the changed file and the focused test result. It does not show another rating, kickoff, or acknowledgement after the clarification because the answer resolved the only missing fields exactly as used.
 
 ## Prompt-only repair
 

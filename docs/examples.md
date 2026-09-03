@@ -1,6 +1,6 @@
-# Three representative behaviors
+# Behavior examples
 
-These synthetic examples cover the skill’s three useful lanes: stay out of the way, repair a material problem, and review a prompt when review is the requested deliverable.
+These synthetic conversations cover the useful lanes: pass through clear work, repair a material gap, execute an acknowledged repair once, review a prompt, and return a prompt without running it.
 
 ## Clear bypass
 
@@ -47,6 +47,59 @@ Expected prompt impact: The answer identifies the target, bounds the fix, and de
 
 No acknowledgement is requested while material placeholders remain. A completed rewrite still cannot create authority to deploy, publish, purchase, delete, disclose, or change access.
 
+## Complete repair
+
+**Clarification:**
+
+```text
+The API returns 404 in src/client.py. Keep the change limited to that file and run tests/test_client.py.
+```
+
+**Revised response:**
+
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+Prompt performance rating: 1/5 - This prompt brought the symptom, but left the repair shop without an address.
+
+You Suck At Prompting Rewritten prompt:
+
+```text
+Investigate the 404 returned by the API in src/client.py.
+Keep the change limited to src/client.py. Run tests/test_client.py and
+report the result. Do not commit or push.
+```
+
+Reply with an acknowledgement to use this prompt.
+
+**Acknowledgement:**
+
+```text
+Yes.
+```
+
+The agent executes the complete rewrite once within the existing authority, then reports the changed file and the focused test result. It does not show another rating or ask for the same acknowledgement again.
+
+## Prompt-only repair
+
+**Request:**
+
+```text
+Rewrite this prompt for a release note: Explain [NEEDED: the change] for [NEEDED: the audience]. Do not perform the work.
+```
+
+**Response:**
+
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+Prompt performance rating: 2/5 - The announcement has a microphone but forgot to book its audience.
+
+You Suck At Prompting Rewritten prompt:
+
+```text
+Write a release note that explains [NEEDED: the change] for [NEEDED: the audience].
+Keep it accurate, concise, and grounded in the supplied release information.
+```
+
+The prompt is returned with placeholders. The skill does not ask the user to fill them in and does not request acknowledgement for a rewrite-only request.
+
 ## Explicit review
 
 **Request:**
@@ -67,6 +120,8 @@ Rename load_item to load_record in loader.py, update its local references,
 run the focused unit test, and do not commit or push.
 ```
 
-The requested deliverable is prompt review, so the inner prompt is returned rather than executed. Ordinary clear tasks do not receive the 5/5 ceremony.
+The requested deliverable is prompt review, so the inner prompt is returned rather than executed. A direct skill invocation with an underlying task may execute clear work after the 5/5 line instead.
+
+An acknowledgement such as `Thanks` without an active displayed repair is an ordinary follow-up. It does not trigger this skill.
 
 See [Behavior, safety, and privacy](behavior-and-safety.md) for the full contract.

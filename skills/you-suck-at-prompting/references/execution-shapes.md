@@ -1,4 +1,4 @@
-# Execution Design
+# Execution design
 
 Read this reference only when the task explicitly proposes or inherently requires iterative, staged, parallel, recurring, research-heavy, deterministic, experimental, or independently reviewed execution.
 
@@ -18,7 +18,7 @@ Do not require an `Approach:` line or expose internal shape labels. Put only mat
 - **DIRECT:** Perform one bounded action followed by its check.
 - **LOOP:** Repeat act, check, and correct only when feedback must determine another attempt.
 - **PLAN:** Stage dependent, consequential, or expensive-to-reverse work behind ordered checkpoints and explicit approval boundaries.
-- **GRAPH:** Coordinate genuinely independent branches through explicit dependencies and join semantics.
+- **GRAPH:** Coordinate independent branches through explicit dependencies and join semantics.
 - **MULTI-AGENT:** Use independent reasoning-heavy actors or maker/checker separation when that independence materially improves the result.
 - **DETERMINISTIC:** Prefer a script or tool for mechanical, repeatable, or calculable work.
 - **RESEARCH:** Retrieve, compare, synthesize, and ground time-sensitive or source-backed claims.

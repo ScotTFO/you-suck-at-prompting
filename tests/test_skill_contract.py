@@ -132,6 +132,8 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertFalse((ROOT / ".github" / "workflows" / "release.yml").exists())
         release = workflow.split("\n  release:\n", 1)[1]
         self.assertIn("needs: validate", release)
+        self.assertIn("always()", release)
+        self.assertIn("needs.validate.result == 'success'", release)
         self.assertIn("github.ref_name == 'main'", release)
         self.assertIn("github.event_name == 'push'", release)
         self.assertIn("github.event_name == 'workflow_dispatch'", release)

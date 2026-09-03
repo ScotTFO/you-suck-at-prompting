@@ -339,7 +339,7 @@ jobs:
 
   release:
     name: publish skill release
-    if: ${{ github.ref_name == 'main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    if: ${{ always() && needs.validate.result == 'success' && github.ref_name == 'main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
     needs: validate
     runs-on: ubuntu-latest
     permissions:

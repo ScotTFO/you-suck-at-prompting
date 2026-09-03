@@ -16,14 +16,14 @@ KICKOFF = (
     "review is underway."
 )
 EXPECTED_DESCRIPTION = (
-    "Use this skill to audit or repair prompts when the user explicitly asks to write, "
-    "rewrite, critique, clarify, or quality-check a prompt, directly invokes You Suck at "
-    "Prompting, or when a task request has a material problem such as ambiguity, conflicting "
-    "constraints, missing authority, unclear scope or destination, missing success criteria, "
-    "or an execution design that could change the outcome. Do not use it for clear, actionable, "
-    "exploratory, conversational, or safely discoverable requests, simple follow-ups or "
-    "acknowledgements, minor wording issues, or optional improvements. If no material repair "
-    "is needed, proceed silently unless prompt review is the requested deliverable."
+    "Use this skill to audit or repair prompts when the user asks to write, rewrite, critique, "
+    "clarify, or quality-check a prompt, directly invokes You Suck at Prompting, when a task "
+    "has a material ambiguity, conflict, authority gap, unclear scope or destination, missing "
+    "success criteria, or an execution design that could change the outcome, or while an active "
+    "repair needs clarification or acknowledgement. Do not use it for clear, actionable, "
+    "exploratory, conversational, or safely discoverable requests, ordinary follow-ups, "
+    "acknowledgements without an active repair, minor wording issues, or optional improvements. "
+    "If no material repair is needed, proceed silently unless prompt review is requested."
 )
 
 
@@ -129,6 +129,15 @@ class SkillPackageContractTests(unittest.TestCase):
         ):
             self.assertIn(f"      - {dependency}\n", workflow)
 
+        self.assertFalse((ROOT / ".github" / "workflows" / "release.yml").exists())
+        release = workflow.split("\n  release:\n", 1)[1]
+        self.assertIn("needs: validate", release)
+        self.assertIn("github.ref == 'refs/heads/main'", release)
+        self.assertIn("github.event_name == 'push'", release)
+        self.assertIn("github.event_name == 'workflow_dispatch'", release)
+        self.assertIn("ref: ${{ github.sha }}", release)
+        self.assertIn("contents: write", release)
+
     def test_skill_uses_the_exact_selective_description(self) -> None:
         metadata = self.skill_frontmatter()
         self.assertEqual(
@@ -178,7 +187,9 @@ class SkillPackageContractTests(unittest.TestCase):
             self.assertIn("executes the latest", text)
             self.assertIn("once", text)
         self.assertIn("A normal **PASS** never does", skill)
-        self.assertIn("Only an explicit prompt audit or direct invocation", skill)
+        self.assertIn("Only explicit prompt review or direct invocation", skill)
+        self.assertIn("If the user also asks for execution", skill)
+        self.assertIn("Clear strict-output requests preserve the exact requested format", skill)
         self.assertIn("Prompt unchanged:", skill)
         self.assertEqual(skill.count(KICKOFF), 1)
         self.assertEqual(repair.count(KICKOFF), 1)
@@ -205,9 +216,9 @@ class SkillPackageContractTests(unittest.TestCase):
         examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
 
         for text in (skill, repair):
-            self.assertIn("rating immediately below the kickoff", text)
-            self.assertIn("before the rewrite or draft heading", text)
-            self.assertIn("Never place it beneath the rewritten prompt", text)
+            self.assertIn("exact next line", text)
+            self.assertIn("before the rewrite", text)
+            self.assertIn("rating", text.casefold())
 
         material_example = examples.split("## Material repair", 1)[1].split(
             "## Explicit review", 1
@@ -253,12 +264,21 @@ class SkillPackageContractTests(unittest.TestCase):
         for claim in required:
             self.assertIn(claim, install)
 
-    def test_examples_are_trimmed_to_three_behaviors(self) -> None:
+    def test_examples_cover_the_core_lifecycle(self) -> None:
         examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
         headings = re.findall(r"(?m)^## (.+)$", examples)
-        self.assertEqual(
-            headings, ["Clear bypass", "Material repair", "Explicit review"]
-        )
+        required_headings = {
+            "Clear bypass",
+            "Material repair",
+            "Complete repair",
+            "Prompt-only repair",
+            "Explicit review",
+        }
+        self.assertTrue(required_headings.issubset(headings))
+        self.assertEqual(len(headings), len(set(headings)))
+        self.assertIn("The agent executes the complete rewrite once", examples)
+        self.assertIn("does not request acknowledgement", examples)
+        self.assertIn("ordinary follow-up", examples)
 
     def test_runtime_and_installer_telemetry_are_not_conflated(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

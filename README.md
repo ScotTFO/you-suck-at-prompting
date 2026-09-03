@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>Your prompt is not always in trouble. We checked the policy.</strong><br>
-  A selective performance review for requests that could actually change the outcome.
+  A selective performance review for requests that could change the outcome.
 </p>
 
 <p align="center">
@@ -12,11 +12,11 @@
 </p>
 
 > [!WARNING]
-> **“Fix it.” has been placed on a PIP.** Clear requests may continue working without supervision.
+> **"Fix it." has been placed on a PIP.** Clear requests may continue without supervision.
 
 ## Install
 
-You need Node.js 22.20 or newer for installation and updates. The installed skill itself is plain Markdown and does not need Node.js.
+You need Node.js 22.20 or newer for installation and updates. The installed skill is plain Markdown and does not need Node.js.
 
 ### Project
 
@@ -30,12 +30,9 @@ npx skills@latest add ScotTFO/you-suck-at-prompting
 npx skills@latest add ScotTFO/you-suck-at-prompting --global
 ```
 
-The installer detects available harnesses and lets you choose where the skill goes. For CI, explicit harness selection, pinned releases, removal of older native plugins, and systems that need `--copy`, use the [complete installation and migration guide](docs/installation.md).
+The installer detects available harnesses and lets you choose where the skill goes. For CI, pinned releases, copied installs, and removal of an older native installation, use the [complete installation and migration guide](docs/installation.md).
 
-> [!IMPORTANT]
-> Already installed the old Codex, Claude Code, or VS Code Copilot plugin? Remove it first. Two copies produce two tiny managers, and neither accepts shared accountability.
-
-The [`skills` CLI](https://github.com/vercel-labs/skills) can install this standard skill for every harness it currently supports. Release verification explicitly checks Codex, Claude Code, GitHub Copilot, and Hermes destinations. Behavioral certification is reported separately from installation compatibility.
+The [`skills` CLI](https://github.com/vercel-labs/skills) installs this standard skill into the harnesses it supports. Installation compatibility and live behavioral checks are reported separately.
 
 ## Exhibit A: a verb arrives without adult supervision
 
@@ -55,31 +52,31 @@ Keep the change limited to the identified problem and verify the fix with
 the smallest relevant test or reproduction.
 ```
 
-The skill asks what is broken and where. It does not request acknowledgement while material placeholders remain. Once the missing facts are supplied, it shows the complete repair and waits before execution. HR keeps the original 1/5 rating for training purposes.
+The skill asks what is broken and where. It does not request acknowledgement while material placeholders remain. Once the missing facts arrive, it shows the complete repair and waits before execution. HR keeps the original 1/5 rating for training purposes.
 
 ## What earns a meeting
 
 | Request | Result |
 |---|---|
-| “Rename `load_item` to `load_record` in `loader.py` and run the focused unit test.” | Proceeds silently. Local details are safely discoverable. |
-| “What does `git rebase` do?” | Proceeds silently. Exploratory questions are not misconduct. |
-| “Improve this prompt: …” | Loads because prompt review is the requested work. |
-| “Deploy it.” | Loads because the target and authority are material. |
-| “Thanks.” | Proceeds normally unless it acknowledges an active displayed rewrite. |
+| "Rename `load_item` to `load_record` in `loader.py` and run the focused unit test." | Proceeds silently. Local details are safely discoverable. |
+| "What does `git rebase` do?" | Proceeds silently. Exploratory questions are not misconduct. |
+| "Improve this prompt: ..." | Loads because prompt review is the requested work. |
+| "Deploy it." | Loads because the target and authority are material. |
+| "Thanks." | Proceeds normally unless it acknowledges an active displayed rewrite. |
 
-The host uses the skill description to decide whether to load it. The skill then checks applicability again. A near miss passes through silently, with no rating, kickoff, rewrite, or surprise annual review.
+The host uses the skill description to decide whether to load it. The skill checks applicability again after loading. A near miss passes through silently, with no rating, kickoff, rewrite, or surprise annual review.
 
 ## The performance contract
 
-- Preserve the user’s goal, scope, constraints, voice, and explicit choices.
+- Preserve the user's goal, scope, constraints, voice, and explicit choices.
 - Recover safely discoverable facts before calling them missing.
 - Repair only material problems that could change the result.
-- Give every visible review one slightly brutal, playful punchline aimed at the prompt mechanics. Beige feedback goes back to training.
+- Give every visible review one punchline aimed at prompt mechanics. Beige feedback goes back to training.
 - Ask one focused question when a required decision is still unknown.
 - Keep prompt acknowledgement separate from permission to publish, deploy, purchase, delete, disclose, schedule, or change access.
-- Never create tools, agents, persistence, schedules, or authority the host did not already provide.
+- Never create tools, agents, persistence, schedules, or authority the host did not provide.
 
-Direct invocation requests a visible review. In Codex, use `$you-suck-at-prompting`. Other harnesses expose installed skills through their own skill interface.
+Direct invocation requests a visible review. In Codex, use `$you-suck-at-prompting`. Other harnesses expose installed skills through their own interface.
 
 ## Privacy reviewed the clipboard
 
@@ -90,7 +87,7 @@ The external `skills` installer collects anonymous telemetry by default. Set `DI
 ## The filing cabinet
 
 - [Installation, migration, updates, removal, and smoke tests](docs/installation.md)
-- [Three representative behaviors](docs/examples.md)
+- [Representative behavior conversations](docs/examples.md)
 - [Behavior, safety, privacy, retention, and repository boundaries](docs/behavior-and-safety.md)
 - [Canonical skill runtime](skills/you-suck-at-prompting/SKILL.md)
 

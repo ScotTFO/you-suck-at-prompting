@@ -1,4 +1,4 @@
-# Materiality and Authority
+# Materiality and authority
 
 A gap is material only when reasonable answers could change the outcome, scope, acceptance, safety, authority, privacy, destination, or resulting work. Do not add optional polish, implementation details governed by the repository, or preferences with an obvious reversible default to the displayed rewrite.
 
@@ -21,9 +21,9 @@ Before asking, verify all four conditions:
 
 If any condition fails, do not ask. Preserve known facts and turn non-blocking uncertainty into a labeled, editable assumption only when that assumption is safe and reversible. This rule applies equally to questions about access, permissions, deployment, deletion, sending, migration, publishing, purchases, privacy, and destinations.
 
-After the focused question, write `Expected prompt impact:` followed by the concrete consequence. Then write `Recommended default:` only when one genuinely safe, reversible answer preserves momentum. Omit the recommendation when the choice changes authority, access, permissions, privacy, destination, disclosure, purchase, publishing, deployment, deletion, or another irreversible or externally consequential effect.
+After the focused question, write `Expected prompt impact:` followed by the concrete consequence. Then write `Recommended default:` only when one clearly safe, reversible answer preserves momentum. Omit the recommendation when the choice changes authority, access, permissions, privacy, destination, disclosure, purchase, publishing, deployment, deletion, or another irreversible or externally consequential effect.
 
-Examples of genuinely safe defaults include Markdown when the user explicitly requests a Markdown-or-plain-text choice for a working draft, or the smallest sufficient direct approach when an excessive mechanical workflow must be preserved or simplified. State the impact first, then the recommendation. These examples do not make a default safe when context or authority says otherwise.
+Examples of clearly safe defaults include Markdown when the user explicitly requests a Markdown-or-plain-text choice for a working draft, or the smallest sufficient direct approach when an excessive mechanical workflow must be preserved or simplified. State the impact first, then the recommendation. These examples do not make a default safe when context or authority says otherwise.
 
 ## Vague quality language
 

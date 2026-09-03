@@ -1,41 +1,17 @@
 # Execution design
 
-Read this reference only when the task explicitly proposes or inherently requires iterative, staged, parallel, recurring, research-heavy, deterministic, experimental, or independently reviewed execution.
+Read this reference only when the task explicitly proposes or inherently requires iterative feedback, staged checkpoints, parallel or independent work, recurring execution, research, deterministic processing, an experiment, or independent review.
 
-## Operating rule
+Keep direct work direct. State the user-owned outcome and observable acceptance criteria, then add only the controls that change execution or verification. Execution design shapes the prompt. It does not run tools, create agents or schedules, persist state, or grant authority. Do not require an `Approach:` line or expose these internal categories.
 
-Keep direct work direct. Select the fewest controls that preserve the requested outcome, acceptance checks, safety boundaries, and required independence. Treat the controls as composable dimensions, not as a mandatory single label.
+| Use this control | Minimum useful instruction |
+| --- | --- |
+| Iteration or autonomous retry | Repeat act, check, and correct only when feedback requires another attempt. Define progress evidence, a success exit, a no-progress exit, and a bounded attempt, time, or cost budget. Escalate with the last verified state. A short human-directed revision with an obvious stop condition does not need retry bureaucracy. |
+| Staged or consequential work | Use ordered checkpoints. Stop before an irreversible effect or an effect with a separate approval requirement. |
+| Parallel work or independent review | Give each branch isolated ownership or output. Define real dependencies, the join criteria, and one final integrator. If review is required, identify an independent reviewer and a blocking or advisory disposition. Do not add a second reviewer just because the task contains the word `review`. |
+| Mechanical or calculable work | Prefer a script or tool. Define inputs, outputs, error handling, and the verification check. |
+| Research or source-backed claims | Retrieve and compare sources, ground claims to them, handle conflicts, and check freshness for changeable facts. |
+| Experiment or spike | Test one narrow hypothesis within a stated budget. Define the pass or fail result that determines the next step. |
+| Recurring execution | Use durable state, deduplication, schedule and delivery rules, a next check, and closure evidence. A manual conversational loop is not recurring automation. |
 
-Execution design shapes the rewritten prompt; it does not run tools, create agents or schedules, persist state, or grant authority. Host capabilities and governing instructions remain controlling.
-
-Preserve an appropriate explicit approach. If an explicit approach appears excessive or the host cannot support it, use **NEEDS-INPUT** and ask whether to preserve the requested approach or simplify it. Do not silently substitute an approach, and do not request acknowledgement while the choice remains unresolved.
-
-Do not require an `Approach:` line or expose internal shape labels. Put only material execution controls into the rewritten prompt.
-
-## Controls
-
-- **GOAL:** Define the user-owned outcome and observable acceptance criteria while leaving implementation choices flexible. A goal is an outcome contract, not authority or permission to continue indefinitely.
-- **DIRECT:** Perform one bounded action followed by its check.
-- **LOOP:** Repeat act, check, and correct only when feedback must determine another attempt.
-- **PLAN:** Stage dependent, consequential, or expensive-to-reverse work behind ordered checkpoints and explicit approval boundaries.
-- **GRAPH:** Coordinate independent branches through explicit dependencies and join semantics.
-- **MULTI-AGENT:** Use independent reasoning-heavy actors or maker/checker separation when that independence materially improves the result.
-- **DETERMINISTIC:** Prefer a script or tool for mechanical, repeatable, or calculable work.
-- **RESEARCH:** Retrieve, compare, synthesize, and ground time-sensitive or source-backed claims.
-- **SPIKE:** Test one uncertain assumption cheaply before committing to full implementation.
-- **RECURRING:** Recheck on a schedule only when durable state and a future wakeup mechanism exist.
-- **REVIEW:** Add independent review when it is explicitly required or materially improves confidence.
-
-## Required controls
-
-- A loop requires progress evidence, a success exit, a no-progress exit, a bounded iteration, time, or cost budget, and escalation with the last verified state. State all five controls in the rewrite; do not compress them into a generic instruction to retry until success.
-- A plan requires ordered checkpoints and must stop before irreversible or separately approved effects.
-- A graph requires real dependency edges, explicit join criteria, and one final owner.
-- Multi-agent work requires independent reasoning or maker/checker separation, isolated ownership or outputs, and one explicitly identified integrator or join owner. Agent count alone is not a reason to use multiple agents.
-- Deterministic work requires defined inputs, outputs, error handling, and a verification check.
-- Research requires source retrieval, claim-to-source grounding, conflict handling, and freshness checks for changeable claims.
-- A spike requires a narrow hypothesis, a budget, and a pass/fail decision that determines the next step.
-- Recurring work requires durable state, deduplication, schedule and delivery rules, a next check, and closure evidence. Do not describe a manual conversational loop as recurring automation.
-- Review requires an independent reviewer and a clear blocking or advisory disposition.
-
-When controls compose, keep their responsibilities distinct. For example, a goal may use a bounded loop, independent branches may join through one integrator, and a deterministic check may supply loop progress evidence. Do not add another control unless it changes execution or verification.
+Controls can compose. For example, independent branches can use a deterministic check, or a staged plan can contain a bounded loop. Keep each control's responsibility distinct and omit any control that does not change the result, safety boundary, or evidence.

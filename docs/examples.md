@@ -29,7 +29,7 @@ Fix it.
 **Skill response:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
-Prompt performance rating: 1/5 - This prompt filed a verb, lost the target, and still requested expedited handling.
+Prompt performance rating: 1/5 - The prompt brought a verb, but left the target hiding behind the filing cabinet.
 
 Draft rewritten prompt:
 
@@ -49,16 +49,22 @@ No acknowledgement is requested while material placeholders remain. A completed 
 
 ## Complete repair
 
+**Original request:**
+
+```text
+Fix it.
+```
+
 **Clarification:**
 
 ```text
-The API returns 404 in src/client.py. Keep the change limited to that file and run tests/test_client.py.
+The API returns 404 in src/client.py. Keep the change limited to that file, run tests/test_client.py, and do not commit or push.
 ```
 
 **Revised response:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
-Prompt performance rating: 1/5 - This prompt brought the symptom, but left the repair shop without an address.
+Prompt performance rating: 1/5 - The original prompt brought a verb, but left the target hiding behind the filing cabinet.
 
 You Suck At Prompting Rewritten prompt:
 
@@ -116,8 +122,8 @@ Prompt performance rating: 5/5 - Annoyingly complete; the Prompting Improvement 
 Prompt unchanged:
 
 ```text
-Rename load_item to load_record in loader.py, update its local references,
-run the focused unit test, and do not commit or push.
+Rename load_item to load_record in loader.py, update its
+local references, run the focused unit test, and do not commit or push.
 ```
 
 The requested deliverable is prompt review, so the inner prompt is returned rather than executed. A direct skill invocation with an underlying task may execute clear work after the 5/5 line instead.

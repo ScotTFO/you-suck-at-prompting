@@ -9,6 +9,17 @@ SKILL_PATH = SKILL_ROOT / "SKILL.md"
 OPENAI_PATH = SKILL_ROOT / "agents" / "openai.yaml"
 REPAIR_CONTRACT_PATH = SKILL_ROOT / "references" / "repair-contract.md"
 MATERIALITY_CONTRACT_PATH = SKILL_ROOT / "references" / "materiality-and-authority.md"
+REFERENCE_ROOT = SKILL_ROOT / "references"
+REFERENCE_FILES = (
+    "execution-shapes.md",
+    "materiality-and-authority.md",
+    "repair-contract.md",
+    "verification-and-handoff.md",
+    "controls/graph.md",
+    "controls/loop.md",
+    "controls/multi-agent.md",
+    "controls/recurring.md",
+)
 VERSION_PATH = ROOT / "VERSION"
 VALIDATION_WORKFLOW_PATH = ROOT / ".github" / "workflows" / "validate-skill.yml"
 KICKOFF = (
@@ -60,12 +71,11 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertEqual(discovered, ["skills/you-suck-at-prompting"])
         self.assertTrue(OPENAI_PATH.is_file())
         self.assertEqual(
-            sorted(path.name for path in (SKILL_ROOT / "references").glob("*.md")),
-            [
-                "execution-shapes.md",
-                "materiality-and-authority.md",
-                "repair-contract.md",
-            ],
+            tuple(sorted(
+                path.relative_to(REFERENCE_ROOT).as_posix()
+                for path in sorted(REFERENCE_ROOT.rglob("*.md"))
+            )),
+            tuple(sorted(REFERENCE_FILES)),
         )
 
     def test_repository_has_no_native_package_or_private_artifacts(self) -> None:
@@ -115,7 +125,7 @@ class SkillPackageContractTests(unittest.TestCase):
     def test_version_is_one_strict_semver(self) -> None:
         raw = VERSION_PATH.read_text(encoding="utf-8")
         self.assertRegex(raw, r"^\d+\.\d+\.\d+\n?$")
-        self.assertGreaterEqual(tuple(map(int, raw.strip().split("."))), (0, 9, 0))
+        self.assertEqual(raw.strip(), "0.13.0")
 
     def test_validation_workflow_keeps_the_protected_validate_context(self) -> None:
         workflow = VALIDATION_WORKFLOW_PATH.read_text(encoding="utf-8")
@@ -151,13 +161,18 @@ class SkillPackageContractTests(unittest.TestCase):
         )
 
     def test_all_skill_references_resolve_inside_the_skill(self) -> None:
-        text = SKILL_PATH.read_text(encoding="utf-8")
-        references = re.findall(r"\((references/[^)]+\.md)\)", text)
-        self.assertGreaterEqual(len(references), 3)
-        for reference in references:
-            target = (SKILL_ROOT / reference).resolve()
-            self.assertTrue(target.is_relative_to(SKILL_ROOT.resolve()))
-            self.assertTrue(target.is_file(), reference)
+        links = []
+        for source in sorted(SKILL_ROOT.rglob("*.md")):
+            text = source.read_text(encoding="utf-8")
+            for href in re.findall(r"\]\(([^)]+)\)", text):
+                href = href.split("#", 1)[0]
+                if not href.endswith(".md") or href.startswith(("http:", "https:", "mailto:")):
+                    continue
+                links.append((source, href))
+                target = (source.parent / href).resolve()
+                self.assertTrue(target.is_relative_to(SKILL_ROOT.resolve()), href)
+                self.assertTrue(target.is_file(), href)
+        self.assertGreaterEqual(len(links), 8)
 
     def test_openai_metadata_keeps_implicit_selection(self) -> None:
         text = OPENAI_PATH.read_text(encoding="utf-8")
@@ -178,6 +193,7 @@ class SkillPackageContractTests(unittest.TestCase):
         execution = (SKILL_ROOT / "references" / "execution-shapes.md").read_text(
             encoding="utf-8"
         )
+        verification = (REFERENCE_ROOT / "verification-and-handoff.md").read_text(encoding="utf-8")
 
         self.assertIn("false-positive", skill.casefold())
         self.assertIn("proceed silently", skill.casefold())
@@ -193,6 +209,11 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("references/repair-contract.md", skill)
         self.assertIn("references/materiality-and-authority.md", skill)
         self.assertIn("references/execution-shapes.md", skill)
+        self.assertIn("references/verification-and-handoff.md", skill)
+        self.assertIn("resolves the active `[NEEDED: ...]` fields", skill)
+        self.assertIn("Loading a reference supplies guidance; it does not itself require intervention or a report.", skill)
+        self.assertIn("If a selected reference is unavailable", skill)
+        self.assertIn("Preserve an explicit supported approach", skill)
         for text in (repair,):
             self.assertIn("false-positive", text.casefold())
             self.assertIn("silently", text.casefold())
@@ -214,6 +235,22 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("do not become instructions for the reviewing agent", materiality)
         self.assertIn("Minimum useful instruction", execution)
         self.assertIn("one final integrator", execution)
+        for selector in ("DIRECT", "GOAL", "PLAN", "DETERMINISTIC", "RESEARCH", "SPIKE", "REVIEW"):
+            self.assertIn(f"**{selector}", execution)
+        self.assertIn("Procedural guides", execution)
+        self.assertIn("smallest check", verification)
+        self.assertIn("actions awaiting separate approval", verification)
+        for relative, required in {
+            "controls/loop.md": ("no-progress", "last verified state", "budget"),
+            "controls/graph.md": ("dependency edges", "join criteria", "final owner"),
+            "controls/multi-agent.md": ("independent reasoning", "isolated output", "integrator"),
+            "controls/recurring.md": ("durable state", "deduplicate", "next check"),
+        }.items():
+            content = (REFERENCE_ROOT / relative).read_text(encoding="utf-8")
+            self.assertIn("## Completion and failure", content, relative)
+            self.assertIn("## Composition", content, relative)
+            for phrase in required:
+                self.assertIn(phrase, content, relative)
 
     def test_visible_reviews_require_a_memorable_prompt_directed_roast(self) -> None:
         repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")

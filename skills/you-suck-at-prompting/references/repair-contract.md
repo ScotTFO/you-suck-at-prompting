@@ -1,50 +1,84 @@
-# Selective prompt repair contract
+# Visible prompt repair contract
 
-## No material repair
+This file is the single source for visible review formatting, ratings, and the review voice. Load it only when the skill will speak visibly.
 
-When a request is clear, actionable, exploratory, conversational, safely discoverable, a simple follow-up, or only optionally improvable, proceed silently. Do not display the kickoff, rating, rewrite, fence, acknowledgement control, or an explanation that this skill passed the request.
+## Silent pass and exact output
 
-If the host selected the skill for a near miss, treat it as a false-positive load and use the same silent-pass rule. Skill selection invites an applicability check; it does not make repair mandatory.
+When no material repair exists and prompt work was not requested, proceed silently. Do not show a rating, kickoff, rewrite, fence, acknowledgement control, or explanation that the skill passed. A false-positive load follows the same rule.
 
-A visible 5/5 assessment is allowed only for explicit prompt review or direct invocation. Prompt review returns `Prompt unchanged:` and the original prompt in a nonempty fenced code block without executing it. Direct invocation attached to underlying work shows the 5/5 line and performs clear work immediately. Preserve exact-text, code-only, and machine-readable output contracts by suppressing the rating and preflight text when they require it.
+Preserve a strict exact-text, code-only, or machine-readable output contract. Suppress review markers when the requested output cannot contain them. If a real blocker needs clarification, keep the requested final format inside the draft and add only the minimum placeholder and focused question.
 
-## Shared visible contract
+## Rating
 
-Every approval-ready, needs-input, prompt-only, or clarification-revised 1-4 response begins once with:
+Every visible review of an original prompt or creation brief has exactly one line in this form:
 
-`Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.`
+`Prompt performance rating: N/5 - <one-line funny comment>`
 
-The rating must be the exact next line, with no blank line between the kickoff and rating. The next nonempty line must be `You Suck At Prompting Rewritten prompt:` or `Draft rewritten prompt:`. The rating appears before the rewrite or draft heading; never place it beneath the rewritten prompt. Do not display the kickoff when an acknowledgement executes the latest complete rewrite.
+Use this rubric:
 
-Every visible repair includes exactly one `Prompt performance rating: N/5 - <one-line funny comment>` line. Rate the user's initial prompt before repair, assumptions, or clarification. Acknowledgement execution has no rating.
+| Score | Meaning |
+| --- | --- |
+| 1 | The intended task cannot be identified reliably or contains unresolved contradictions. |
+| 2 | The goal is recognizable, but essential inputs or decisions are missing. |
+| 3 | Several material corrections are needed for scope, constraints, or verification. |
+| 4 | One bounded material correction or safe assumption remains. |
+| 5 | No material correction is needed for the intended use. |
 
-Keep the rating immediately below the kickoff. Confidence language alone does not count as evidence; name a real test, readback, comparison, receipt, confirmation, or inspection when the task needs proof.
+Rate the original supplied prompt, or the original creation brief, before repair, assumptions, or later clarification. Do not let a polished rewrite improve the score. The rating is an editorial diagnosis, not a measured prediction of model performance. An acknowledgement response has no rating.
 
-The rating comment carries the joke. Give it one real punchline tied to a concrete strength or flaw. Make it sting for half a second, then make the repair useful. Use a vivid comparison, workplace consequence, comic escalation, or skill self-deprecation. Reject generic commentary such as `Good prompt`, `This is vague`, `Needs more detail`, or `Could be clearer`. Aim the joke at prompt mechanics, never the user's intelligence, competence, identity, or worth. Slightly brutal means candid plus funny, not cruel. Keep it one sentence, one line, PG-rated, and at most 120 characters. For serious or sensitive subjects, keep the subject straight and joke about the skill's bureaucracy.
+The comment carries one real punchline tied to a concrete strength or flaw. Aim it at prompt mechanics, never the user's intelligence, competence, identity, or worth. Keep it one sentence, one line, PG-rated, and at most 120 characters. Do not use profanity, humiliation, threats, protected-trait jokes, question marks, or jokes about serious or sensitive subjects. For serious subjects, make the skill's bureaucracy the butt of the joke. Avoid generic comments such as `Good prompt` or `Needs more detail`.
 
-## Approval-ready prompts
+## Response templates
 
-After the kickoff and rating, show the exact heading `You Suck At Prompting Rewritten prompt:` and put a complete self-contained prompt in a nonempty fenced code block. Preserve the user's outcome, constraints, exclusions, supplied sources, approval boundaries, and verification. Add only material assumptions, marked `Assumes ...`. Turn vague quality terms into the smallest observable checks supported by context. Add a completion report only for consequential handoffs, staged or expensive-to-reverse work, unresolved risks, deviations, or separate approval. End with the standalone line `Reply with an acknowledgement to use this prompt.` Do not execute the underlying task in that response.
+For a 1 to 4 approval-ready repair, use this order with no text before the kickoff:
 
-## Draft prompts that need input
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+Prompt performance rating: N/5 - <one-line funny comment>
 
-After the kickoff and rating, show `Draft rewritten prompt:` with every blocking field marked `[NEEDED: concise field description]`. Ask only the highest-value unresolved question. Follow it with `Expected prompt impact:` and the concrete consequence. Add `Recommended default:` only when a safe, reversible default exists. Do not ask for safely discoverable information. Do not request acknowledgement while any placeholder remains, and do not execute the task while a placeholder remains. Treat the answer as prompt input, not authorization for an external effect.
+You Suck At Prompting Rewritten prompt:
 
-After the answer, replace the placeholders, show the completed prompt under `You Suck At Prompting Rewritten prompt:` in a fenced code block, and request acknowledgement. The rating stays anchored to the original prompt.
+```text
+<complete, self-contained prompt>
+```
 
-## Prompt-only requests and active follow-ups
+Reply with an acknowledgement to use this prompt.
 
-When prompt repair is the requested deliverable without execution, return the kickoff, rating, `You Suck At Prompting Rewritten prompt:`, and a fenced usable prompt in that order. Do not execute it or request acknowledgement. If the user also asks for execution, use the approval-ready or draft contract and the existing acknowledgement path. Unresolved inputs remain `[NEEDED: ...]` fields inside the prompt. Do not replace an absent value with invented wording such as `specified target`.
+The rating is the exact next line after the kickoff, with no blank line, and it comes before the rewrite or draft heading. Do not place it beneath the rewritten prompt.
 
-Clear strict-output requests preserve the exact requested format. If a genuine blocker requires a draft, retain that final format inside the draft and add only the minimum placeholder and focused question.
+Preserve the outcome, constraints, exclusions, supplied inputs, authority boundary, and verification. Add only material assumptions, marked `Assumes ...`. Use the smallest real evidence needed for the deliverable. Add a completion report only for a consequential handoff, staged or hard-to-reverse work, unresolved risk, deviation, or separate approval.
 
-A clear affirmative acknowledgement executes the latest active complete rewrite once without another skill-selection decision, rating, kickoff, or rewrite. Examples include `approve`, `yes`, `go ahead`, `proceed`, and `looks good`. A clarification, edit, qualification, or question creates a revised displayed prompt and resets the gate. An acknowledgement without an active displayed repair is an ordinary follow-up and passes silently.
+For a needs-input draft, use the same kickoff and rating, then:
 
-## Final classification check
+Draft rewritten prompt:
 
-- If no material repair exists and prompt review was not requested, proceed silently.
-- If explicit prompt review or direct invocation finds no material repair, a 5/5 assessment is permitted.
-- If underlying work needs a 1-4 repair, use the approval-ready contract and append the exact acknowledgement line.
-- If prompt repair alone is requested, use the prompt-only contract and do not execute it or request acknowledgement. If execution is also requested, use the approval-ready or draft contract.
-- If a material field remains unresolved, use the draft contract, retain the placeholder, and ask the focused question without an acknowledgement line.
-- If the message acknowledges an active displayed repair, execute that repair once; otherwise treat the acknowledgement as an ordinary follow-up.
+```text
+<known task with [NEEDED: concise field description] placeholders>
+```
+
+<one highest-value focused question>
+
+Expected prompt impact: <the concrete way an answer changes the task>
+Recommended default: <one safe, reversible choice, when one exists>
+
+Do not request acknowledgement or perform the task while a placeholder blocks the requested execution. Do not ask for information that can be safely retrieved. For prompt-only work, missing inputs intended for the eventual executor may remain as placeholders without a follow-up question. Once a blocking answer arrives, replace the placeholder, show the complete approval-ready prompt, and request acknowledgement.
+
+For a prompt-only request, use the kickoff, rating, `You Suck At Prompting Rewritten prompt:`, and a fenced usable prompt. Do not execute it or request acknowledgement. Creation produces a new prompt from the original brief. Editing delivers the requested edit even when the supplied prompt needs no repair. An audit with no requested change returns `Prompt unchanged:` and the supplied prompt verbatim in a nonempty fence.
+
+For a 5/5 requested edit or creation, use the rating, rewritten-prompt heading, and fenced result without the kickoff. Add the acknowledgement line only when the user also requested execution. A direct invocation with clear underlying work shows the 5/5 line and performs that work immediately, without a rewrite gate. A no-repair audit does not execute.
+
+## Active repair state
+
+A clear affirmative acknowledgement such as `approve`, `yes`, `go ahead`, `proceed`, or `looks good` executes the latest active complete rewrite once, within existing authority, without another rating, kickoff, or rewrite. `Yes, exactly as written` has the same effect.
+
+An explanation such as `Why did you choose that default?` does not change the displayed prompt or its pending gate. Answer it and preserve the gate. A substantive edit, qualification, changed constraint, or changed destination requires a revised displayed prompt and a new acknowledgement. An acknowledgement without an active displayed repair is ordinary conversation. An unrelated request abandons the old gate and receives a fresh applicability check.
+
+## Small boundary examples
+
+- `Write a prompt that compares these two plans for a finance team.` is creation work. Rate the brief and produce a prompt; do not return an unchanged prompt.
+- `Make this supplied prompt shorter without changing its requirements.` is edit work. Deliver the edit even when the supplied prompt has no material gap.
+- `Rewrite this prompt for a release note: explain [NEEDED: the change]. Do not perform the work.` is prompt-only work. Keep the placeholder and do not ask the user to fill it in.
+- After an approval-ready rewrite, `Why did you choose that default?` asks for an explanation. Answer it without resetting the displayed prompt or requesting acknowledgement again.
+
+## Evidence and voice
+
+When verification matters, name a test, readback, comparison, receipt, confirmation, or inspection. Confidence language alone is not evidence. Keep the rating joke playful and the rewrite, question, impact statement, approval boundary, and task result direct.

@@ -16,14 +16,14 @@ KICKOFF = (
     "review is underway."
 )
 EXPECTED_DESCRIPTION = (
-    "Use this skill to audit or repair prompts when the user asks to write, rewrite, critique, "
-    "clarify, or quality-check a prompt, directly invokes You Suck at Prompting, when a task "
-    "has a material ambiguity, conflict, authority gap, unclear scope or destination, missing "
-    "success criteria, or an execution design that could change the outcome, or while an active "
-    "repair needs clarification or acknowledgement. Do not use it for clear, actionable, "
-    "exploratory, conversational, or safely discoverable requests, ordinary follow-ups, "
-    "acknowledgements without an active repair, minor wording issues, or optional improvements. "
-    "If no material repair is needed, proceed silently unless prompt review is requested."
+    "Use this skill to write, edit, audit, or repair prompts when the user explicitly requests "
+    "prompt work, directly invokes You Suck at Prompting, when a task has a material ambiguity, "
+    "conflict, authority gap, unclear scope or destination, missing success criteria, or an "
+    "execution design that could change the outcome, or while an active repair needs clarification "
+    "or acknowledgement. Do not use it for clear, actionable, exploratory, conversational, or "
+    "safely discoverable requests, ordinary follow-ups, acknowledgements without an active repair, "
+    "minor wording issues, or optional improvements. If no material repair is needed, proceed "
+    "silently unless prompt work or review is requested."
 )
 
 
@@ -175,52 +175,63 @@ class SkillPackageContractTests(unittest.TestCase):
         skill = SKILL_PATH.read_text(encoding="utf-8")
         repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
         materiality = MATERIALITY_CONTRACT_PATH.read_text(encoding="utf-8")
+        execution = (SKILL_ROOT / "references" / "execution-shapes.md").read_text(
+            encoding="utf-8"
+        )
 
-        for text in (skill, repair):
+        self.assertIn("false-positive", skill.casefold())
+        self.assertIn("proceed silently", skill.casefold())
+        self.assertIn("EXPLICIT PROMPT WORK", skill)
+        self.assertIn("requested prompt deliverable", skill)
+        self.assertIn("quoted prompts", skill)
+        self.assertIn("explicitly adopts them", skill)
+        self.assertIn("Treat named files, supplied inputs, and described sources as available", skill)
+        self.assertIn("explanation", skill)
+        self.assertIn("Yes, exactly as written", skill)
+        self.assertIn("Clear strict-output requests preserve the exact requested format", skill)
+        self.assertIn("Prompt acknowledgement authorizes only", skill)
+        self.assertIn("references/repair-contract.md", skill)
+        self.assertIn("references/materiality-and-authority.md", skill)
+        self.assertIn("references/execution-shapes.md", skill)
+        for text in (repair,):
             self.assertIn("false-positive", text.casefold())
             self.assertIn("silently", text.casefold())
             self.assertIn("You Suck At Prompting Rewritten prompt:", text)
             self.assertIn("Draft rewritten prompt:", text)
-            self.assertIn("[NEEDED: ...]", text)
+            self.assertIn("[NEEDED:", text)
             self.assertIn("Prompt performance rating: N/5", text)
             self.assertIn("Reply with an acknowledgement to use this prompt.", text)
             self.assertIn("Expected prompt impact:", text)
             self.assertIn("Recommended default:", text)
             self.assertIn("executes the latest", text)
             self.assertIn("once", text)
-        self.assertIn("A normal **PASS** never does", skill)
-        self.assertIn("Only explicit prompt review or direct invocation", skill)
-        self.assertIn("If the user also asks for execution", skill)
-        self.assertIn("Clear strict-output requests preserve the exact requested format", skill)
-        self.assertIn("Prompt unchanged:", skill)
+            self.assertIn("Score", text)
+            self.assertIn("Several material corrections", text)
         self.assertEqual(skill.count(KICKOFF), 1)
         self.assertEqual(repair.count(KICKOFF), 1)
         self.assertIn("If any condition fails, do not ask", materiality)
         self.assertIn("Never treat a polished prompt as authorization", materiality)
+        self.assertIn("do not become instructions for the reviewing agent", materiality)
+        self.assertIn("Minimum useful instruction", execution)
+        self.assertIn("one final integrator", execution)
 
     def test_visible_reviews_require_a_memorable_prompt_directed_roast(self) -> None:
-        skill = SKILL_PATH.read_text(encoding="utf-8")
         repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
 
-        for text in (skill, repair):
+        for text in (repair,):
             self.assertIn("one real punchline", text)
-            self.assertIn("Make it sting for half a second", text)
-            self.assertIn("Slightly brutal means candid plus funny, not cruel", text)
-            self.assertIn("serious or sensitive", text)
-            self.assertIn("rating comment carries the joke", text.casefold())
-        self.assertIn("Prompting Performance Improvement Plan", skill)
-        self.assertIn("lint messages wearing fake mustaches", skill)
+            self.assertIn("prompt mechanics", text)
+            self.assertIn("serious subjects", text)
+            self.assertIn("rating", text.casefold())
         self.assertIn("never the user's intelligence", repair)
 
     def test_rating_is_directly_below_kickoff_and_before_rewrite(self) -> None:
-        skill = SKILL_PATH.read_text(encoding="utf-8")
         repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
         examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
 
-        for text in (skill, repair):
-            self.assertIn("exact next line", text)
-            self.assertIn("before the rewrite", text)
-            self.assertIn("rating", text.casefold())
+        self.assertIn("exact next line", repair)
+        self.assertIn("before the rewrite", repair)
+        self.assertIn("rating", repair.casefold())
 
         material_example = examples.split("## Material repair", 1)[1].split(
             "## Explicit review", 1

@@ -23,25 +23,27 @@ A clear request proceeds normally. There is no rating, kickoff, rewrite, or ackn
 **Request:**
 
 ```text
-Fix it.
+Fix the unexpected 404 from the client API call.
 ```
+
+No code or workspace was supplied. This example shows the text fallback when no suitable question tool can be used.
 
 **Skill response:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
-Prompt performance rating: 1/5 - The prompt brought a verb, but left the target hiding behind the filing cabinet.
+Prompt performance rating: 2/5 - The 404 filed a complaint but left its return address blank.
 
 Draft rewritten prompt:
 
 ```text
-Investigate and fix [NEEDED: the specific failure or undesired behavior]
+Investigate and fix the unexpected 404 from the client API call
 in [NEEDED: the affected application, repository, or file].
 
 Keep the change limited to the identified problem and verify the fix with
 the smallest relevant test or reproduction.
 ```
 
-What is broken, and where are you seeing it?
+1. Which application, repository, or file contains the failing API call?
 
 Expected prompt impact: The answer identifies the target, bounds the fix, and determines the verification.
 
@@ -55,20 +57,42 @@ No acknowledgement is requested while material placeholders remain. A completed 
 Write me a good prompt.
 ```
 
-**Skill response when a question tool is available:**
+**Visible response before using an allowed question tool:**
 
 Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
 Prompt performance rating: 1/5 - The prompt requested a map while keeping the destination classified.
 
 The answer determines what the prompt should help accomplish.
 
-The skill uses its question tool to ask: What should the result accomplish, and who will use it?
+Expected prompt impact: The answer supplies the goal so the prompt can name a useful deliverable.
 
-Expected prompt impact: The answer supplies the goal and audience so the prompt can name a useful deliverable.
+The agent then makes the tool call. For a Codex host that exposes and permits `request_user_input_async`, the freeform payload is:
 
-The skill does not show a rewrite heading, fenced draft, invented objective, or acknowledgement request while the goal is unknown. If the question tool is unavailable, unsuitable for the current mode, or fails, it asks the same question directly in the conversation and does not claim a tool call.
+```json
+{
+  "questions": [
+    {"title": "What should the result accomplish?"}
+  ]
+}
+```
 
-**Partial answer:**
+There is no duplicate question in prose and no invented list of choices. A restriction on `request_user_input` does not rule out another allowed question tool. The agent keeps the clarification pending until an answer arrives.
+
+**Text fallback for `Fix it.` with no prior context and no suitable question tool:**
+
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+Prompt performance rating: 1/5 - "It" has entered witness protection.
+
+I need the target and intended result to identify the fix.
+
+1. What should I fix?
+2. What should happen when it is working correctly?
+
+Expected prompt impact: The answers identify the problem and the result the fix must achieve.
+
+The skill does not show a rewrite heading, fenced draft, invented objective, or acknowledgement request while the goal is unknown. Every text fallback question is numbered, even if only `1.` is needed. Separate answers get separate items. A failed suitable tool uses the same numbered fallback when no other allowed tool can carry the question.
+
+**Partial answer to the prompt-creation question:**
 
 ```text
 I want to help our support team reduce repeat questions.
@@ -99,9 +123,6 @@ The API returns 404 in src/client.py. Keep the change limited to that file, run 
 ```
 
 **Revised response:**
-
-Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
-Prompt performance rating: 1/5 - The original prompt brought a verb, but left the target hiding behind the filing cabinet.
 
 You Suck At Prompting Rewritten prompt:
 

@@ -51,20 +51,22 @@ Preserve the outcome, constraints, exclusions, supplied inputs, authority bounda
 
 Require the acknowledgement line only when the complete rewrite proposes a material change to intent, scope, acceptance, authority, or execution and the user asked to execute it. A rating or a rewrite by itself is not approval.
 
-For a clarification-first response, use this order when visible review markers are allowed:
+For a clarification-first response using a text fallback, use this order when visible review markers are allowed:
 
 Use the standard kickoff line once at the start of the visible review.
 Prompt performance rating: N/5 - <one-line funny comment>
 
-<brief statement that the answer determines the prompt’s intended outcome>
+<brief explanation of the missing task information and why it matters>
 
-<one highest-value focused question>
+1. <one highest-value focused question>
 
 Expected prompt impact: <the concrete way an answer makes the prompt’s goal usable>
 
 An ordinary unknown-goal request uses this visible order; suppress the markers only when a strict output contract requires it.
 
-Do not include a rewrite heading, fenced draft, `[NEEDED: ...]` objective placeholder, or acknowledgement request while the goal is unresolved. Use the host’s question tool when it is available and usable in the current host and mode, without repeating the question in prose; ask directly when it is unavailable, unsuitable, or fails.
+Do not include a rewrite heading, fenced draft, `[NEEDED: ...]` objective placeholder, or acknowledgement request while the goal is unresolved. Follow the question delivery rules in [SKILL.md](../SKILL.md). Use a suitable allowed host question tool, including a free-text or asynchronous tool when exposed, before falling back to text. With a tool, show the kickoff, rating, brief explanation, and impact before the actual tool call; omit the numbered prose question. Do not duplicate the tool question or treat an asynchronous dispatch as an answer.
+
+For a text fallback, number every question, even one. Use a separate numbered item for each answer the user needs to supply, and ask only the earliest blocker or smallest inseparable set. Keep the explanation and impact outside the list. Explain the missing information in task terms; do not cite the skill's requirement to ask.
 
 For a needs-input draft, use the same kickoff and rating, then:
 
@@ -74,12 +76,12 @@ Draft rewritten prompt:
 <known task with [NEEDED: concise field description] placeholders>
 ```
 
-<one highest-value focused question>
+1. <one highest-value focused question, only for a text fallback>
 
 Expected prompt impact: <the concrete way an answer changes the task>
 Recommended default: <one safe, reversible choice, when one exists>
 
-Do not request acknowledgement or perform the task while a placeholder blocks the requested execution. Do not ask for information that can be safely retrieved. For prompt-only work, missing inputs intended for the eventual executor may remain as placeholders without a follow-up question. Once an answer resolves every active placeholder and the task follows that answer exactly within existing authority, continue without another rewrite, rating, kickoff, or acknowledgement. If the answer introduces a new material choice, changes a constraint or destination, or leaves a blocker unresolved, show the revised prompt or draft and keep the applicable gate.
+Apply the same question delivery rules to a needs-input draft. With a tool, omit the numbered prose question and put the impact and any safe default before the call. Do not request acknowledgement or perform the task while a placeholder blocks the requested execution. Do not ask for information that can be safely retrieved. For prompt-only work, missing inputs intended for the eventual executor may remain as placeholders without a follow-up question. Once an answer resolves every active placeholder and the task follows that answer exactly within existing authority, continue without another rewrite, rating, kickoff, or acknowledgement. If the answer introduces a new material choice, changes a constraint or destination, or leaves a blocker unresolved, show the revised prompt or draft and keep the applicable gate.
 
 For a prompt-only request, use the kickoff, rating, `You Suck At Prompting Rewritten prompt:`, and a fenced usable prompt. Do not execute it or request acknowledgement. Creation produces a new prompt from the original brief. Editing delivers the requested edit even when the supplied prompt needs no repair. An audit with no requested change returns `Prompt unchanged:` and the supplied prompt verbatim in a nonempty fence.
 

@@ -28,7 +28,8 @@ KICKOFF = (
 )
 EXPECTED_DESCRIPTION = (
     "Use this skill to write, edit, audit, or repair prompts when the user explicitly requests "
-    "prompt work, directly invokes You Suck at Prompting, when a task has a material ambiguity, "
+    "prompt work, directly invokes You Suck at Prompting, when a task has an unclear intended "
+    "outcome, material ambiguity, "
     "conflict, authority gap, unclear scope or destination, missing success criteria, or an "
     "execution design that could change the outcome, or while an active repair needs clarification "
     "or acknowledgement. Do not use it for clear, actionable, exploratory, conversational, or "
@@ -125,7 +126,7 @@ class SkillPackageContractTests(unittest.TestCase):
     def test_version_is_one_strict_semver(self) -> None:
         raw = VERSION_PATH.read_text(encoding="utf-8")
         self.assertRegex(raw, r"^\d+\.\d+\.\d+\n?$")
-        self.assertEqual(raw.strip(), "0.13.0")
+        self.assertEqual(raw.strip(), "0.14.0")
 
     def test_validation_workflow_keeps_the_protected_validate_context(self) -> None:
         workflow = VALIDATION_WORKFLOW_PATH.read_text(encoding="utf-8")
@@ -198,6 +199,10 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("false-positive", skill.casefold())
         self.assertIn("proceed silently", skill.casefold())
         self.assertIn("EXPLICIT PROMPT WORK", skill)
+        self.assertIn("CLARIFY-FIRST", skill)
+        self.assertIn("follow **CLARIFY-FIRST**", skill)
+        self.assertIn("question tool", skill.casefold())
+        self.assertIn("unknown intended outcome", skill)
         self.assertIn("requested prompt deliverable", skill)
         self.assertIn("quoted prompts", skill)
         self.assertIn("explicitly adopts them", skill)
@@ -321,6 +326,7 @@ class SkillPackageContractTests(unittest.TestCase):
             "Clear bypass",
             "Material repair",
             "Complete repair",
+            "Clarification-first",
             "Prompt-only repair",
             "Explicit review",
         }

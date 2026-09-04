@@ -6,7 +6,7 @@ This file is the single source for visible review formatting, ratings, and the r
 
 When no material repair exists and prompt work was not requested, proceed silently. Do not show a rating, kickoff, rewrite, fence, acknowledgement control, or explanation that the skill passed. A false-positive load follows the same rule.
 
-Preserve a strict exact-text, code-only, or machine-readable output contract. Suppress review markers when the requested output cannot contain them. If a real blocker needs clarification, keep the requested final format inside the draft and add only the minimum placeholder and focused question.
+Preserve a strict exact-text, code-only, or machine-readable output contract. Suppress review markers when the requested output cannot contain them. If a real blocker needs clarification after the intended outcome is known, keep the requested final format inside the draft and add only the minimum placeholder and focused question. If the intended outcome itself is unknown, clarify before drafting rather than inventing an objective or a placeholder for one.
 
 ## Rating
 
@@ -51,6 +51,21 @@ Preserve the outcome, constraints, exclusions, supplied inputs, authority bounda
 
 Require the acknowledgement line only when the complete rewrite proposes a material change to intent, scope, acceptance, authority, or execution and the user asked to execute it. A rating or a rewrite by itself is not approval.
 
+For a clarification-first response, use this order when visible review markers are allowed:
+
+Use the standard kickoff line once at the start of the visible review.
+Prompt performance rating: N/5 - <one-line funny comment>
+
+<brief statement that the answer determines the prompt’s intended outcome>
+
+<one highest-value focused question>
+
+Expected prompt impact: <the concrete way an answer makes the prompt’s goal usable>
+
+An ordinary unknown-goal request uses this visible order; suppress the markers only when a strict output contract requires it.
+
+Do not include a rewrite heading, fenced draft, `[NEEDED: ...]` objective placeholder, or acknowledgement request while the goal is unresolved. Use the host’s question tool when it is available and usable in the current host and mode, without repeating the question in prose; ask directly when it is unavailable, unsuitable, or fails.
+
 For a needs-input draft, use the same kickoff and rating, then:
 
 Draft rewritten prompt:
@@ -74,13 +89,16 @@ For a 5/5 requested edit or creation, use the rating, rewritten-prompt heading, 
 
 A clear affirmative acknowledgement such as `approve`, `yes`, `go ahead`, `proceed`, or `looks good` executes the latest active complete rewrite once, within existing authority, without another rating, kickoff, or rewrite. `Yes, exactly as written` has the same effect.
 
-An explanation such as `Why did you choose that default?` does not change the displayed prompt or its pending gate. Answer it and preserve the gate. An answer that resolves the active clarification exactly within existing authority permits continuation without another visible review or acknowledgement. A substantive edit, qualification, changed constraint, changed destination, or explicit request to review before proceeding requires a revised displayed prompt or preserved gate and a new acknowledgement when execution is requested. An acknowledgement without an active displayed repair is ordinary conversation. An unrelated request abandons the old gate and receives a fresh applicability check.
+An explanation such as `Why did you choose that default?` does not change the displayed prompt or its pending gate. Answer it and preserve the gate. A vague answer to a clarification-first question leaves the goal unresolved and keeps the question state. An answer that resolves the active clarification exactly within existing authority permits continuation without another visible review or acknowledgement. A substantive edit, qualification, changed constraint, changed destination, or explicit request to review before proceeding requires a revised displayed prompt or preserved gate and a new acknowledgement when execution is requested. An acknowledgement without an active displayed repair is ordinary conversation. An unrelated request abandons the old gate and receives a fresh applicability check.
 
 ## Small boundary examples
 
 - `Write a prompt that compares these two plans for a finance team.` is creation work. Rate the brief and produce a prompt; do not return an unchanged prompt.
 - `Make this supplied prompt shorter without changing its requirements.` is edit work. Deliver the edit even when the supplied prompt has no material gap.
 - `Rewrite this prompt for a release note: explain [NEEDED: the change]. Do not perform the work.` is prompt-only work. Keep the placeholder and do not ask the user to fill it in.
+- `Write me a good prompt.` has no reliable intended outcome. Ask what the result should accomplish before drafting; do not invent a task or show a pretend prompt.
+- `Build me an app.` has an action but no purpose. Ask what problem the app should solve before asking about platform or stack.
+- `Write a prompt for a release note about [NEEDED: the change] for [NEEDED: the audience].` has a stated purpose and intentional parameters. Keep the placeholders for the eventual executor without asking the current user to fill them in when the request is prompt-only.
 - After an approval-ready rewrite, `Why did you choose that default?` asks for an explanation. Answer it without resetting the displayed prompt or requesting acknowledgement again.
 
 ## Evidence and voice

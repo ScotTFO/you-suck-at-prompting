@@ -21,8 +21,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
-      - name: Validate layout, behavior, privacy, version, and docs
-        run: python -B -m unittest tests.test_skill_contract
+      - name: Validate package contract and behavioral fixture integrity
+        run: python -B -m unittest tests.test_skill_contract tests.test_behavior_cases
 
   version-policy:
     name: enforce runtime version policy

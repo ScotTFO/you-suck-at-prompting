@@ -98,6 +98,7 @@ The external `skills` installer collects anonymous telemetry by default. Set `DI
 
 - [Installation, migration, updates, removal, and smoke tests](docs/installation.md)
 - [Representative behavior conversations](docs/examples.md)
+- [Change-based testing and the public behavioral suite](docs/testing.md)
 - [Behavior, safety, privacy, retention, and repository boundaries](docs/behavior-and-safety.md)
 - [Canonical skill runtime](skills/you-suck-at-prompting/SKILL.md)
 

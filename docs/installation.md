@@ -70,13 +70,13 @@ Release checks use `--copy` so the priority destinations can be compared byte fo
 Use a tag URL when reproducibility matters:
 
 ```text
-npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.1
+npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.2
 ```
 
 The release checks pin the installer as well:
 
 ```text
-npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.1 --agent '*' --copy --yes
+npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.2 --agent '*' --copy --yes
 ```
 
 ## Update

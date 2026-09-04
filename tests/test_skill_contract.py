@@ -126,7 +126,7 @@ class SkillPackageContractTests(unittest.TestCase):
     def test_version_is_one_strict_semver(self) -> None:
         raw = VERSION_PATH.read_text(encoding="utf-8")
         self.assertRegex(raw, r"^\d+\.\d+\.\d+\n?$")
-        self.assertEqual(raw.strip(), "0.14.1")
+        self.assertEqual(raw.strip(), "0.14.2")
 
     def test_validation_workflow_keeps_the_protected_validate_context(self) -> None:
         workflow = VALIDATION_WORKFLOW_PATH.read_text(encoding="utf-8")
@@ -222,6 +222,13 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("request_user_input_async", skill)
         self.assertIn("freeform", skill.casefold())
         self.assertIn("numbered list", skill.casefold())
+        clarification_guardrails = skill.find("## Non-negotiable clarification delivery")
+        self.assertGreaterEqual(clarification_guardrails, 0)
+        self.assertLess(
+            clarification_guardrails,
+            3500,
+            "host skill loads must expose the clarification fallback guardrails",
+        )
         self.assertRegex(skill, r"Use `1\.`.*single question")
         for text in (repair,):
             self.assertIn("false-positive", text.casefold())

@@ -64,7 +64,7 @@ The public repository contains the distributable skill, documentation, package-c
 
 ## Verification status
 
-The following compatibility snapshot was checked on 2026-09-03 for `v0.14.0`. These historical checks do not qualify the `v0.14.2` changes or claim that every host has passed live inference.
+The following compatibility snapshot was checked on 2026-09-03 for `v0.14.0`. These historical checks do not qualify the `v0.14.3` changes or claim that every host has passed live inference.
 
 | Check | Status | Evidence |
 |---|---|---|

@@ -14,6 +14,8 @@ When the target or goal is unknown, apply these rules before drafting:
 - Inspect the question tools exposed by the host and permitted in the current mode. A mode-restricted or unavailable tool is not an option.
 - A question tool counts only when an exposed, allowed function actually executes and returns a result or an explicit pending state. Never claim a tool call, pending question, or answer from assistant prose.
 - If no allowed question tool executes, use a Markdown numbered list outside code fences. Number every fallback question, including a single question as `1.`. Put each independently answerable request in its own item, and do not repeat it elsewhere.
+- Never emit a standalone question sentence such as `What would you like me to fix?` in visible assistant prose. The only visible prose fallback is a numbered item.
+- If a tool attempt is not confirmed by a tool result or an explicit host pending response, treat it as failed and immediately use the numbered fallback. A generated call label, a prose claim, or a pending sentence is not execution evidence.
 - Keep the work blocked until the user answers. Do not invent an objective, draft, or acknowledgement request while the goal is unresolved.
 
 ## Decide whether to intervene

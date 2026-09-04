@@ -70,13 +70,13 @@ Release checks use `--copy` so the priority destinations can be compared byte fo
 Use a tag URL when reproducibility matters:
 
 ```text
-npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.13.0
+npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.0
 ```
 
 The release checks pin the installer as well:
 
 ```text
-npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.13.0 --agent '*' --copy --yes
+npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.0 --agent '*' --copy --yes
 ```
 
 ## Update
@@ -184,9 +184,10 @@ Use a fresh task or chat for each case.
 
 1. **Clear bypass:** Submit `Return exactly the word READY.` Expect exactly `READY`, with no rating or preflight markers.
 2. **Material repair:** Submit `Fix it.` Expect a draft containing `[NEEDED: ...]`, one focused question, and no acknowledgement request while required details remain.
-3. **Completed repair:** Answer every placeholder exactly, and confirm that the task runs once without another rating, kickoff, or acknowledgement.
-4. **Prompt-only:** Ask to rewrite `Explain [NEEDED: the change] for [NEEDED: the audience]` without execution. Expect placeholders in the returned prompt, no question, and no acknowledgement request.
-5. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written. The inner task must not execute.
+3. **Unknown goal:** Submit `Write me a good prompt.` Expect one purpose question before any draft. If a question tool is unavailable, expect the same question directly in the conversation.
+4. **Completed repair:** Answer every placeholder exactly, and confirm that the task runs once without another rating, kickoff, or acknowledgement.
+5. **Prompt-only:** Ask to rewrite `Explain [NEEDED: the change] for [NEEDED: the audience]` without execution. Expect placeholders in the returned prompt, no question, and no acknowledgement request.
+6. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written. The inner task must not execute.
 
 Direct invocation is `$you-suck-at-prompting` in Codex. Other harnesses use their installed-skill interface.
 

@@ -47,6 +47,43 @@ Expected prompt impact: The answer identifies the target, bounds the fix, and de
 
 No acknowledgement is requested while material placeholders remain. A completed rewrite still cannot create authority to deploy, publish, purchase, delete, disclose, or change access.
 
+## Clarification-first
+
+**Request:**
+
+```text
+Write me a good prompt.
+```
+
+**Skill response when a question tool is available:**
+
+Analyzing whether You Suck at Prompting… your prompt’s performance review is underway.
+Prompt performance rating: 1/5 - The prompt requested a map while keeping the destination classified.
+
+The answer determines what the prompt should help accomplish.
+
+The skill uses its question tool to ask: What should the result accomplish, and who will use it?
+
+Expected prompt impact: The answer supplies the goal and audience so the prompt can name a useful deliverable.
+
+The skill does not show a rewrite heading, fenced draft, invented objective, or acknowledgement request while the goal is unknown. If the question tool is unavailable, unsuitable for the current mode, or fails, it asks the same question directly in the conversation and does not claim a tool call.
+
+**Partial answer:**
+
+```text
+I want to help our support team reduce repeat questions.
+```
+
+The skill keeps that goal and asks only the remaining essential question, such as which support material or output the team needs. It does not ask again what the prompt is for. After the answer identifies the deliverable and necessary constraints, the skill writes the prompt without repeating the kickoff or rating.
+
+**Reusable-template boundary:**
+
+```text
+Write a release-note prompt for [NEEDED: the change] aimed at [NEEDED: the audience]. Do not perform the work.
+```
+
+This request states the purpose and intentionally leaves executor inputs open. The prompt-only response keeps those placeholders and does not start a goal-discovery interview.
+
 ## Complete repair
 
 **Original request:**

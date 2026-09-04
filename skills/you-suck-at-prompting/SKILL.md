@@ -16,6 +16,7 @@ When the target or goal is unknown, apply these rules before drafting:
 - If no allowed question tool executes, use a Markdown numbered list outside code fences. Number every fallback question, including a single question as `1.`. Put each independently answerable request in its own item, and do not repeat it elsewhere.
 - Never emit a standalone question sentence such as `What would you like me to fix?` in visible assistant prose. The only visible prose fallback is a numbered item.
 - If a tool attempt is not confirmed by a tool result or an explicit host pending response, treat it as failed and immediately use the numbered fallback. A generated call label, a prose claim, or a pending sentence is not execution evidence.
+- When a host renders tool question text directly, include its ordinal in the tool question itself (`1. ...`); if the tool cannot carry that text, use the numbered prose fallback instead.
 - Keep the work blocked until the user answers. Do not invent an objective, draft, or acknowledgement request while the goal is unresolved.
 
 ## Decide whether to intervene

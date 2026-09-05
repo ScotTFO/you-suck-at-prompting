@@ -13,7 +13,7 @@ REFERENCE_ROOT = ROOT / "skills" / "you-suck-at-prompting" / "references"
 TAGS = {
     "activation", "control", "strict-output", "prompt-only", "execution",
     "clarification", "multi-turn", "authority", "untrusted-data",
-    "progressive-disclosure",
+    "progressive-disclosure", "discovery", "lifecycle", "reference-fallback",
 }
 
 
@@ -40,10 +40,20 @@ def validate_suite(suite: object) -> None:
     seen = set()
     for case in cases:
         require(isinstance(case, dict), "case must be an object")
-        require(set(case) in (
-            {"id", "title", "tags", "turns"},
-            {"id", "title", "tags", "turns", "trace"},
-        ), "unexpected case fields")
+        required = {"id", "title", "tags", "turns"}
+        require(required <= set(case) <= required | {"trace", "files", "unavailable_references"},
+                "unexpected case fields")
+        if "files" in case:
+            require(isinstance(case["files"], dict) and bool(case["files"]), "files must be a nonempty object")
+            for name, content in case["files"].items():
+                require(isinstance(name, str) and bool(re.fullmatch(r"[a-z][a-z0-9-]*\.txt", name)),
+                        "fixture files must be plain local text filenames")
+                require(isinstance(content, str) and bool(content), "fixture content must be nonempty text")
+        if "unavailable_references" in case:
+            text_list(case["unavailable_references"], "unavailable_references")
+            for name in case["unavailable_references"]:
+                require(name in {p.relative_to(REFERENCE_ROOT).as_posix() for p in REFERENCE_ROOT.rglob("*.md")},
+                        "unavailable reference must name a shipped reference")
         case_id = case["id"]
         require(isinstance(case_id, str) and bool(re.fullmatch(r"[a-z][a-z0-9-]*", case_id)),
                 "case id must be a lowercase slug")
@@ -53,6 +63,9 @@ def validate_suite(suite: object) -> None:
                 f"{case_id}: title must be nonempty")
         text_list(case["tags"], f"{case_id}: tags")
         require(set(case["tags"]) <= TAGS, f"{case_id}: unknown tag")
+        require(("files" in case) == ("discovery" in case["tags"]), "discovery requires files")
+        require(("unavailable_references" in case) == ("reference-fallback" in case["tags"]),
+                "fallback requires a declared missing reference")
         turns = case["turns"]
         require(isinstance(turns, list) and bool(turns), f"{case_id}: turns must be nonempty")
         require((len(turns) > 1) == ("multi-turn" in case["tags"]),
@@ -68,9 +81,9 @@ def validate_suite(suite: object) -> None:
                 f"{case_id}: disclosure cases need a trace rubric")
         if "trace" in case:
             trace = case["trace"]
-            require(isinstance(trace, dict) and set(trace) == {"required", "forbidden"},
+            require(isinstance(trace, dict) and set(trace) == {"required", "unnecessary"},
                     f"{case_id}: invalid trace fields")
-            for field in ("required", "forbidden"):
+            for field in ("required", "unnecessary"):
                 text_list(trace[field], f"{case_id}: trace {field}")
                 for relative in trace[field]:
                     path = PurePosixPath(relative)
@@ -80,7 +93,7 @@ def validate_suite(suite: object) -> None:
                     target = (REFERENCE_ROOT / path).resolve()
                     require(target.is_relative_to(REFERENCE_ROOT.resolve()) and target.is_file(),
                             f"{case_id}: reference is missing or outside runtime")
-            require(not set(trace["required"]) & set(trace["forbidden"]),
+            require(not set(trace["required"]) & set(trace["unnecessary"]),
                     f"{case_id}: conflicting trace requirements")
 
 
@@ -91,9 +104,21 @@ class BehaviorFixtureTests(unittest.TestCase):
     def test_public_suite_is_valid(self) -> None:
         validate_suite(self.suite)
 
-    def test_suite_stays_small_and_covers_the_declared_boundaries(self) -> None:
-        self.assertGreaterEqual(len(self.suite["cases"]), 8)
-        self.assertLessEqual(len(self.suite["cases"]), 12)
+    def test_outcome_comparison_has_complete_synthetic_inputs(self) -> None:
+        comparison = json.loads(CASES_PATH.with_name("outcomes.json").read_text(encoding="utf-8"))
+        self.assertEqual(set(comparison), {"schema_version", "cases"})
+        self.assertEqual(comparison["schema_version"], 1)
+        expected = {"writing", "summarization", "structured-extraction",
+                    "coding-instructions", "advanced-execution"}
+        self.assertEqual({case["id"] for case in comparison["cases"]}, expected)
+        self.assertEqual(len(comparison["cases"]), len(expected))
+        for case in comparison["cases"]:
+            self.assertEqual(set(case), {"id", "request", "downstream_input", "criteria"})
+            self.assertTrue(case["request"].strip())
+            self.assertTrue(case["downstream_input"].strip())
+            text_list(case["criteria"], case["id"])
+
+    def test_suite_covers_the_declared_boundaries(self) -> None:
         covered = {tag for case in self.suite["cases"] for tag in case["tags"]}
         self.assertEqual(covered, TAGS)
 
@@ -110,6 +135,7 @@ class BehaviorFixtureTests(unittest.TestCase):
             lambda case: case.update(id="Not a slug"),
             lambda case: case.update(title=" "),
             lambda case: case.update(tags=["unknown"]),
+            lambda case: case.update(tags=None),
             lambda case: case.update(tags=["control", "control"]),
             lambda case: case.update(turns=[]),
             lambda case: case.update(turns=["not an object"]),
@@ -143,9 +169,23 @@ class BehaviorFixtureTests(unittest.TestCase):
 
     def test_conflicting_reference_traces_are_rejected(self) -> None:
         case = next(case for case in self.suite["cases"] if "trace" in case)
-        case["trace"]["forbidden"].append(case["trace"]["required"][0])
+        case["trace"]["unnecessary"].append(case["trace"]["required"][0])
         with self.assertRaisesRegex(ValueError, "conflicting trace"):
             validate_suite(self.suite)
+
+    def test_unsafe_or_invalid_setup_is_rejected(self) -> None:
+        for name in ("../workshop.txt", "/workshop.txt", "AGENTS.md", "run.ps1"):
+            suite = copy.deepcopy(self.suite)
+            case = next(c for c in suite["cases"] if "files" in c)
+            case["files"] = {name: "synthetic"}
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                validate_suite(suite)
+        for name in ("../SKILL.md", "unknown.md"):
+            suite = copy.deepcopy(self.suite)
+            case = next(c for c in suite["cases"] if "unavailable_references" in c)
+            case["unavailable_references"] = [name]
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                validate_suite(suite)
 
 
 if __name__ == "__main__":

@@ -70,13 +70,13 @@ Release checks use `--copy` so the priority destinations can be compared byte fo
 Use a tag URL when reproducibility matters:
 
 ```text
-npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.4
+npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.15.0
 ```
 
 The release checks pin the installer as well:
 
 ```text
-npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.14.4 --agent '*' --copy --yes
+npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.15.0 --agent '*' --copy --yes
 ```
 
 ## Update
@@ -183,9 +183,9 @@ DISABLE_TELEMETRY=1 npx skills@latest add ScotTFO/you-suck-at-prompting
 Use a fresh task or chat for each case.
 
 1. **Clear bypass:** Submit `Return exactly the word READY.` Expect exactly `READY`, with no rating or preflight markers.
-2. **Unknown fix:** In a fresh chat with no supplied target, submit `Fix it.` Expect clarification before any draft. A suitable allowed question tool should ask about the target and intended result. If none can be used, expect a numbered text list with each question on its own item, and no acknowledgement request.
+2. **Unknown fix:** In a fresh chat with no supplied target, submit `Fix it.` Expect the smallest useful question, with no draft, kickoff, rating, or acknowledgement request. A suitable allowed question tool should ask for the target. If none can be used, expect a numbered text question. Ask about the intended result only if it remains unresolved.
 3. **Unknown goal:** Submit `Write me a good prompt.` Expect one purpose question through a suitable allowed question tool before any draft. If no such tool can be used, expect the text fallback to begin with `1.`. A restriction on one tool should not prevent use of another allowed tool, including a freeform asynchronous tool.
-4. **Completed repair:** Answer every placeholder exactly, and confirm that the task runs once without another rating, kickoff, or acknowledgement.
+4. **Resolved clarification:** Supply the missing goal and essential details, and confirm that already authorized work continues without a rewritten task or another approval. After completion, a stale acknowledgement must not execute it again.
 5. **Prompt-only:** Ask to rewrite `Explain [NEEDED: the change] for [NEEDED: the audience]` without execution. Expect placeholders in the returned prompt, no question, and no acknowledgement request.
 6. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written. The inner task must not execute.
 
@@ -196,6 +196,6 @@ Direct invocation is `$you-suck-at-prompting` in Codex. Other harnesses use thei
 - If a host does not select the skill, start a fresh task or chat and confirm the destination directory in the table above.
 - If two copies load, remove the older native installation and inspect both project and global destinations.
 - If links are blocked, rerun installation with `--copy`.
-- For contributor validation, run `python -B -m unittest tests.test_skill_contract` from the repository root. The `-B` flag prevents local bytecode from entering the package scan.
+- For contributor validation, run `python -B -m unittest tests.test_skill_contract tests.test_behavior_cases` from the repository root and follow the [testing guide](testing.md). The `-B` flag prevents local bytecode from entering the package scan. These checks do not invoke a model.
 
 Native selection is model- and host-controlled. Installation checks prove package shape and copied files. Live behavior checks must name the host, version, prompt lane, and result separately.

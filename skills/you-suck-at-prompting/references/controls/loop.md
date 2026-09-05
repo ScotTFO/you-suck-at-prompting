@@ -1,31 +1,11 @@
 # Loop control
 
-Read this guide only when feedback must determine whether the task needs another attempt.
+Load when feedback determines whether another attempt is useful.
 
-## Required inputs
+Define the bounded action, check, progress evidence, success condition, and an attempt, time, or cost budget. Act, check, and compare with the last verified state. Correct a diagnosed defect only when progress is possible. Stop on success, no progress, or budget exhaustion; report the last verified state and the next decision needed.
 
-Define the action, the check that supplies feedback, the progress evidence, and the bounded attempt, time, or cost budget. State the result that counts as success and the result that counts as no progress.
+Never repeat a failed action without new evidence or a stated correction. Candidate changes and new workers do not silently reset an overall budget. An interrupted effect needs a state check before retrying. A short user-directed revision with an obvious finish does not need an autonomous loop.
 
-## Procedure
+Example: run the formatter and its check, stop when errors reach zero, stop after three attempts or ten minutes, and stop early if the error count does not improve.
 
-1. Perform the bounded action.
-2. Run the check and record the evidence.
-3. Compare the evidence with the prior verified state.
-4. Correct the specific defect when progress is possible.
-5. Stop on success, no-progress, or budget exhaustion. Escalate with the last verified state and the next decision needed.
-
-Never retry a failed action without new evidence or a stated correction. A short human-directed revision with an obvious stop condition does not need autonomous retry controls.
-
-## Completion and failure
-
-Complete when the success evidence is present. Stop on no-progress or budget exhaustion, and escalate the last verified state with the next decision needed.
-
-## Composition
-
-Use one loop inside a staged plan or on a dependency branch when feedback changes the next attempt. Keep the loop's budget and owner distinct from the surrounding checkpoints.
-
-## Example
-
-> Run the formatter, inspect the changed files, and repeat only when the check identifies a fixable formatting error. Record the error count as progress, stop when the count reaches zero, stop after three attempts or ten minutes, and escalate with the last report if an attempt makes no progress.
-
-The loop bounds execution in the prompt. It does not grant permission to continue beyond the user's authority.
+A loop may sit inside a branch or scheduled check. Preserve the surrounding budget and authority. This guide defines the prompt's stop rule; it does not keep an agent running.

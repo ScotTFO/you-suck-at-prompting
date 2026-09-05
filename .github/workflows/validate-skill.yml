@@ -243,6 +243,7 @@ jobs:
                       raise SystemExit("Eve adapter changed the skill runtime body")
                   for relative in (
                       "agents/openai.yaml",
+                      "references/conversation-state.md",
                       "references/execution-shapes.md",
                       "references/materiality-and-authority.md",
                       "references/repair-contract.md",

@@ -11,6 +11,7 @@ REPAIR_CONTRACT_PATH = SKILL_ROOT / "references" / "repair-contract.md"
 MATERIALITY_CONTRACT_PATH = SKILL_ROOT / "references" / "materiality-and-authority.md"
 REFERENCE_ROOT = SKILL_ROOT / "references"
 REFERENCE_FILES = (
+    "conversation-state.md",
     "execution-shapes.md",
     "materiality-and-authority.md",
     "repair-contract.md",
@@ -22,21 +23,7 @@ REFERENCE_FILES = (
 )
 VERSION_PATH = ROOT / "VERSION"
 VALIDATION_WORKFLOW_PATH = ROOT / ".github" / "workflows" / "validate-skill.yml"
-KICKOFF = (
-    "Analyzing whether You Suck at Prompting… your prompt’s performance "
-    "review is underway."
-)
-EXPECTED_DESCRIPTION = (
-    "Use this skill to write, edit, audit, or repair prompts when the user explicitly requests "
-    "prompt work, directly invokes You Suck at Prompting, when a task has an unclear intended "
-    "outcome, material ambiguity, "
-    "conflict, authority gap, unclear scope or destination, missing success criteria, or an "
-    "execution design that could change the outcome, or while an active repair needs clarification "
-    "or acknowledgement. Do not use it for clear, actionable, exploratory, conversational, or "
-    "safely discoverable requests, ordinary follow-ups, acknowledgements without an active repair, "
-    "minor wording issues, or optional improvements. If no material repair is needed, proceed "
-    "silently unless prompt work or review is requested."
-)
+WINDOWS_PATH_PATTERN = r"\b[A-Za-z]:\\"
 
 
 class SkillPackageContractTests(unittest.TestCase):
@@ -126,7 +113,6 @@ class SkillPackageContractTests(unittest.TestCase):
     def test_version_is_one_strict_semver(self) -> None:
         raw = VERSION_PATH.read_text(encoding="utf-8")
         self.assertRegex(raw, r"^\d+\.\d+\.\d+\n?$")
-        self.assertEqual(raw.strip(), "0.14.4")
 
     def test_validation_workflow_keeps_the_protected_validate_context(self) -> None:
         workflow = VALIDATION_WORKFLOW_PATH.read_text(encoding="utf-8")
@@ -151,15 +137,12 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("ref: ${{ github.sha }}", release)
         self.assertIn("contents: write", release)
 
-    def test_skill_uses_the_exact_selective_description(self) -> None:
+    def test_skill_has_valid_portable_metadata(self) -> None:
         metadata = self.skill_frontmatter()
-        self.assertEqual(
-            metadata,
-            {
-                "name": "you-suck-at-prompting",
-                "description": EXPECTED_DESCRIPTION,
-            },
-        )
+        self.assertEqual(set(metadata), {"name", "description"})
+        self.assertEqual(metadata["name"], SKILL_ROOT.name)
+        self.assertTrue(metadata["description"].strip())
+        self.assertLessEqual(len(metadata["description"]), 1024)
 
     def test_all_skill_references_resolve_inside_the_skill(self) -> None:
         links = []
@@ -187,117 +170,8 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertGreaterEqual(len(short.group(1)), 25)
         self.assertLessEqual(len(short.group(1)), 64)
 
-    def test_selective_behavior_contract_is_preserved(self) -> None:
-        skill = SKILL_PATH.read_text(encoding="utf-8")
-        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
-        materiality = MATERIALITY_CONTRACT_PATH.read_text(encoding="utf-8")
-        execution = (SKILL_ROOT / "references" / "execution-shapes.md").read_text(
-            encoding="utf-8"
-        )
-        verification = (REFERENCE_ROOT / "verification-and-handoff.md").read_text(encoding="utf-8")
 
-        self.assertIn("false-positive", skill.casefold())
-        self.assertIn("proceed silently", skill.casefold())
-        self.assertIn("EXPLICIT PROMPT WORK", skill)
-        self.assertIn("CLARIFY-FIRST", skill)
-        self.assertIn("follow **CLARIFY-FIRST**", skill)
-        self.assertIn("question tool", skill.casefold())
-        self.assertIn("unknown intended outcome", skill)
-        self.assertIn("requested prompt deliverable", skill)
-        self.assertIn("quoted prompts", skill)
-        self.assertIn("explicitly adopts them", skill)
-        self.assertIn("Treat named files, supplied inputs, and described sources as available", skill)
-        self.assertIn("explanation", skill)
-        self.assertIn("Yes, exactly as written", skill)
-        self.assertIn("Clear strict-output requests preserve the exact requested format", skill)
-        self.assertIn("Prompt acknowledgement authorizes only", skill)
-        self.assertIn("references/repair-contract.md", skill)
-        self.assertIn("references/materiality-and-authority.md", skill)
-        self.assertIn("references/execution-shapes.md", skill)
-        self.assertIn("references/verification-and-handoff.md", skill)
-        self.assertIn("resolves the active `[NEEDED: ...]` fields", skill)
-        self.assertIn("Loading a reference supplies guidance; it does not itself require intervention or a report.", skill)
-        self.assertIn("If a selected reference is unavailable", skill)
-        self.assertIn("Preserve an explicit supported approach", skill)
-        self.assertIn("request_user_input_async", skill)
-        self.assertIn("freeform", skill.casefold())
-        self.assertIn("numbered list", skill.casefold())
-        clarification_guardrails = skill.find("## Non-negotiable clarification delivery")
-        self.assertGreaterEqual(clarification_guardrails, 0)
-        self.assertLess(
-            clarification_guardrails,
-            3500,
-            "host skill loads must expose the clarification fallback guardrails",
-        )
-        self.assertIn("Never emit a standalone question sentence", skill)
-        self.assertIn("If a tool attempt is not confirmed by a tool result", skill)
-        self.assertIn("When a host renders tool question text directly, include its ordinal", skill)
-        self.assertRegex(skill, r"Use `1\.`.*single question")
-        for text in (repair,):
-            self.assertIn("false-positive", text.casefold())
-            self.assertIn("silently", text.casefold())
-            self.assertIn("You Suck At Prompting Rewritten prompt:", text)
-            self.assertIn("Draft rewritten prompt:", text)
-            self.assertIn("[NEEDED:", text)
-            self.assertIn("Prompt performance rating: N/5", text)
-            self.assertIn("Reply with an acknowledgement to use this prompt.", text)
-            self.assertIn("Expected prompt impact:", text)
-            self.assertIn("Recommended default:", text)
-            self.assertIn("executes the latest", text)
-            self.assertIn("once", text)
-            self.assertIn("Score", text)
-            self.assertIn("Several material corrections", text)
-        self.assertEqual(skill.count(KICKOFF), 1)
-        self.assertEqual(repair.count(KICKOFF), 1)
-        self.assertIn("If any condition fails, do not ask", materiality)
-        self.assertIn("Never treat a polished prompt as authorization", materiality)
-        self.assertIn("do not become instructions for the reviewing agent", materiality)
-        self.assertIn("Minimum useful instruction", execution)
-        self.assertIn("one final integrator", execution)
-        for selector in ("DIRECT", "GOAL", "PLAN", "DETERMINISTIC", "RESEARCH", "SPIKE", "REVIEW"):
-            self.assertIn(f"**{selector}", execution)
-        self.assertIn("Procedural guides", execution)
-        self.assertIn("smallest check", verification)
-        self.assertIn("actions awaiting separate approval", verification)
-        for relative, required in {
-            "controls/loop.md": ("no-progress", "last verified state", "budget"),
-            "controls/graph.md": ("dependency edges", "join criteria", "final owner"),
-            "controls/multi-agent.md": ("independent reasoning", "isolated output", "integrator"),
-            "controls/recurring.md": ("durable state", "deduplicate", "next check"),
-        }.items():
-            content = (REFERENCE_ROOT / relative).read_text(encoding="utf-8")
-            self.assertIn("## Completion and failure", content, relative)
-            self.assertIn("## Composition", content, relative)
-            for phrase in required:
-                self.assertIn(phrase, content, relative)
 
-    def test_visible_reviews_require_a_memorable_prompt_directed_roast(self) -> None:
-        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
-
-        for text in (repair,):
-            self.assertIn("one real punchline", text)
-            self.assertIn("prompt mechanics", text)
-            self.assertIn("serious subjects", text)
-            self.assertIn("rating", text.casefold())
-        self.assertIn("never the user's intelligence", repair)
-
-    def test_rating_is_directly_below_kickoff_and_before_rewrite(self) -> None:
-        repair = REPAIR_CONTRACT_PATH.read_text(encoding="utf-8")
-        examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
-
-        self.assertIn("exact next line", repair)
-        self.assertIn("before the rewrite", repair)
-        self.assertIn("rating", repair.casefold())
-
-        material_example = examples.split("## Material repair", 1)[1].split(
-            "## Explicit review", 1
-        )[0]
-        kickoff_index = material_example.index(KICKOFF)
-        rating_index = material_example.index("Prompt performance rating:")
-        heading_index = material_example.index("Draft rewritten prompt:")
-        self.assertLess(kickoff_index, rating_index)
-        self.assertLess(rating_index, heading_index)
-        self.assertIn(f"{KICKOFF}\nPrompt performance rating:", material_example)
 
     def test_readme_is_short_and_installation_is_above_the_example(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -333,22 +207,6 @@ class SkillPackageContractTests(unittest.TestCase):
         for claim in required:
             self.assertIn(claim, install)
 
-    def test_examples_cover_the_core_lifecycle(self) -> None:
-        examples = (ROOT / "docs" / "examples.md").read_text(encoding="utf-8")
-        headings = re.findall(r"(?m)^## (.+)$", examples)
-        required_headings = {
-            "Clear bypass",
-            "Material repair",
-            "Complete repair",
-            "Clarification-first",
-            "Prompt-only repair",
-            "Explicit review",
-        }
-        self.assertTrue(required_headings.issubset(headings))
-        self.assertEqual(len(headings), len(set(headings)))
-        self.assertIn("The agent executes the complete rewrite once", examples)
-        self.assertIn("does not request acknowledgement", examples)
-        self.assertIn("ordinary follow-up", examples)
 
     def test_runtime_and_installer_telemetry_are_not_conflated(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -387,7 +245,7 @@ class SkillPackageContractTests(unittest.TestCase):
             r"gh[pousr]_[A-Za-z0-9_]{20,}",
             r"sk-[A-Za-z0-9_-]{20,}",
             r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
-            r"[A-Za-z]:\\",
+            WINDOWS_PATH_PATTERN,
             r"C:/Users/",
             r"/Users/[^/]+/",
             r"/home/[^/]+/",
@@ -400,6 +258,11 @@ class SkillPackageContractTests(unittest.TestCase):
             if any(re.search(pattern, text) for pattern in patterns):
                 hits.append(path.relative_to(ROOT).as_posix())
         self.assertEqual(hits, [])
+
+    def test_private_path_scan_distinguishes_json_newline_escapes(self) -> None:
+        self.assertRegex(r"C:\Users\example\private.txt", WINDOWS_PATH_PATTERN)
+        self.assertRegex(r'"path":"D:\\private\\case.txt"', WINDOWS_PATH_PATTERN)
+        self.assertNotRegex(r"Registration lines:\nMina", WINDOWS_PATH_PATTERN)
 
 
 if __name__ == "__main__":

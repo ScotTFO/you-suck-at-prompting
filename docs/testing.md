@@ -55,17 +55,22 @@ Bound each run by the remaining budget. Stop starting runs when either limit is 
 | --- | --- |
 | Silent activation and exact output controls | `clear-bypass`, `strict-json` |
 | Prompt deliverable versus requested execution | `prompt-only`, `prompt-and-execute` |
-| Unknown goal and resolved clarification | `unknown-goal-continuation`, `execution-clarification` |
-| Source instructions and approval state | `quoted-instructions`, `approval-lifecycle` |
-| Selective reference loading | `disclosure-simple`, `disclosure-independent-review` |
+| Unknown goal, partial answers, and resolved clarification | `ordinary-unknown-goal`, `unknown-goal-continuation`, `execution-clarification` |
+| Available facts and conflicting requirements | `discoverable-fact`, `conflicting-requirements` |
+| Source instructions and missing authority | `quoted-instructions`, `missing-authority` |
+| Approval, completion, cancellation, replacement, and stale answers | `approval-lifecycle`, `cancelled-approval`, `replacement-late-answer`, `stale-proposal-approval` |
+| Selective reference loading and unrelated control | `disclosure-simple`, `disclosure-independent-review`, `disclosure-loop`, `disclosure-graph`, `disclosure-recurring` |
+| Entry-point fallback | `missing-reference-fallback` |
 
-The JSON has a `user` message and reviewer-only `expect` and `reject` lists for each turn. `trace.required` and `trace.forbidden` refer to files under the candidate skill's `references/` directory. Those lists describe observable reads, not text the model should recite. Static tests check their paths and structure; a reviewer judges actual responses and traces.
+The JSON has a `user` message and reviewer-only `expect` and `reject` lists for each turn. `trace.required` and `trace.unnecessary` refer to files under the candidate skill's `references/` directory. They describe observable reads, not text the model should recite. Extra reads are efficiency findings; missing required traces leave the loading claim unverified. Static tests check fixture structure and paths, not live behavior.
+
+For `files`, place the supplied synthetic text in the isolated case directory before starting. For `unavailable_references`, omit only the named file from a session-local runtime copy and record that declared fault alongside the otherwise matching candidate hashes. Do not delete or alter a candidate source file. This deliberate fault tests fallback and does not establish normal loading.
 
 ## Run a selected conversation manually
 
 1. Record the candidate's absolute checkout path, exact commit, clean tracked state, and package version. Use that exact skill, not an older global installation. Verify any session-local copy against the candidate before testing.
 2. Start a fresh session for each case and repetition. Give the host access to only the candidate runtime, including its metadata and lazily readable references, plus the case's user messages. Keep contributor instructions, this guide, fixtures, rubrics, prior conversations, and private lab material out of the product session. Use the host's supported session-local skill loading or an isolated project that exposes only this runtime. If the host requires a project directory, a small disposable project may be needed; the private Test repository is not. Do not change global configuration, permissions, or installations to make a test run.
-3. Record the host and version, model, OS, skill-loading method, allowed tools, and any unavoidable host instructions. Disable external-effect tools where the host permits it. Keep only the reads needed for skill references and an allowed question tool if available. If the exact candidate or required isolation cannot be established, mark the run blocked.
+3. Record the host and version, model, OS, skill-loading method, allowed tools, and any unavoidable host instructions. Disable external-effect tools where the host permits it. Allow only the reads needed for skill references and declared synthetic files, plus an allowed question tool if available. If the exact candidate or required isolation cannot be established, mark the run blocked.
 4. Send only the first turn's `user` string. Do not tell the model the case ID, expected route, rubric, pass criteria, or reference files it should load. For implicit activation checks, do not force an invocation or paste the full skill into the user prompt.
 5. Review the response and actual tool events. Then send the next user string in the same conversation, answering through the host's question UI when applicable. Never seed an expected assistant response or replace a missing prior turn. If a failure makes later turns inapplicable, retain the failure and mark the remaining turns not run. Separate fresh calls do not prove multi-turn behavior.
 6. Evaluate each turn against every expectation and rejection. Record pass, fail, blocked, or not run with a short reason and private evidence. A claimed tool call without an event or confirmed pending state is not execution. Unavailable tool or read proof is unverified, never a pass.
@@ -76,7 +81,7 @@ For selective loading, run positive and unrelated control cases in fresh session
 
 ## Measure usefulness separately
 
-Maintain a small synthetic comparison across writing, summarization, structured extraction, coding instructions, and an advanced execution prompt. Run each task with YSAP enabled and disabled under the same host, model, tools, inputs, and resource limits. If a task asks for a prompt, also run the resulting prompt against the same downstream input in fresh sessions. Preserve clarification turns and failed or incomplete runs as part of the comparison.
+Use the [five downstream comparison tasks](outcome-comparison.md) across writing, summarization, structured extraction, coding instructions, and an advanced execution prompt. Run each task with YSAP enabled and disabled under the same host, model, tools, inputs, and resource limits. Run each resulting prompt against the same downstream input in fresh sessions. Preserve clarification turns and failed or incomplete runs as part of the comparison.
 
 Before revealing the condition, have a fresh reviewer assess randomly labeled outputs for task correctness and constraint preservation. Then compare unnecessary questions, response length, and elapsed time from the retained transcripts. Record ties and regressions, and retain a small human calibration sample. This is a descriptive comparison, not statistical proof or broad host qualification. Missing comparison evidence limits usefulness claims; it does not turn a behavior pass into proof of improvement.
 

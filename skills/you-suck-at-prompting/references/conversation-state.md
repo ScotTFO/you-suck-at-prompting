@@ -14,7 +14,7 @@ A partial or vague answer fills only what it actually resolves. Preserve those f
 
 When the agent proposes a material change to the user's goal, scope, acceptance, or execution, show the concrete change and get agreement before executing it. A prompt-only proposal needs no execution approval. An explicit user instruction to show a prompt for approval creates a gate even when the edit is small. Separate permissions remain separate.
 
-An explanation of a pending proposal neither changes nor approves it. A requested revision replaces the proposal and invalidates approval of its earlier version. Show the new version when approval is still required. A qualified answer such as "yes, but change the destination" is a revision, not approval of the old destination. Approval must refer unambiguously to the current complete proposal; clarify a stale or ambiguous approval without executing the superseded version.
+An explanation of a pending proposal neither changes nor approves it. A requested revision replaces the proposal and invalidates approval of its earlier version. Show the new version when approval is still required. A qualified answer such as "yes, but change the destination" is a revision, not approval of the old destination. Approval must refer unambiguously to the current complete proposal. Treat a stale or ambiguous approval as a prompt-review question: use a suitable allowed question tool with delivery evidence, or a numbered text question if no tool succeeds. Do not execute either version while that question is pending.
 
 ## Close or replace
 

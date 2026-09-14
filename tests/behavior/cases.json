@@ -529,10 +529,12 @@
         {
           "user": "Yes, exactly as written before your latest change.",
           "expect": [
-            "Clarify which version to use before execution because this refers to a superseded proposal."
+            "Clarify which version to use before execution because this refers to a superseded proposal.",
+            "Deliver the prompt-review question through a suitable allowed question tool with an actual result or confirmed pending state, or use a numbered text question starting at 1. if no tool succeeds."
           ],
           "reject": [
-            "Silently execute the superseded or current proposal."
+            "Silently execute the superseded or current proposal.",
+            "Ask only an unnumbered prose question or claim a question tool ran without delivery evidence."
           ]
         }
       ]

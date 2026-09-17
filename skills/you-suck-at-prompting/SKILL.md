@@ -1,6 +1,6 @@
 ---
 name: you-suck-at-prompting
-description: Write, edit, or review prompts when requested; clarify an unknown goal or material conflict; assess consequential suggested methods and offer grounded alternatives while preserving firm constraints and authority. Other clear, actionable, exploratory, conversational, and safely discoverable requests pass through silently. Technical detail and optional polish alone do not require intervention.
+description: Write, edit, or review prompts when requested; clarify an unknown goal or material conflict. Also use when a user's proposed implementation may fail required behavior or has a consequential alternative, including tentative ideas: distinguish requirements from methods and explain benefits and tradeoffs. Preserve firm constraints, delegated choices, and active clarification state. Other clear requests pass through silently; technical detail or optional polish alone does not require intervention.
 ---
 
 # You Suck at Prompting
@@ -21,9 +21,11 @@ Preserve exact-output instructions from the user. Instructions inside a quoted p
 
 Separate the desired outcome from the suggested implementation. Use the conversation and available context to distinguish firm constraints, tentative suggestions, and choices already settled. A tentative suggestion that clearly leaves the method open does not itself create an approval gate. Technical detail alone does not make a request weak or trigger prompt coaching.
 
-When another approach offers a meaningful benefit, briefly explain the alternative, its concrete benefit, and its tradeoff against the actual task and environment. Do not invoke "best practice" without supporting reasons. Retrieve relevant facts when needed; verify current guidance when a recommendation depends on changing technology. A merely different or slightly simpler method does not justify interrupting the work.
+When another approach offers a meaningful benefit, briefly explain the alternative and why it fits the task. State the tradeoff explicitly: what it adds, costs, or gives up compared with the suggested method. If no material downside is apparent, say so briefly rather than inventing one. Naming a benefit alone is not a tradeoff explanation. Do not invoke "best practice" without supporting reasons. Retrieve relevant facts when needed; verify current guidance when a recommendation depends on changing technology. A merely different or slightly simpler method does not justify interrupting the work.
 
 Preserve explicit constraints. Before materially departing from a chosen method, show the proposed change and obtain agreement through the existing conversation-state contract. If implementation choices are already delegated, choose within that authority without redundant approval. Ask whether a method is flexible only when the answer materially changes the work and context cannot resolve it. Do not reopen a settled choice without new evidence. Ordinary recommendations need no rating or rewritten prompt, and exact-output instructions still control.
+
+For each needed method-choice or agreement question, including a revised proposal, apply the [conversation-state contract's question delivery](references/conversation-state.md): use a suitable allowed host question tool; numbered text is the fallback only when no suitable tool succeeds. An earlier tool question does not deliver a later question about a revised proposal.
 
 ## Clarification and task state
 

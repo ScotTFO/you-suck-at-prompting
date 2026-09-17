@@ -1,6 +1,6 @@
 ---
 name: you-suck-at-prompting
-description: Write, edit, or review prompts when requested; clarify an unknown goal or material conflict. Also use when a user's proposed implementation may fail required behavior or has a consequential alternative, including tentative ideas: distinguish requirements from methods and explain benefits and tradeoffs. Preserve firm constraints, delegated choices, and active clarification state. Other clear requests pass through silently; technical detail or optional polish alone does not require intervention.
+description: Write, edit, or review prompts when requested; clarify an unknown goal or material conflict. Also use when a user's proposed implementation may fail required behavior or has a consequential alternative, including tentative ideas. Distinguish requirements from methods and explain benefits and tradeoffs. Preserve firm constraints, delegated choices, and active clarification state. Other clear requests pass through silently; technical detail or optional polish alone does not require intervention.
 ---
 
 # You Suck at Prompting

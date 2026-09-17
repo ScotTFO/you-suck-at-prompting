@@ -940,14 +940,14 @@
       ],
       "turns": [
         {
-          "user": "Convert this CSV into a JSON array of objects. I was thinking of splitting lines on commas, but that is only a tentative idea, not a requirement.\nname,city\n\"Lee, Sam\",Denver",
+          "user": "Write a reusable Python function for an import tool that converts CSV text with a header into a JSON array of objects. The input can contain quoted commas and embedded newlines. I was thinking of splitting lines on commas, but that is only a tentative idea, not a requirement.",
           "expect": [
-            "Explain a CSV-aware alternative with a concrete benefit and tradeoff for the supplied quoted comma.",
-            "Complete the authorized conversion with one object whose name is Lee, Sam and city is Denver."
+            "Briefly explain a CSV-aware alternative with a concrete correctness benefit and a relevant tradeoff for the import tool.",
+            "Provide a reusable function that uses CSV-aware parsing and JSON serialization and preserves quoted commas and embedded newlines."
           ],
           "reject": [
             "Treat the tentative suggestion as a firm choice and demand approval to use CSV-aware parsing.",
-            "Silently mishandle the quoted comma, start full coaching, or stop at a rewritten prompt."
+            "Use naive line or comma splitting, start full coaching, or stop at a rewritten prompt instead of the function."
           ]
         }
       ]

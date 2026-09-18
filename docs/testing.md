@@ -54,7 +54,7 @@ Bound each run by the remaining budget. Stop starting runs when either limit is 
 | Boundary | Cases |
 | --- | --- |
 | Silent activation and exact output controls | `clear-bypass`, `strict-json` |
-| Prompt deliverable versus requested execution | `prompt-only`, `prompt-and-execute` |
+| Prompt deliverable, explicit output-only format, and requested execution | `prompt-only`, `prompt-only-output-only`, `prompt-and-execute` |
 | Unknown goal, partial answers, and resolved clarification | `ordinary-unknown-goal`, `unknown-goal-continuation`, `execution-clarification` |
 | Available facts and conflicting requirements | `discoverable-fact`, `conflicting-requirements` |
 | Source instructions and missing authority | `quoted-instructions`, `missing-authority` |

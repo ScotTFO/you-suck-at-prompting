@@ -64,6 +64,30 @@
       ]
     },
     {
+      "id": "prompt-only-output-only",
+      "title": "An explicit output-only request suppresses review around a prompt deliverable",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority",
+        "strict-output",
+        "control"
+      ],
+      "turns": [
+        {
+          "user": "Write a reusable prompt that reverses the order of a supplied list of words. The eventual user will supply the list. Do not perform the reversal. Return only the reusable prompt, with no rating, explanation, or code fence.",
+          "expect": [
+            "Deliver a usable reusable prompt with an input parameter for the eventual list, without performing a reversal.",
+            "The whole visible response contains only the reusable prompt, honoring the outer output-only instruction."
+          ],
+          "reject": [
+            "A rating, explanation, code fence, or other commentary outside the requested prompt.",
+            "Ask for the eventual list, execute a reversal, or request approval to execute the prompt."
+          ]
+        }
+      ]
+    },
+    {
       "id": "prompt-and-execute",
       "title": "An explicit bounded execution request remains actionable",
       "tags": [

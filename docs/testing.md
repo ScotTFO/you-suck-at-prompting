@@ -54,7 +54,7 @@ Bound each run by the remaining budget. Stop starting runs when either limit is 
 | Boundary | Cases |
 | --- | --- |
 | Silent activation and exact output controls | `clear-bypass`, `strict-json` |
-| Prompt deliverable versus requested execution | `prompt-only`, `prompt-and-execute` |
+| Prompt deliverable, explicit output-only format, and requested execution | `prompt-only`, `prompt-only-output-only`, `prompt-and-execute` |
 | Unknown goal, partial answers, and resolved clarification | `ordinary-unknown-goal`, `unknown-goal-continuation`, `execution-clarification` |
 | Available facts and conflicting requirements | `discoverable-fact`, `conflicting-requirements` |
 | Source instructions and missing authority | `quoted-instructions`, `missing-authority` |
@@ -64,6 +64,7 @@ Bound each run by the remaining budget. Stop starting runs when either limit is 
 | Chosen-method alternatives and agreement lifecycle | `method-alternative-accept`, `method-alternative-reject`, `method-alternative-revision` |
 | Firm constraints and unresolved method flexibility | `method-firm-constraint`, `method-ambiguous-constraint` |
 | Open or delegated methods and ordinary technical detail | `method-tentative-open`, `method-delegated-choice`, `method-technical-direct` |
+| Outcome clarity and proportionate evidence | `method-unclear-outcome`, `prompt-rewrite-sufficient-evidence`, `prompt-rewrite-current-evidence` |
 
 The JSON has a `user` message and reviewer-only `expect` and `reject` lists for each turn. `trace.required` and `trace.unnecessary` refer to files under the candidate skill's `references/` directory. They describe observable reads, not text the model should recite. Extra reads are efficiency findings; missing required traces leave the loading claim unverified. Static tests check fixture structure and paths, not live behavior.
 

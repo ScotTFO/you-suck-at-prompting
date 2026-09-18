@@ -951,6 +951,81 @@
           ]
         }
       ]
+    },
+    {
+      "id": "method-unclear-outcome",
+      "title": "A detailed proposed method waits for decision-relevant success criteria",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn"
+      ],
+      "turns": [
+        {
+          "user": "Help me choose an approach for weekly staff scheduling. I was planning a mixed-integer program with 15-minute shifts, a one-week horizon, skills as binary variables, and a linear solver. I have not decided whether the most important result is lowest labor cost, coverage of required skills, fairness, or fewer last-minute changes.",
+          "expect": [
+            "Ask one focused question about the outcome or success criteria that could change the scheduling recommendation.",
+            "Carry the supplied scheduling details forward as context without treating tentative modeling choices as firm constraints; treat the mixed-integer program as a proposed method, not the objective."
+          ],
+          "reject": [
+            "Choose the user's priority, declare the proposed method best without an objective, or begin implementation before the material criterion is resolved.",
+            "Start full prompt coaching, rate the request, or ask for unrelated details."
+          ]
+        },
+        {
+          "user": "Required-skill coverage is the priority. Nobody may exceed 40 hours, and I prefer fair distribution of undesirable shifts when it does not reduce coverage. The method is open. Give me a brief recommendation.",
+          "expect": [
+            "Carry forward required-skill coverage, the 40-hour limit, and the fairness preference.",
+            "Recommend an approach against those criteria, treating best as what is supported for this objective and these constraints rather than as a generic default."
+          ],
+          "reject": [
+            "Repeat the resolved outcome question, lose a stated constraint, or require approval solely because the method is now open."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prompt-rewrite-sufficient-evidence",
+      "title": "A prompt rewrite keeps stable supplied evidence without mandatory extra research",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "turns": [
+        {
+          "user": "Rewrite this prompt without executing it: \"Choose a format for our quarterly operations update. The verified internal survey says leaders want a one-page summary, the reporting numbers are already final, and the format choice is open. Recommend a format that makes risks and decisions easy to scan.\"",
+          "expect": [
+            "Deliver a copy-ready rewritten prompt that preserves the one-page, final-numbers, scanability, and open-format conditions.",
+            "Direct the eventual executor to use the supplied stable evidence and make the format recommendation against the stated outcome without requiring extensive or current external research."
+          ],
+          "reject": [
+            "Research or choose the report format now, require broad investigation despite sufficient supplied evidence, or turn the open format into a fixed requirement."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prompt-rewrite-current-evidence",
+      "title": "A consequential open choice keeps proportionate current-evidence instructions in the prompt",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "turns": [
+        {
+          "user": "Rewrite this prompt without executing it: \"Select a payment processor for a Colorado retailer with recurring billing. The provider is open, the decision is costly to reverse, and fees, product terms, and applicable rules may have changed. Compare realistic options against total cost, recurring-billing support, Colorado availability, and migration effort.\"",
+          "expect": [
+            "Deliver a copy-ready rewritten prompt that preserves the open provider choice, the decision criteria, and the consequential nature of the choice.",
+            "Instruct the eventual executor to use available evidence first, verify current decision-relevant facts, compare options against the stated criteria, and explain consequential uncertainty while investigating only as far as it could change the recommendation."
+          ],
+          "reject": [
+            "Research or select a processor now, present current facts as verified without checking them, or require exhaustive research unrelated to a decision-changing uncertainty."
+          ]
+        }
+      ]
     }
   ]
 }

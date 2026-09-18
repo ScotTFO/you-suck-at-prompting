@@ -61,6 +61,9 @@ Bound each run by the remaining budget. Stop starting runs when either limit is 
 | Approval, completion, cancellation, replacement, and stale answers | `approval-lifecycle`, `cancelled-approval`, `replacement-late-answer`, `stale-proposal-approval` |
 | Selective reference loading and unrelated control | `disclosure-simple`, `disclosure-independent-review`, `disclosure-loop`, `disclosure-graph`, `disclosure-recurring` |
 | Entry-point fallback | `missing-reference-fallback` |
+| Chosen-method alternatives and agreement lifecycle | `method-alternative-accept`, `method-alternative-reject`, `method-alternative-revision` |
+| Firm constraints and unresolved method flexibility | `method-firm-constraint`, `method-ambiguous-constraint` |
+| Open or delegated methods and ordinary technical detail | `method-tentative-open`, `method-delegated-choice`, `method-technical-direct` |
 
 The JSON has a `user` message and reviewer-only `expect` and `reject` lists for each turn. `trace.required` and `trace.unnecessary` refer to files under the candidate skill's `references/` directory. They describe observable reads, not text the model should recite. Extra reads are efficiency findings; missing required traces leave the loading claim unverified. Static tests check fixture structure and paths, not live behavior.
 

@@ -1,6 +1,6 @@
 # Execution design
 
-Load when iteration, dependencies, independent actors, or scheduled work materially shapes a requested prompt. Keep direct work direct. Preserve the user's supported method and add only controls that change execution or verification.
+Load when iteration, dependencies, independent actors, or scheduled work materially shapes a requested prompt. Keep direct work direct. Distinguish firm constraints from suggested methods as described in the [entrypoint](../SKILL.md), and add only controls that change execution or verification.
 
 | Condition | Read | Responsibility |
 | --- | --- | --- |
@@ -13,4 +13,4 @@ Read only guides needed for the task. Dependencies do not automatically require 
 
 For sequential work, state the useful checkpoints. For mechanical work, prefer a deterministic operation and a check. For research, require sources and freshness where relevant. For an experiment, name the hypothesis, budget, and decisive observation. These do not need extra guide loads or a visible taxonomy.
 
-Guidance shapes the prompt. It does not launch tools, agents, schedules, or persistent state. A prompt for a future host can name necessary capabilities; current execution must use capabilities actually available and permitted. Do not replace the user's method merely because a simpler method is possible.
+Guidance shapes the prompt. It does not launch tools, agents, schedules, or persistent state. A prompt for a future host can name necessary capabilities; current execution must use capabilities actually available and permitted. A simpler method alone does not justify substitution. Explain meaningful alternatives briefly, preserve firm constraints, and obtain agreement for a material departure unless the user has already delegated that choice.

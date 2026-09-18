@@ -651,6 +651,306 @@
       "unavailable_references": [
         "conversation-state.md"
       ]
+    },
+    {
+      "id": "method-alternative-accept",
+      "title": "A chosen method gets a grounded alternative and one agreement",
+      "tags": [
+        "activation",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Convert this CSV into a JSON array of objects using my chosen approach of splitting each line on commas. If you recommend changing that approach, explain why and wait for my decision before converting.\nname,city\n\"Lee, Sam\",Denver",
+          "expect": [
+            "Distinguish the desired JSON output from the chosen comma-splitting method and its review-before-switch condition.",
+            "Explain that quoted commas require CSV-aware parsing; offer a parser with a concrete benefit and a relevant tradeoff.",
+            "Ask one focused question before materially switching the proposed method and performing the conversion."
+          ],
+          "reject": [
+            "Silently switch methods or carry out the conversion before settling the material change.",
+            "Claim best practice without a task-specific reason.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        },
+        {
+          "user": "Yes, use the CSV-aware parser and convert the supplied data.",
+          "expect": [
+            "Return the JSON array with one object whose name is Lee, Sam and city is Denver.",
+            "Continue once within the accepted method and output contract."
+          ],
+          "reject": [
+            "Repeat the approval question or require a rewritten prompt.",
+            "Split Lee, Sam into separate fields."
+          ]
+        },
+        {
+          "user": "Thanks.",
+          "expect": [
+            "Treat this as acknowledgement of completed work."
+          ],
+          "reject": [
+            "Repeat the conversion or reopen the settled method."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "conversation-state.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "method-alternative-reject",
+      "title": "A rejected alternative preserves the clarified technique",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Convert this CSV into a JSON array of objects using my chosen approach of splitting each line on commas. If you recommend changing that approach, explain why and wait for my decision before converting.\nname,city\n\"Lee, Sam\",Denver",
+          "expect": [
+            "Distinguish the desired JSON output from the chosen comma-splitting method and its review-before-switch condition.",
+            "Explain that quoted commas require CSV-aware parsing; offer a parser with a concrete benefit and a relevant tradeoff.",
+            "Ask one focused question before materially switching the proposed method and performing the conversion."
+          ],
+          "reject": [
+            "Silently switch methods or carry out the conversion before settling the material change.",
+            "Claim best practice without a task-specific reason.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        },
+        {
+          "user": "Keep literal comma splitting. This is a token-splitting exercise, not CSV parsing. Split only this line and return its tokens as a JSON array: a,\"b,c\"",
+          "expect": [
+            "Respect the clarified literal-splitting exercise and return a JSON array containing exactly three strings: a, a double quote followed by b, and c followed by a double quote."
+          ],
+          "reject": [
+            "Continue recommending or use a CSV parser.",
+            "Treat the rejected alternative as accepted."
+          ]
+        },
+        {
+          "user": "Same method for x,y,z. Return only the JSON array.",
+          "expect": [
+            "Return exactly [\"x\",\"y\",\"z\"] or the same JSON with insignificant whitespace."
+          ],
+          "reject": [
+            "Reopen the method decision, ask approval again, or add review commentary."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "conversation-state.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "method-alternative-revision",
+      "title": "Revising an alternative preserves the latest review condition",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Convert this CSV into a JSON array of objects using my chosen approach of splitting each line on commas. If you recommend changing that approach, explain why and wait for my decision before converting.\nname,city\n\"Lee, Sam\",Denver",
+          "expect": [
+            "Distinguish the desired JSON output from the chosen comma-splitting method and its review-before-switch condition.",
+            "Explain that quoted commas require CSV-aware parsing; offer a parser with a concrete benefit and a relevant tradeoff.",
+            "Ask one focused question before materially switching the proposed method and performing the conversion."
+          ],
+          "reject": [
+            "Silently switch methods or carry out the conversion before settling the material change.",
+            "Claim best practice without a task-specific reason.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        },
+        {
+          "user": "Use a CSV parser, but change the output to an array of arrays including the header. Show the revised approach before converting.",
+          "expect": [
+            "Show the revised CSV-aware approach with array-of-arrays output including the header.",
+            "Keep the explicit review-before-conversion condition pending."
+          ],
+          "reject": [
+            "Convert now or keep the superseded object-array output."
+          ]
+        },
+        {
+          "user": "Yes, use that revised approach now.",
+          "expect": [
+            "Return [[\"name\",\"city\"],[\"Lee, Sam\",\"Denver\"]] as JSON, with insignificant whitespace allowed.",
+            "Execute the latest agreed approach once."
+          ],
+          "reject": [
+            "Ask for approval again, execute the superseded proposal, or lose the quoted comma."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "conversation-state.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "method-firm-constraint",
+      "title": "A learning constraint makes the specified method part of the goal",
+      "tags": [
+        "activation",
+        "authority",
+        "control"
+      ],
+      "turns": [
+        {
+          "user": "For a sorting lesson, show a Python bubble-sort function for integers. Bubble sort is required because the lesson teaches adjacent swaps. Do not substitute sorted() or another algorithm. Return only the function.",
+          "expect": [
+            "Return a bubble-sort function using adjacent comparisons and swaps.",
+            "Honor the code-only format and explicit learning constraint."
+          ],
+          "reject": [
+            "Recommend another sorting method, ask whether the constraint is flexible, or silently substitute a built-in sort.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "method-ambiguous-constraint",
+      "title": "Unresolved method flexibility gets one bounded question",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Write a Python CSV-to-JSON function that handles quoted commas and embedded newlines. Use a handwritten parser. I have not decided whether avoiding the standard-library csv module is an actual requirement or just my initial idea.",
+          "expect": [
+            "Briefly explain the standard-library alternative, its correctness benefit, and the tradeoff against owning a handwritten parser.",
+            "Ask one focused question about whether the handwritten approach is required before writing the function."
+          ],
+          "reject": [
+            "Choose the unresolved constraint for the user, implement either method immediately, or ask for unrelated requirements.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        },
+        {
+          "user": "It was just an idea. Use the standard library and write the function.",
+          "expect": [
+            "Write a function using the standard-library CSV parser and JSON serialization that preserves quoted commas and embedded newlines.",
+            "Continue without another approval gate."
+          ],
+          "reject": [
+            "Repeat the flexibility question or insist on a rewritten prompt."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "conversation-state.md",
+          "materiality-and-authority.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "method-delegated-choice",
+      "title": "Delegated implementation choices proceed without redundant approval",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "turns": [
+        {
+          "user": "Convert this CSV into a JSON array of objects. My initial thought was splitting on commas, but choose whichever parsing method handles the supplied data correctly and carry out the conversion without asking me to choose.\nname,city\n\"Lee, Sam\",Denver",
+          "expect": [
+            "Select a CSV-aware method within the delegated authority and return one object with name Lee, Sam and city Denver.",
+            "A brief explanation is optional; conversion is required."
+          ],
+          "reject": [
+            "Ask permission to switch methods, stop at a proposal, or mishandle the quoted comma.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "method-technical-direct",
+      "title": "Technical detail without a material problem stays direct",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "turns": [
+        {
+          "user": "Show a Python function that sums a list of integers using a for loop and a running total, then return its result for [2, 4, 6].",
+          "expect": [
+            "Provide the requested loop-based function and the result 12."
+          ],
+          "reject": [
+            "Ask whether to use sum() instead, give an unsolicited alternatives comparison, or silently replace the requested loop.",
+            "Start full prompt coaching, rate the request, or demand a rewritten prompt merely because a method was specified."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "method-tentative-open",
+      "title": "A clearly tentative suggestion does not invent an approval gate",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "turns": [
+        {
+          "user": "Write a reusable Python function for an import tool that converts CSV text with a header into a JSON array of objects. The input can contain quoted commas and embedded newlines. I was thinking of splitting lines on commas, but that is only a tentative idea, not a requirement.",
+          "expect": [
+            "Briefly explain a CSV-aware alternative with a concrete correctness benefit and a relevant tradeoff for the import tool.",
+            "Provide a reusable function that uses CSV-aware parsing and JSON serialization and preserves quoted commas and embedded newlines."
+          ],
+          "reject": [
+            "Treat the tentative suggestion as a firm choice and demand approval to use CSV-aware parsing.",
+            "Use naive line or comma splitting, start full coaching, or stop at a rewritten prompt instead of the function."
+          ]
+        }
+      ]
     }
   ]
 }

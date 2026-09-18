@@ -77,11 +77,11 @@
         {
           "user": "Write a reusable prompt that reverses the order of a supplied list of words. The eventual user will supply the list. Do not perform the reversal. Return only the reusable prompt, with no rating, explanation, or code fence.",
           "expect": [
-            "Deliver a usable reusable prompt with an input parameter for the eventual list, without performing a reversal.",
-            "The whole visible response contains only the reusable prompt, honoring the outer output-only instruction."
+            "Deliver a reusable prompt with an input parameter for the eventual list, without performing a reversal.",
+            "The final deliverable contains only the reusable prompt. Record any progress announcements required by higher-priority host instructions separately; do not claim the whole visible exchange is exact-only."
           ],
           "reject": [
-            "A rating, explanation, code fence, or other commentary outside the requested prompt.",
+            "A rating or review explanation in any channel, a code fence or extra commentary in the final deliverable, or discretionary commentary outside the prompt beyond required host progress.",
             "Ask for the eventual list, execute a reversal, or request approval to execute the prompt."
           ]
         }

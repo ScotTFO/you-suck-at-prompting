@@ -1215,7 +1215,7 @@
         "progressive-disclosure"
       ],
       "files": {
-        "recovery-options.txt": "Existing manual recovery: 45 minutes\nApproved rollback checklist: 15 minutes"
+        "recovery-options.txt": "manual recovery: 45 minutes\nrollback checklist: 15 minutes"
       },
       "turns": [
         {
@@ -1264,9 +1264,9 @@
           ]
         },
         {
-          "user": "Keep the batch process. Apply the repair you prepared.",
+          "user": "Keep the batch process. Apply the prepared repair by rewriting this synthetic instruction: 'Abort the entire batch if any postal code is missing.' Return the revised instruction as text. It must process valid records and report invalid records for correction without inventing postal codes.",
           "expect": [
-            "Apply the prepared batch-process repair without reopening research or proposing a departure."
+            "Return revised batch-process instruction text that processes valid records and reports invalid records for correction without inventing postal codes, reopening research, or proposing a departure."
           ],
           "reject": [
             "Use the alternative method, repeat an approval question, or lose the firm regulatory constraint."

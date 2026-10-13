@@ -14,6 +14,7 @@ REFERENCE_FILES = (
     "conversation-state.md",
     "execution-shapes.md",
     "materiality-and-authority.md",
+    "research-before-action.md",
     "repair-contract.md",
     "verification-and-handoff.md",
     "controls/graph.md",
@@ -169,6 +170,32 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertLessEqual(len(default.group(1)), 128)
         self.assertGreaterEqual(len(short.group(1)), 25)
         self.assertLessEqual(len(short.group(1)), 64)
+
+    def test_research_workflow_is_portable_and_opt_in(self) -> None:
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+        research = REFERENCE_ROOT / "research-before-action.md"
+        install = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
+        self.assertTrue(research.is_file())
+        self.assertIn("research-before-action.md", skill)
+        self.assertIn("**Substantive work:**", skill)
+        self.assertIn("current primary sources", skill)
+        self.assertIn("secondary authoritative source", skill)
+        self.assertIn("strict output forbids framing", skill)
+        research_text = research.read_text(encoding="utf-8")
+        self.assertIn("Decision question:", research_text)
+        self.assertIn("does not wait for an answer", research_text)
+        self.assertIn("prefer current primary sources", research_text)
+        self.assertIn("secondary authoritative source", research_text)
+        self.assertIn("missing or conflicting material sources", research_text)
+        routing = install.split("## Opt-in routing\n", 1)[1].split("\n## ", 1)[0]
+        for instruction in (
+            "| Codex | Start with `$you-suck-at-prompting` and state the task. |",
+            "| Claude Code | Ask Claude Code to use the installed `you-suck-at-prompting` skill for the task. |",
+            "| VS Code GitHub Copilot | Ask Copilot Chat to use the installed `you-suck-at-prompting` skill for the task. |",
+            "| Hermes | Ask Hermes to use the installed `you-suck-at-prompting` skill for the task. |",
+        ):
+            self.assertIn(instruction, routing)
+        self.assertIn("opt-in", routing.casefold())
 
 
 

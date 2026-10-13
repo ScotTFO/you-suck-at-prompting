@@ -26,6 +26,14 @@ Request: `Read the supplied workshop notes and give me a three-bullet summary.`
 
 The agent reads the notes and summarizes them. It does not ask what the notes say or claim they are missing before looking. If the requested outcome itself is unknown, inspecting files does not authorize inventing a goal.
 
+## Research before action
+
+Request: `Recommend an approach for the supplied deployment notes, then prepare the chosen plan. The goal is lower recovery time; the approach is open.`
+
+The response starts with a visible `Decision question:` that frames which approach best meets the recovery-time goal and supplied constraints. It uses the notes first, checks any decision-changing current facts, compares the meaningful options and tradeoffs, cites the supporting material, then prepares the authorized plan. The framing question is not a question for the user to answer.
+
+`Rename the recovery-time heading.` and a follow-up that applies an already settled approach stay direct. A prompt-only rewrite puts this research sequence in the eventual executor's instructions and does not investigate or execute it now.
+
 ## Explicit prompt work
 
 Request: `Write a reusable prompt for a release note. The executor will receive the change and audience. Do not write the release note now.`

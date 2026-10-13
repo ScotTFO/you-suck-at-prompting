@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>Your prompt is not always in trouble. We checked the policy.</strong><br>
-  Clearer goals and better prompts. A second look when your proposed solution may miss your goal.
+  Clearer goals and better prompts when choices matter.
 </p>
 
 <p align="center">
@@ -60,19 +60,17 @@ Then you get the requested deliverable. Ordinary clarification needs no performa
 
 Sometimes the prompt picks a solution before checking the goal. YSAP flags meaningful mismatches before execution. The implementation has references. None are from your requirements.
 
-Illustrative exchange, not measured performance evidence. The supplied CSV includes quoted commas.
-
 **You:** "Import these customer records by splitting each CSV row on commas."
 
 **Agent:** "Your goal is to import the records correctly. Splitting on commas breaks quoted fields in this file. A CSV parser preserves them and handles quoting. The tradeoff is learning its API."
 
-**Question, through the host tool or text fallback:**
+**Question:**
 
 ```text
 1. Should I use a CSV parser instead of splitting on commas?
 ```
 
-The agent waits before changing your chosen method. Alternatives need a concrete benefit and tradeoff, or a statement that no downside matters here. Minor preferences do not earn a meeting.
+The agent waits before changing your chosen method. Alternatives need a concrete benefit and tradeoff.
 
 ## What earns a meeting
 
@@ -85,10 +83,11 @@ The agent waits before changing your chosen method. Alternatives need a concrete
 | "Use comma splitting for the CSV above." | Explains the alternative and asks before switching. |
 | "Maybe split on commas; another approach is fine." | Compares the approaches and proceeds within that open choice. |
 | "Choose the import approach for me." | Chooses within delegated authority, without redundant approval. |
+| "Recommend a rollout approach from these notes, then prepare it." | Frames the decision, uses supplied evidence, compares meaningful options, cites brief findings, and proceeds. |
 | "Handwrite the parser; this exercise teaches parsing." | Preserves the technique as a firm requirement. |
 | "Thanks." | Never repeats completed or cancelled work. |
 
-The host selects the skill by its description; the skill checks applicability again. A near miss passes silently. No surprise annual review.
+Substantive choices open with a decision question, brief sources, tradeoffs, then action. The host selects the skill by its description. A near miss passes silently.
 
 ## The performance contract
 

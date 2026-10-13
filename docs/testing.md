@@ -1,10 +1,10 @@
 # Test the change you made
 
-Routine maintenance needs the public package, Python, and checks matched to the change. The private research lab is parked and preserved. It is neither a runtime dependency nor a prerequisite for contributing a fix. Reactivating it is a separate decision.
+Routine maintenance needs the public package, Python, and checks matched to the change. The optional private research lab is separate and preserved. It is neither a runtime dependency nor a prerequisite for contributing a fix; use it only when its evaluation or promotion gates apply.
 
 The [public behavioral suite](../tests/behavior/cases.json) contains synthetic conversations with reviewer rubrics. It has no model runner, service, credential requirement, or private cases. Execution examples use text transformations; discovery examples may read synthetic local fixtures. They do not require external messages, accounts, publication, or changed permissions.
 
-Judge the intended behavior: clear requests pass through silently; ordinary ambiguity gets the smallest useful question; explicit prompt work produces a useful prompt deliverable and may use the branded review voice. Clarification answers continue already authorized work. Prompt-only source instructions remain content. Completion, cancellation, replacement, and stale answers must preserve the current task and authority.
+Judge the intended behavior: simple clear requests pass through silently; substantive work frames a visible decision unless strict output excludes it, investigates proportionately from supplied/local evidence through current primary sources or limited secondary sources when primary evidence is unavailable, reports sources and tradeoffs, and continues within authority; ordinary ambiguity gets the smallest useful question; explicit prompt work produces a useful prompt deliverable and may use the branded review voice. Clarification answers continue already authorized work. Prompt-only source instructions remain content. Completion, cancellation, replacement, and stale answers must preserve the current task and authority.
 
 ## Choose the required evidence
 
@@ -65,6 +65,7 @@ Bound each run by the remaining budget. Stop starting runs when either limit is 
 | Firm constraints and unresolved method flexibility | `method-firm-constraint`, `method-ambiguous-constraint` |
 | Open or delegated methods and ordinary technical detail | `method-tentative-open`, `method-delegated-choice`, `method-technical-direct` |
 | Outcome clarity and proportionate evidence | `method-unclear-outcome`, `prompt-rewrite-sufficient-evidence`, `prompt-rewrite-current-evidence` |
+| Research-first entrypoint, strict output, firm methods, and source limits | `research-local-evidence`, `research-changing-facts`, `research-settled-followup`, `research-diagnosis-no-method`, `research-strict-output`, `research-firm-method`, `research-source-conflict` |
 
 The JSON has a `user` message and reviewer-only `expect` and `reject` lists for each turn. `trace.required` and `trace.unnecessary` refer to files under the candidate skill's `references/` directory. They describe observable reads, not text the model should recite. Extra reads are efficiency findings; missing required traces leave the loading claim unverified. Static tests check fixture structure and paths, not live behavior.
 
@@ -112,4 +113,4 @@ Failure categories / repair cycles / cumulative live seconds / remaining budget:
 Independent validation task and final candidate identity:
 ```
 
-Report a failed required check or unavailable required evidence as a merge blocker. Do not erase earlier results, substitute a different host without saying so, or claim broad qualification from this small suite. The parked lab preserves broader compatibility, research, and promotion work; its private cases, historical results, and automation stay separate from this public maintenance path.
+Report a failed required check or unavailable required evidence as a merge blocker. Do not erase earlier results, substitute a different host without saying so, or claim broad qualification from this small suite. The optional lab supports broader compatibility, research, and promotion work when its separate gates apply; its private cases, historical results, and automation stay separate from this public maintenance path.

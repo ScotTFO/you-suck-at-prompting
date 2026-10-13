@@ -1,6 +1,6 @@
 # Compare downstream results
 
-Use the five synthetic tasks in [outcomes.json](../tests/behavior/outcomes.json) to check usefulness separately from response-protocol compliance. They cover writing, summarization, structured extraction, coding instructions, and an advanced execution prompt. No private lab or new evaluation framework is needed.
+Use the five synthetic tasks in [outcomes.json](../tests/behavior/outcomes.json) to check usefulness separately from response-protocol compliance. They cover writing, summarization, structured extraction, coding instructions, and an advanced execution prompt. Routine comparisons need no private lab or new evaluation framework; the optional lab has separate promotion gates.
 
 1. Record the exact candidate, host/version/model, tools, resource limits, and the remaining shared [validation budget](testing.md#diagnose-failures-and-bound-the-work). Use the same conditions for both arms except YSAP availability. Exclude other skills and contributor instructions from both product sessions. Record unavoidable host instructions.
 2. For each case, start two fresh conversations. Give each only `request`: one with the exact candidate available through native skill loading, one without YSAP. Do not force an invocation in the enabled arm. Verify source identity and record whether selection actually occurred; an unselected skill limits any attribution to YSAP.

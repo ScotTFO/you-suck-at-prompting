@@ -1,7 +1,7 @@
 interface:
   display_name: "You Suck at Prompting"
-  short_description: "Write, edit, audit, or repair prompts"
-  default_prompt: "Use $you-suck-at-prompting to write, edit, audit, or repair this prompt."
+  short_description: "Repair prompts and research consequential choices"
+  default_prompt: "Use $you-suck-at-prompting to repair this prompt or research this consequential choice."
 
 policy:
   allow_implicit_invocation: true

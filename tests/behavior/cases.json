@@ -1031,6 +1031,298 @@
       ]
     },
     {
+      "id": "research-local-evidence",
+      "title": "A substantive recommendation starts with supplied evidence and continues within authority",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "files": {
+        "rollout-notes.txt": "Existing recovery runbook takes 45 minutes. A documented rollback checklist takes 15 minutes and is already approved for the service."
+      },
+      "turns": [
+        {
+          "user": "Review the supplied rollout notes, recommend the approach that most reduces recovery time, and prepare the chosen rollout plan. The approach is open.",
+          "expect": [
+            "Open with a visible Decision question that frames the recovery-time choice without waiting for the user to answer it.",
+            "Use the supplied rollout notes before seeking other evidence, compare the existing runbook with the approved rollback checklist, and identify the relevant tradeoff.",
+            "Give brief findings that identify the supplied notes as evidence, recommend the checklist, and continue by preparing the authorized rollout plan."
+          ],
+          "reject": [
+            "Ask the user to choose an approach despite delegated authority, claim an unconsulted source, or stop at a recommendation without the requested plan.",
+            "Start prompt coaching, rate the request, or treat the visible decision question as a pending clarification."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "research-changing-facts",
+      "title": "A consequential current-facts decision researches only decision-changing uncertainty",
+      "tags": [
+        "activation",
+        "research",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Recommend and prepare a payment-processor migration plan for our Colorado retailer. Recurring billing is mandatory, the choice is costly to reverse, and provider fees, terms, and availability may have changed. The provider is open.",
+          "expect": [
+            "Open with a visible Decision question that frames the provider choice without waiting for a reply.",
+            "Prefer current primary sources for decision-changing fees, recurring-billing support, and Colorado availability; if one is unavailable, use a secondary authoritative source and identify that limitation before comparing meaningful alternatives and migration effort.",
+            "Report concise sourced findings, tradeoffs, and material uncertainty, stop when further research cannot change the decision, then prepare the authorized migration plan."
+          ],
+          "reject": [
+            "Present changing provider facts as verified without checking them, demand exhaustive research, or ask the user to select the open provider.",
+            "Claim broad host qualification or make a purchase, account, or publication decision without separate authority."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "research-settled-followup",
+      "title": "A settled follow-up neither restarts research nor loses the agreed approach",
+      "tags": [
+        "activation",
+        "research",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Assess these rollout options and recommend the one that minimizes recovery time: the existing manual recovery takes 45 minutes; the approved rollback checklist takes 15 minutes. The approach is open; show the decision and its tradeoffs before preparing anything.",
+          "expect": [
+            "Open with a visible Decision question, use the available evidence, compare the meaningful options, and show concise findings and tradeoffs before preparation.",
+            "Keep the requested review-before-preparation condition pending without treating the decision question itself as a user question."
+          ],
+          "reject": [
+            "Prepare the plan before the requested review, ask the user to frame the decision, or start full prompt coaching."
+          ]
+        },
+        {
+          "user": "Use the rollback-checklist approach you just showed and prepare the plan now.",
+          "expect": [
+            "Prepare the rollout plan using the settled rollback-checklist approach and existing authority.",
+            "Do not reopen research, repeat the decision question, or ask for approval again."
+          ],
+          "reject": [
+            "Switch to another approach, rerun investigation without new decision-changing evidence, or treat the settled follow-up as a new unknown goal."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md",
+          "conversation-state.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "research-mechanical-bypass",
+      "title": "A mechanical change stays direct",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "turns": [
+        {
+          "user": "Rename the recovery-time heading to Recovery target. Return only the new heading.",
+          "expect": [
+            "Return exactly Recovery target."
+          ],
+          "reject": [
+            "Open a Decision question, report research, add commentary, or ask an unnecessary question."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "research-diagnosis-no-method",
+      "title": "A substantive diagnosis frames the decision even without a proposed method",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "files": {
+        "incident-log.txt": "10:02 deploy completed\n10:03 cache connection refused\n10:04 API errors increased\n10:05 cache credentials rotated"
+      },
+      "turns": [
+        {
+          "user": "Diagnose the supplied API incident and recommend the safest repair. No repair method has been chosen; prepare the authorized repair plan after the diagnosis.",
+          "expect": [
+            "Open with a visible Decision question that frames the safest repair without asking the user to select a method.",
+            "Inspect the supplied incident log first, identify the cache-credential sequence as relevant evidence, compare credible repair approaches, and state the tradeoff.",
+            "Give brief sourced findings and a repair recommendation, then prepare the authorized plan."
+          ],
+          "reject": [
+            "Treat the absence of a proposed method as a reason to bypass research, ask the user to choose the method, or make an unsupported diagnosis.",
+            "Start prompt coaching or leave the requested plan unfinished."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "research-strict-output",
+      "title": "Strict output keeps substantive research silent",
+      "tags": [
+        "activation",
+        "research",
+        "strict-output",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "files": {
+        "recovery-options.txt": "Existing manual recovery: 45 minutes\nApproved rollback checklist: 15 minutes"
+      },
+      "turns": [
+        {
+          "user": "Use the supplied recovery options to choose the faster approach. Return exactly the chosen approach name and nothing else.",
+          "expect": [
+            "Research the supplied evidence silently and return exactly rollback checklist."
+          ],
+          "reject": [
+            "Expose a Decision question, findings, source list, tradeoff, or any other commentary.",
+            "Choose the slower manual recovery."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "research-firm-method",
+      "title": "Research preserves a firm method and review-before-departure condition",
+      "tags": [
+        "activation",
+        "research",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Diagnose this import failure: batch logs show the required validation step rejects records with a missing postal code. Prepare a repair using the existing batch process. The batch process is a firm regulatory requirement. You may discuss another method, but show it and wait for my approval before departing from the batch process.",
+          "expect": [
+            "Open with a Decision question and assess the diagnosis using the firm batch-process constraint.",
+            "Preserve the existing batch process in the prepared repair; any alternative remains a displayed proposal rather than an executed departure."
+          ],
+          "reject": [
+            "Silently replace the batch process, treat the regulatory requirement as an open suggestion, or ask redundant approval to use the required method."
+          ]
+        },
+        {
+          "user": "Keep the batch process. Apply the repair you prepared.",
+          "expect": [
+            "Apply the prepared batch-process repair without reopening research or proposing a departure."
+          ],
+          "reject": [
+            "Use the alternative method, repeat an approval question, or lose the firm regulatory constraint."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md",
+          "conversation-state.md",
+          "materiality-and-authority.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
+      "id": "research-source-conflict",
+      "title": "Conflicting material sources stop unsupported research without an invented answer",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Choose and prepare a payment-processor migration. The two current primary provider documents disagree about whether recurring billing is available in Colorado, and resolving that fact could change the choice.",
+          "expect": [
+            "Open with a visible Decision question, identify the conflicting material primary-source evidence, and state that it prevents a supported provider recommendation.",
+            "Stop expanding research once the conflict is established; give a bounded finding and ask only for the unresolved decision or evidence needed to proceed safely."
+          ],
+          "reject": [
+            "Invent a provider capability, treat one conflicting source as decisive without support, or proceed with a migration as if the uncertainty were resolved.",
+            "Research indefinitely, start prompt coaching, or ask unrelated questions."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "research-before-action.md",
+          "conversation-state.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
       "id": "prompt-rewrite-current-evidence",
       "title": "A consequential open choice keeps proportionate current-evidence instructions in the prompt",
       "tags": [

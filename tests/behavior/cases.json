@@ -1323,6 +1323,53 @@
       }
     },
     {
+      "id": "research-unknown-goal",
+      "title": "An unknown goal pauses substantive automation research without inventing one",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "turns": [
+        {
+          "user": "Design automation for my business.",
+          "expect": [
+            "Ask one focused question about the business outcome or problem the automation should solve before researching or designing it.",
+            "Preserve the request as pending without inventing a business goal, automation scope, destination, or authority."
+          ],
+          "reject": [
+            "Open a non-pending Decision question as though it resolves the unknown goal, recommend automation, or start designing before the essential outcome is known.",
+            "Start full prompt coaching, rate the request, or ask unrelated implementation details."
+          ]
+        },
+        {
+          "user": "I run a dental office. Reduce missed appointments without sending messages outside business hours. Recommend an approach and prepare the authorized implementation plan; the method is open.",
+          "expect": [
+            "Carry forward the dental-office goal and business-hours constraint, then open a visible Decision question for the now-defined automation choice.",
+            "Use available evidence first, compare meaningful approaches and their tradeoffs, and prepare the authorized plan without a redundant approval question."
+          ],
+          "reject": [
+            "Repeat the resolved goal question, invent permission to send messages, or treat the earlier unknown goal as authorization to act outside the stated constraint."
+          ]
+        }
+      ],
+      "trace": {
+        "required": [
+          "conversation-state.md",
+          "research-before-action.md"
+        ],
+        "unnecessary": [
+          "controls/loop.md",
+          "controls/graph.md",
+          "controls/multi-agent.md",
+          "controls/recurring.md"
+        ]
+      }
+    },
+    {
       "id": "prompt-rewrite-current-evidence",
       "title": "A consequential open choice keeps proportionate current-evidence instructions in the prompt",
       "tags": [

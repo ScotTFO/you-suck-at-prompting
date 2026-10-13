@@ -6,9 +6,9 @@ Load for a substantive investigation, approach choice, analysis, recommendation,
 
 Open the visible response with a concise **Decision question:** that names the outcome, constraints, and choice being assessed. It frames the work; it does not wait for an answer or create a pending user question.
 
-Start with supplied material, local context, and already available evidence. For uncertain, changing, or consequential facts, prefer current primary sources when available and when they can change the decision. If a primary source is unavailable, use a secondary authoritative source and identify that limitation. Compare meaningful alternatives against the stated criteria, including the existing or proposed method when one exists. Do not inflate a near-equivalent option into a comparison.
+Start with supplied material, local context, and already available evidence. For uncertain or changing claims that matter to the decision, prefer current primary sources when available and when they can change the decision. If a primary source is unavailable, use a secondary authoritative source and identify that limitation. Scale the depth of research to the stakes and uncertainty. Do not seek external sources when supplied or local evidence is sufficient. Compare meaningful alternatives against the stated criteria, including the existing or proposed method when one exists. Do not inflate a near-equivalent option into a comparison.
 
-Stop when the available evidence supports a decision and more research is unlikely to change it. If missing or conflicting material sources can change the decision, state the gap or conflict rather than manufacturing support; stop at a bounded finding or ask only for the user choice that the uncertainty leaves unresolved. State material uncertainty when it remains. Do not claim a source was checked when it was not.
+Deepen the investigation while missing or conflicting material sources could change the recommendation and further evidence is available. Stop when the decision is supported and more research is unlikely to change it. If necessary evidence is unavailable, explain the gap and give a bounded finding rather than manufacturing support; ask only for a user-owned choice that remains unresolved. State consequential uncertainty. Do not claim a source was checked when it was not.
 
 ## Report and continue
 

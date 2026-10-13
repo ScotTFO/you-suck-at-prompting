@@ -177,6 +177,9 @@ class SkillPackageContractTests(unittest.TestCase):
         install = (ROOT / "docs" / "installation.md").read_text(encoding="utf-8")
         self.assertTrue(research.is_file())
         self.assertIn("research-before-action.md", skill)
+        self.assertIn("**Prerequisite:**", skill)
+        self.assertIn("Before any dependent research or execution", skill)
+        self.assertIn("do not invent a user-owned goal", skill)
         self.assertIn("**Substantive work:**", skill)
         self.assertIn("current primary sources", skill)
         self.assertIn("secondary authoritative source", skill)
@@ -187,6 +190,8 @@ class SkillPackageContractTests(unittest.TestCase):
         self.assertIn("prefer current primary sources", research_text)
         self.assertIn("secondary authoritative source", research_text)
         self.assertIn("missing or conflicting material sources", research_text)
+        self.assertIn("uncertain or changing claims that matter to the decision", research_text)
+        self.assertIn("Do not seek external sources when supplied or local evidence is sufficient", research_text)
         routing = install.split("## Opt-in routing\n", 1)[1].split("\n## ", 1)[0]
         for instruction in (
             "| Codex | Start with `$you-suck-at-prompting` and state the task. |",

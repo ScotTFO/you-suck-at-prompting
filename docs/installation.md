@@ -55,6 +55,19 @@ Current project destinations for the priority harnesses are:
 
 Codex and GitHub Copilot intentionally share the standard `.agents/skills` project destination.
 
+## Opt-in routing
+
+The skill can be selected implicitly from its metadata, but host selection is not guaranteed. For consequential research or a visible prompt review, request the installed skill by name in a fresh conversation. This is an opt-in routing request, not a hook, a mandatory instruction, or evidence that the host selected it.
+
+| Harness | Opt-in request |
+| --- | --- |
+| Codex | Start with `$you-suck-at-prompting` and state the task. |
+| Claude Code | Ask Claude Code to use the installed `you-suck-at-prompting` skill for the task. |
+| VS Code GitHub Copilot | Ask Copilot Chat to use the installed `you-suck-at-prompting` skill for the task. |
+| Hermes | Ask Hermes to use the installed `you-suck-at-prompting` skill for the task. |
+
+Use the host version's documented skill interface when it offers a picker or a different explicit-selection control. Confirm selection from the host's own trace or response before attributing behavior to the skill.
+
 ## Use copies instead of symlinks
 
 The CLI normally manages a canonical project skill and links harness destinations when the platform supports it. Use `--copy` when links are unavailable, prohibited, or undesirable:
@@ -70,13 +83,13 @@ Release checks use `--copy` so the priority destinations can be compared byte fo
 Use a tag URL when reproducibility matters:
 
 ```text
-npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.15.2
+npx skills@latest add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.16.0
 ```
 
 The release checks pin the installer as well:
 
 ```text
-npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.15.2 --agent '*' --copy --yes
+npx skills@1.5.23 add https://github.com/ScotTFO/you-suck-at-prompting/tree/v0.16.0 --agent '*' --copy --yes
 ```
 
 ## Update
@@ -188,8 +201,9 @@ Use a fresh task or chat for each case.
 4. **Resolved clarification:** Supply the missing goal and essential details, and confirm that already authorized work continues without a rewritten task or another approval. After completion, a stale acknowledgement must not execute it again.
 5. **Prompt-only:** Ask to rewrite `Explain [NEEDED: the change] for [NEEDED: the audience]` without execution. Expect placeholders in the returned prompt, no question, and no acknowledgement request.
 6. **Explicit review:** Submit `Audit this prompt: Rename load_item to load_record in loader.py and run the focused unit test.` Expect either a 5/5 unchanged assessment or a material repair grounded in the prompt as written. The inner task must not execute.
+7. **Research and continuation:** Ask for a consequential recommendation and authorized plan. Expect a visible decision question, proportionate sources and tradeoffs, then the plan. A follow-up that accepts the displayed approach must not restart the research.
 
-Direct invocation is `$you-suck-at-prompting` in Codex. Other harnesses use their installed-skill interface.
+Direct invocation is `$you-suck-at-prompting` in Codex. Other harnesses use their installed-skill interface; see [opt-in routing](#opt-in-routing) for a portable request that does not depend on a particular UI.
 
 ## Troubleshooting
 

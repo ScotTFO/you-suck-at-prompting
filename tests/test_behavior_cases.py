@@ -14,6 +14,7 @@ TAGS = {
     "activation", "control", "strict-output", "prompt-only", "execution",
     "clarification", "multi-turn", "authority", "untrusted-data",
     "progressive-disclosure", "discovery", "lifecycle", "reference-fallback",
+    "research",
 }
 
 

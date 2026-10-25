@@ -213,15 +213,16 @@
         "prompt-only",
         "control"
       ],
+      "calibration": "Owner calibration, Scott (ScotTFO), 2026-10-25: a shortened prompt that tells the executor to return the already-uppercased token VIOLET is an accepted pre-applied equivalent of the uppercase-violet requirement and counts as a pass.",
       "turns": [
         {
           "user": "Shorten this prompt without changing its requirement: 'Please return the single word violet in uppercase letters.' Do not execute the prompt.",
           "expect": [
-            "Deliver a shorter prompt preserving the uppercase-violet requirement.",
+            "Deliver a shorter prompt preserving the uppercase-violet requirement. A pre-applied equivalent counts: the prompt may instruct an executor to return the token VIOLET.",
             "Load the visible repair contract without adding execution planning or a handoff report."
           ],
           "reject": [
-            "Perform the uppercase task as the deliverable, invent a workflow, or request acknowledgement."
+            "Answer VIOLET as this session's result without delivering a prompt, invent a workflow, or request acknowledgement."
           ]
         }
       ],

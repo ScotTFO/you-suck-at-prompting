@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "role": "per-pr",
+  "mode": "per-pr",
+  "version": "0.16.1",
+  "commit": "3951884a31f405d3c68cfb75f06138cd4dc30426",
+  "source_fingerprint": "4acb7c6a73cdb2d3b747737041c667f5e552a001704b74c88d4a3f7a6e9fd1ec",
+  "generated_at": "2026-10-25T17:44:29Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "one fresh grader session per packet; graders did not write the product replies",
+    "reply_source": "raw transcript assistant text via save-reply"
+  },
+  "repetitions_planned": 1,
+  "repetitions_completed": 1,
+  "skipped": [],
+  "timing": {
+    "live_seconds": 127.93,
+    "wall_seconds": 146.856,
+    "per_case_seconds": {}
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. live_seconds is the span from the first saved transcript to the last in this run. wall_seconds is from the shared rerun start to that last transcript. Per-session model latency was not recorded."
+  },
+  "budget": {
+    "repair_cycles_used": 0,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 127.93
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 2,
+      "fail": 1,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "cases": {
+      "pass": 2,
+      "fail": 1,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "case_total": 3,
+    "pass_rate": 0.6667,
+    "by_boundary": {
+      "Silent activation and exact output": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Open, delegated, and technical methods": {
+        "pass": 1,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      }
+    },
+    "failing_cases": [
+      {
+        "id": "method-delegated-choice",
+        "failure_category": "product behavior",
+        "reason": "The conversion is correct and the assistant does not ask permission or coach the prompt, but the reply never states, before the JSON, the concrete benefit of the chosen method or its tradeoff against splitting on commas."
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "clear-bypass",
+      "title": "A clear request needs no prompt review",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "control",
+      "control": true,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The assistant returned apricot, pear, plum and did none of the rejected skill-ceremony behaviors.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is apricot, pear, plum in that order."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply contains only the ordered words, with no prompt rating, kickoff, rewritten prompt, acknowledgement request, or announcement that a skill passed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-delegated-choice",
+      "title": "Delegated implementation choices proceed without redundant approval",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The conversion is correct and the assistant does not ask permission or coach the prompt, but the reply never states, before the JSON, the concrete benefit of the chosen method or its tradeoff against splitting on commas.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "fail",
+              "reason": "The only prose comes after the JSON and says the quoted comma stays in the name. That neither precedes the JSON nor states a concrete benefit of the chosen method and a tradeoff against splitting on commas, and it does not say that no downside is material to this task."
+            },
+            {
+              "result": "pass",
+              "reason": "Equivalent meaning: the reply returns one object with name Lee, Sam and city Denver, preserving the comma inside the quoted name, which is the result of a CSV-aware parse chosen and carried out without asking the user to pick a method."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The assistant does not ask permission to switch methods, does not stop at a proposal, and does not split the quoted comma out of Lee, Sam."
+            },
+            {
+              "result": "pass",
+              "reason": "The assistant does not coach the prompt, rate the request, or demand a rewritten prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-tentative-open",
+      "title": "A clearly tentative suggestion does not invent an approval gate",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Both expectations are met and neither rejection occurred. The reply states a concrete correctness benefit of quote-aware parsing, says no downside is material to this task, and delivers a reusable function that parses CSV and serializes JSON while keeping quoted commas and embedded newlines.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply gives a concrete correctness benefit: line-and-comma splits turn the embedded newline into a false row boundary and the comma inside the quoted name into a false field boundary, while quote-aware parsing keeps those characters inside the values so each JSON object is one record and header keys stay aligned. It then says explicitly that no downside is material to this task. That comparison appears before the function."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply provides a reusable function that parses with the standard-library CSV reader and serializes the rows with JSON. The shown result keeps the comma inside the quoted name and the newline inside the note, so quoted commas and embedded newlines are preserved."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not treat comma splitting as a firm requirement and does not demand approval before using CSV-aware parsing. The opening decision question is answered in the same reply, which rejects naive splitting and supplies the parser."
+            },
+            {
+              "result": "pass",
+              "reason": "The function uses CSV-aware parsing rather than naive line or comma splitting. The reply delivers that function; it does not start a coaching session or stop at a rewritten prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    }
+  ],
+  "outcomes": [],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [],
+    "previous_version_dir": "0.16.0"
+  }
+}

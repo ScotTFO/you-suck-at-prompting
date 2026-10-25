@@ -1,0 +1,1345 @@
+{
+  "schema_version": 1,
+  "role": "per-pr",
+  "mode": "per-pr",
+  "version": "0.16.1",
+  "commit": "69234cd2f039eedb351bafa9765b1294f2b5608f",
+  "source_fingerprint": "b36fdb8f1fe7fbf33ffbe905dee67358d760577c0c6581af97fb63fa91272d68",
+  "generated_at": "2026-10-25T15:55:00Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "fresh session graded the saved transcripts and did not write the product replies"
+  },
+  "repetitions_planned": 1,
+  "repetitions_completed": 1,
+  "skipped": [
+    {
+      "item": "18 selected cases",
+      "reason": "Not started in this repair check so the live budget could cover the two research targets, the previously passing targeted cases, and the other research cases this edit could change."
+    }
+  ],
+  "timing": {
+    "live_seconds": 3332,
+    "wall_seconds": 526.084,
+    "per_case_seconds": {}
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. live_seconds is 11*164 + 3*142 + 5*220, charging each session for its wave. The three second-wave follow-ups ran inside the five-session window and are not added again. wall_seconds is the overlapped clock."
+  },
+  "budget": {
+    "repair_cycles_used": 0,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 3332
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 14,
+      "fail": 2,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 18
+    },
+    "cases": {
+      "pass": 14,
+      "fail": 2,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 18
+    },
+    "case_total": 34,
+    "pass_rate": 0.4118,
+    "by_boundary": {
+      "Silent activation and exact output": {
+        "pass": 2,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Prompt deliverable and execution": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Unknown goal and clarification": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Source instructions and authority": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Selective reference loading": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Approval lifecycle": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 4
+      },
+      "Facts and conflicting requirements": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Entry-point fallback": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Method agreement": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 3
+      },
+      "Firm and unresolved methods": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Open, delegated, and technical methods": {
+        "pass": 0,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Outcome clarity and evidence": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Research before action": {
+        "pass": 8,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      }
+    },
+    "failing_cases": [
+      {
+        "id": "method-tentative-open",
+        "failure_category": "product behavior",
+        "reason": "The function uses CSV-aware parsing, but the reply states only the quoted-field benefit. It does not name a tradeoff against splitting on commas."
+      },
+      {
+        "id": "research-settled-followup",
+        "failure_category": "product behavior",
+        "reason": "The first turn shows the checklist decision and waits. The second turn writes the plan but opens again with a decision question."
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "clear-bypass",
+      "title": "A clear request needs no prompt review",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "target",
+      "control": true,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is apricot, pear, plum and adds none of the rejected framing.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "strict-json",
+      "title": "An exact output contract suppresses review markers",
+      "tags": [
+        "activation",
+        "control",
+        "strict-output"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "target",
+      "control": true,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The entire visible reply is the requested JSON object.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "prompt-only",
+      "title": "Writing a prompt does not execute it",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Prompt deliverable and execution",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "unknown-goal-continuation",
+      "title": "Clarify an unknown goal and carry the answer forward",
+      "tags": [
+        "activation",
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "execution-clarification",
+      "title": "A complete answer to a blocking question permits execution",
+      "tags": [
+        "clarification",
+        "multi-turn",
+        "execution"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first turn asks for the workshop topic. The second turn writes an Orchard apple-growing title.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "quoted-instructions",
+      "title": "Instructions in a supplied prompt stay source data",
+      "tags": [
+        "authority",
+        "prompt-only",
+        "untrusted-data"
+      ],
+      "boundary": "Source instructions and authority",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "disclosure-simple",
+      "title": "A direct prompt edit does not load execution controls",
+      "tags": [
+        "progressive-disclosure",
+        "prompt-only",
+        "control"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The shortened prompt still requires the single word violet in uppercase, and the repair contract was loaded.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "approval-lifecycle",
+      "title": "An explanation preserves approval state and a revision replaces it",
+      "tags": [
+        "authority",
+        "execution",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "ordinary-unknown-goal",
+      "title": "Ordinary ambiguity asks only the next useful question",
+      "tags": [
+        "activation",
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "discoverable-fact",
+      "title": "Read an available synthetic file instead of asking for its contents",
+      "tags": [
+        "activation",
+        "control",
+        "discovery"
+      ],
+      "boundary": "Facts and conflicting requirements",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "conflicting-requirements",
+      "title": "Resolve a real conflict without silently dropping a constraint",
+      "tags": [
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Facts and conflicting requirements",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "missing-authority",
+      "title": "Withhold an unapproved effect without requiring a rewritten prompt",
+      "tags": [
+        "authority",
+        "execution"
+      ],
+      "boundary": "Source instructions and authority",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "cancelled-approval",
+      "title": "Cancellation consumes no action and closes the pending gate",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "replacement-late-answer",
+      "title": "A replacement does not inherit an old question",
+      "tags": [
+        "clarification",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "stale-proposal-approval",
+      "title": "Approval of a superseded proposal needs clarification",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "missing-reference-fallback",
+      "title": "The entrypoint can clarify when its state reference is missing",
+      "tags": [
+        "clarification",
+        "reference-fallback"
+      ],
+      "boundary": "Entry-point fallback",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-alternative-accept",
+      "title": "A chosen method gets a grounded alternative and one agreement",
+      "tags": [
+        "activation",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed because this case was not started."
+    },
+    {
+      "id": "method-alternative-reject",
+      "title": "A rejected alternative preserves the clarified technique",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed because this case was not started."
+    },
+    {
+      "id": "method-alternative-revision",
+      "title": "Revising an alternative preserves the latest review condition",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed because this case was not started."
+    },
+    {
+      "id": "method-firm-constraint",
+      "title": "A learning constraint makes the specified method part of the goal",
+      "tags": [
+        "activation",
+        "authority",
+        "control"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-ambiguous-constraint",
+      "title": "Unresolved method flexibility gets one bounded question",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn",
+        "progressive-disclosure"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first turn compares the library parser with a handwritten parser and asks whether avoiding the library is required. The second turn writes the function.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "method-tentative-open",
+      "title": "A clearly tentative suggestion does not invent an approval gate",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The function uses CSV-aware parsing, but the reply states only the quoted-field benefit. It does not name a tradeoff against splitting on commas.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "fail",
+              "reason": "The reply names the quoted-field benefit and does not state a tradeoff against splitting lines on commas."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "method-unclear-outcome",
+      "title": "A detailed proposed method waits for decision-relevant success criteria",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first turn asks which outcome matters. The second turn recommends a coverage-first schedule under the 40-hour cap and the fairness preference.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "prompt-rewrite-sufficient-evidence",
+      "title": "A prompt rewrite keeps stable supplied evidence without mandatory extra research",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "research-local-evidence",
+      "title": "A substantive recommendation starts with supplied evidence and continues within authority",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply compares the supplied runbook with the approved checklist, recommends the checklist, and writes the rollout plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-changing-facts",
+      "title": "A consequential current-facts decision researches only decision-changing uncertainty",
+      "tags": [
+        "activation",
+        "research",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply names unopened secondary authorities, labels fees, terms, and availability unverified, compares processors and migration effort, and prepares the plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-settled-followup",
+      "title": "A settled follow-up neither restarts research nor loses the agreed approach",
+      "tags": [
+        "activation",
+        "research",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The first turn shows the checklist decision and waits. The second turn writes the plan but opens again with a decision question.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "fail",
+              "reason": "The settled follow-up opens with another decision question after the checklist approach was already chosen."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-mechanical-bypass",
+      "title": "A mechanical change stays direct",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The visible reply is exactly Recovery target.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "research-diagnosis-no-method",
+      "title": "A substantive diagnosis frames the decision even without a proposed method",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply uses the incident sequence, compares rollback with continuing the credential change, and prepares the rollback plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-strict-output",
+      "title": "Strict output keeps substantive research silent",
+      "tags": [
+        "activation",
+        "research",
+        "strict-output",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The visible reply is exactly rollback checklist.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-firm-method",
+      "title": "Research preserves a firm method and review-before-departure condition",
+      "tags": [
+        "activation",
+        "research",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The repair stays inside the required batch process, and the revised instruction processes valid records without inventing postal codes.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-source-conflict",
+      "title": "Conflicting material sources stop unsupported research without an invented answer",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply names the Colorado recurring-billing disagreement, withholds the migration, and asks whether recurring billing is available in Colorado.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "research-unknown-goal",
+      "title": "An unknown goal pauses substantive automation research without inventing one",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first turn asks for the business outcome. The second turn compares approaches under the business-hours limit and prepares the plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            },
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Met the written item."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Required references were opened in the host file-open log. Extra reads, if any, are an efficiency note."
+    },
+    {
+      "id": "prompt-rewrite-current-evidence",
+      "title": "A consequential open choice keeps proportionate current-evidence instructions in the prompt",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not started in this repair check. The sessions covered the two research targets, the previously passing targeted cases, and the other research cases this edit could change.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    }
+  ],
+  "outcomes": [],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [],
+    "previous_version_dir": "0.16.0"
+  }
+}

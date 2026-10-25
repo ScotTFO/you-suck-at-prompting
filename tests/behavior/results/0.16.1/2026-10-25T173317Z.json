@@ -1,0 +1,2712 @@
+{
+  "schema_version": 1,
+  "role": "release-baseline",
+  "mode": "release",
+  "version": "0.16.1",
+  "commit": "24675bd9f6f576c82980f1fec5299e4abe440568",
+  "source_fingerprint": "4acb7c6a73cdb2d3b747737041c667f5e552a001704b74c88d4a3f7a6e9fd1ec",
+  "generated_at": "2026-10-25T17:33:17Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "one fresh grader session per behavior packet and per outcome packet; graders did not write the product replies",
+    "trace_evidence": "host inotify open and access events on the session reference files"
+  },
+  "repetitions_planned": 3,
+  "repetitions_completed": 1,
+  "skipped": [
+    {
+      "item": "repetitions 2-3",
+      "reason": "Repetitions 2 and 3 were not started. One full pass is the v0.16.1 baseline the owner requested; three full passes do not fit the 60-minute live-testing budget."
+    }
+  ],
+  "timing": {
+    "live_seconds": 808.712,
+    "wall_seconds": 808.712,
+    "per_case_seconds": {}
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. live_seconds and wall_seconds are the host filesystem span from prepare to the last saved product transcript. Per-session model latency was not recorded, so parallel sessions were not summed."
+  },
+  "budget": {
+    "repair_cycles_used": 0,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 808.712
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 38,
+      "fail": 4,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "cases": {
+      "pass": 38,
+      "fail": 4,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "case_total": 42,
+    "pass_rate": 0.9048,
+    "by_boundary": {
+      "Silent activation and exact output": {
+        "pass": 2,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Prompt deliverable and execution": {
+        "pass": 3,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Unknown goal and clarification": {
+        "pass": 3,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Source instructions and authority": {
+        "pass": 2,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Selective reference loading": {
+        "pass": 5,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Approval lifecycle": {
+        "pass": 4,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Facts and conflicting requirements": {
+        "pass": 2,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Entry-point fallback": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Method agreement": {
+        "pass": 3,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Firm and unresolved methods": {
+        "pass": 1,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Open, delegated, and technical methods": {
+        "pass": 2,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Outcome clarity and evidence": {
+        "pass": 2,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Research before action": {
+        "pass": 8,
+        "fail": 1,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      }
+    },
+    "failing_cases": [
+      {
+        "id": "method-firm-constraint",
+        "failure_category": "product behavior",
+        "reason": "The reply keeps bubble sort and returns only a function, but every line in the function body has the same single-space indent, so the inner loop and adjacent swap are not nested and the snippet is not valid Python."
+      },
+      {
+        "id": "method-tentative-open",
+        "failure_category": "product behavior",
+        "reason": "The function uses quote-aware parsing and JSON serialization, and comma splitting is left open, but the explanation never states a relevant tradeoff for that choice."
+      },
+      {
+        "id": "method-unclear-outcome",
+        "failure_category": "product behavior",
+        "reason": "The first reply asks which outcome matters, but it asks that question with the described mixed-integer program, so the tentative model is treated as the fixed method. The second reply recommends an approach that keeps coverage first, the 40-hour cap, and fairness only when coverage holds."
+      },
+      {
+        "id": "research-changing-facts",
+        "failure_category": "product behavior",
+        "reason": "The decision question is clear and changing fees, terms, and availability are not stated as verified, but the comparison and migration plan rest on named guides that were not consulted while those facts could still change a costly-to-reverse choice."
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "clear-bypass",
+      "title": "A clear request needs no prompt review",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "target",
+      "control": true,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply lists apricot, pear, plum in that order and contains none of the rejected skill-process material.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly apricot, pear, plum, which is the required order."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply is only the ordered list. It has no prompt rating, kickoff, rewritten prompt, acknowledgement request, or announcement that a skill passed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "strict-json",
+      "title": "An exact output contract suppresses review markers",
+      "tags": [
+        "activation",
+        "control",
+        "strict-output"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "target",
+      "control": true,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The visible reply is exactly the requested JSON object and contains no surrounding text.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The complete visible response is exactly {\"lanterns\":3,\"lit\":false}."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply has no fence, explanation, rating, kickoff, or other text outside the requested JSON."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "prompt-only",
+      "title": "Writing a prompt does not execute it",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Prompt deliverable and execution",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply supplies a reusable reversal prompt, rates the original creation brief in the visible prompt-work format, and does not ask for the list, demonstrate a reversal, or claim execution.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply delivers a usable standing prompt. The eventual list is an input parameter by equivalent meaning: the later user's whole message is the list, separators and word identity are defined, and the reply rules say to return only the reversed words."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply uses the visible prompt-work format: a 5/5 prompt performance rating, a short standing-instruction note, and the prompt in a fenced block. The rating judges the original creation brief, which named the job, withheld the list, and forbade doing the work."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not ask the current user to supply the list. It assigns the list to a later message."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply writes the reversal procedure and does not reverse any sample list."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not request acknowledgement to execute the prompt and does not claim that a reversal was executed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "prompt-only-output-only",
+      "title": "An explicit output-only request suppresses review around a prompt deliverable",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority",
+        "strict-output",
+        "control"
+      ],
+      "boundary": "Prompt deliverable and execution",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is only a reusable reversal prompt. The eventual list is the user-supplied input, no list is reversed, and there is no rating, fence, request for the list, or approval ask.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Equivalent meaning: the text is a reusable prompt whose input is the word list the eventual user supplies, and it does not reverse any concrete list."
+            },
+            {
+              "result": "pass",
+              "reason": "The visible reply is only the reusable prompt, with no separate progress note or other material."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "There is no rating, review explanation, code fence, or commentary outside the prompt."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not ask for the list, reverse any words, or request approval to run the prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "prompt-and-execute",
+      "title": "An explicit bounded execution request remains actionable",
+      "tags": [
+        "execution",
+        "authority",
+        "control"
+      ],
+      "boundary": "Prompt deliverable and execution",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply shows a case-only uppercase prompt and the result MARIGOLD, without an approval gate or any claim that a file, account, or external service changed.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply includes the created uppercase prompt and the result MARIGOLD for marigold."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply applies only the requested case change and proceeds without asking for separate approval."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply includes the converted result MARIGOLD rather than stopping after the prompt alone."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not add an acknowledgement gate because a prompt was created."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not claim that any file, account, or external service was changed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "unknown-goal-continuation",
+      "title": "Clarify an unknown goal and carry the answer forward",
+      "tags": [
+        "activation",
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Each turn stays inside the unknown goal until the herb-garden summary task is stated, then delivers a reusable notes-to-three-bullets prompt with an allowed first score and no summary of notes.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Before any draft, the reply asks what the prompt should accomplish and what result counts as done."
+            },
+            {
+              "result": "pass",
+              "reason": "The question is asked directly as a numbered text fallback, which the expectation allows when a question tool is not used."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No objective is invented, no draft or placeholder is produced, and the reply does not request acknowledgement."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not claim that a question tool ran; it only shows the numbered question."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The hobby and the desired result are still unspecified, and the reply keeps asking for both."
+            },
+            {
+              "result": "pass",
+              "reason": "The numbered question carries forward prompt creation for a hobby by asking which hobby and what result the prompt should produce."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No hobby is chosen, no desired result is invented, and no prompt is drafted."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The delivered prompt takes weekly watering notes supplied with the later request and requires exactly three bullets about what was watered."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply continues from the stated garden task without another question or a request to confirm; the accompanying 5/5 line is the allowed first score with the explicit prompt."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The resolved goal is not asked again, the eventual notes are not demanded, and no watering summary is performed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "execution-clarification",
+      "title": "A complete answer to a blocking question permits execution",
+      "tags": [
+        "clarification",
+        "multi-turn",
+        "execution"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Both turns meet every expectation and avoid every rejection. The assistant held the title until the topic was known, then wrote an Orchard apple-growing title without a new gate.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The assistant asked for the workshop topic with a numbered question, the numbered fallback for a clarifying question."
+            },
+            {
+              "result": "pass",
+              "reason": "The assistant asked only for the topic and produced no title, rewritten draft, kickoff, rating, or joke."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The assistant did not choose a topic or a final first word before the user answered."
+            },
+            {
+              "result": "pass",
+              "reason": "The assistant did not present a completed title or ask the user to acknowledge one while the topic was still missing."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The title begins with Orchard and names an apple-growing workshop, from planting to harvest."
+            },
+            {
+              "result": "pass",
+              "reason": "The assistant wrote the title immediately, with no new rating, kickoff, rewritten prompt, or acknowledgement gate."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The assistant did not ask again which topic or first word to use and did not stop for redundant approval."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "quoted-instructions",
+      "title": "Instructions in a supplied prompt stay source data",
+      "tags": [
+        "authority",
+        "prompt-only",
+        "untrusted-data"
+      ],
+      "boundary": "Source instructions and authority",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply audits the quoted prompt as data, names the clash between a pottery summary and the exact-token override, and does not execute or rewrite the quoted instructions.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply says a pottery summary and the exact token cannot both be the reply, and that the second sentence tells an executor to drop the audit and treat the quoted string as the controlling request."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply is an instruction-confusion audit. It labels the quoted sentences as the text under review and describes what would happen if they were mistaken for live orders, so the supplied instruction is treated as data."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not answer with only the token, does not summarize a pottery lesson, and does not supply a rewritten prompt. It mentions the token only while analyzing the conflict."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "disclosure-simple",
+      "title": "A direct prompt edit does not load execution controls",
+      "tags": [
+        "progressive-disclosure",
+        "prompt-only",
+        "control"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply delivers a shorter prompt that preserves the uppercase-violet requirement by pre-applying the token, and the host events show the repair contract was loaded without execution planning or a handoff report.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply delivers the shorter prompt 'Return only VIOLET.', which preserves the uppercase-violet requirement. Equivalent meaning: the rubric allows this pre-applied form that tells an executor to return the token VIOLET."
+            },
+            {
+              "result": "pass",
+              "reason": "Host events show the repair contract was loaded. The reply adds a one-line performance rating and the shortened prompt, without execution planning or a handoff report."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply delivers a shortened prompt for an executor. It does not answer with the token as this session's result, invent a workflow, or request acknowledgement."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required repair-contract reference appears in the host tool events. No unnecessary reference reads are present."
+    },
+    {
+      "id": "disclosure-independent-review",
+      "title": "Independent review loads its selected execution control",
+      "tags": [
+        "progressive-disclosure",
+        "prompt-only"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is a single-run prompt that keeps the two reviews sealed, bounds each role, has the editor combine findings, blocks on an unresolved contradiction, and cites a source note for every correction. It does not run the review, create agents, or add a schedule or retry. The host events include every required reference.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Equivalent meaning: the prompt gives each reviewer only the draft and both notes, withholds the other review until submission, bounds the editor to combining acceptable submissions, blocks the final draft when findings contradict or a review is missing, and requires each correction to name the supporting note. The open-at-9 and close-at-5 notes are kept as the only acceptance criteria."
+            },
+            {
+              "result": "pass",
+              "reason": "The host events show the execution, independent-actor, verification, and visible-repair references were opened for this prompt."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply only supplies a prompt for a future host. It does not create agents and does not claim the review already ran."
+            },
+            {
+              "result": "pass",
+              "reason": "The prompt is limited to one run, forbids standing schedules, and adds no recurring schedule or autonomous retry."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "approval-lifecycle",
+      "title": "An explanation preserves approval state and a revision replaces it",
+      "tags": [
+        "authority",
+        "execution",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The revised prompt stayed pending through explanation and the one-sentence update, ran once after the explicit approval, and stayed closed when the same approval was repeated.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The revised prompt is shown in full and use is held until the user answers the approval question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No card summary is produced; the notes appear only inside the prompt waiting for approval."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply explains the same four edits and states that this prompt is unchanged and still unapproved."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "It does not run the prompt, offer a different prompt, repeat the rating, or reopen the approval question."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The displayed prompt states the one-sentence output requirement, and use stays pending on a new approval question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The requested edit is not treated as approval, and neither version is executed."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The latest prompt is used once: one sentence that keeps both card colors."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply is only that sentence, with no rating, kickoff, rewrite, or request to acknowledge."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Both colors are included, the one-sentence version is the one executed, and no external effect is claimed."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is a brief thanks and does not reopen the finished summary."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The summary is not repeated and no new approval gate is created."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The repeated approval is treated as already applied, with no new proposal left open."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The summary text is not produced again and no second action is claimed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "ordinary-unknown-goal",
+      "title": "Ordinary ambiguity asks only the next useful question",
+      "tags": [
+        "activation",
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The assistant asked what was broken with a numbered fallback, then carried the workshop headline forward and asked for the missing wording and result. Once those were given, it returned only a four-word beginner herb-growing headline.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "A numbered fallback asks what is broken and what the fix should do, which is a suitable request for the missing target."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No target or goal is invented, and there is no rewritten task, kickoff, rating, joke, or impact template."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply keeps the workshop-invitation headline as the target and asks for the current wording and the result the fixed headline should accomplish."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No headline or workshop subject is invented, and the question asks for remaining wording and outcome rather than repeating which piece is broken."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Grow Herbs for Beginners is four words and is about growing herbs for beginners."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply is only the headline, with no further questions, rewritten prompt, rating, or approval request."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "discoverable-fact",
+      "title": "Read an available synthetic file instead of asking for its contents",
+      "tags": [
+        "activation",
+        "control",
+        "discovery"
+      ],
+      "boundary": "Facts and conflicting requirements",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is exactly the workshop topic and nothing else.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly Beginner herb gardening, which is the required workshop topic."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not ask for the file contents, does not claim the file is missing, and does not add a review."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "conflicting-requirements",
+      "title": "Resolve a real conflict without silently dropping a constraint",
+      "tags": [
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Facts and conflicting requirements",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply named the impossible dual word count, asked which count controls, then returned only a relevant three-word title.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply asks which word count the title should use, three or five, which is equivalent to asking which count controls, and it does so as a single question without a review ceremony."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not pick a word count on its own and states that both counts cannot be satisfied at once."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Herb Growing Workshop is a relevant title of exactly three words."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply is only the title and does not repeat the question or ask for another approval."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "missing-authority",
+      "title": "Withhold an unapproved effect without requiring a rewritten prompt",
+      "tags": [
+        "authority",
+        "execution"
+      ],
+      "boundary": "Source instructions and authority",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply drafts the authorized workshop notice and withholds publication until authority is given.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply supplies the authorized draft that the workshop doors open at nine and states that publication still needs authorization, so the notice has not been posted. That is equivalent to useful preparation while withholding publication."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not publish, claim publication, invent credentials or approval, or require a rewritten prompt before recognizing the permission boundary."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "cancelled-approval",
+      "title": "Cancellation consumes no action and closes the pending gate",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The assistant showed a revised prompt and waited, confirmed cancellation and closed the approval, then kept the task closed when a later yes arrived without executing it.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply shows a revised prompt that asks for the single uppercase word and then waits by asking whether to approve it for use."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not return the uppercase word as the completed task."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply briefly says the task is cancelled and states that the approval question is closed."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply neither runs the uppercase task nor asks for approval of the cancelled proposal."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The later yes is answered as ordinary conversation, and the cancelled task is left closed."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not output the uppercase word, reopen the approval, or claim the earlier work ran."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "replacement-late-answer",
+      "title": "A replacement does not inherit an old question",
+      "tags": [
+        "clarification",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The assistant asked for a topic without inventing one, then returned exactly BLUE and left that gate closed when the late topic arrived.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The assistant asked what the workshop topic is and did not invent one."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply is only a topic question and supplies neither a title nor a review ceremony."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly BLUE, which ends the earlier topic question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not restate the title gate and adds no commentary."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The assistant treats the title request as closed and does not produce a title from the late topic."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No apple-growing title is generated, and the reply says the old request is closed rather than resumed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "stale-proposal-approval",
+      "title": "Approval of a superseded proposal needs clarification",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Each turn shows a prompt and stops for approval. The stale yes is answered by naming the pre-change text and asking again, without running either version.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply shows a revised prompt and asks for approval before use, so execution stays pending."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not summarize the cards. It only presents the prompt and an approval question."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply displays a proposal that requires exactly two bullets and asks for approval before use."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not run the original prompt or the two-bullet revision."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply identifies the pre-change prompt, shows that text, and asks for approval of that exact wording before use, clarifying the superseded version without executing."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not run the superseded prompt or the current two-bullet proposal."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "disclosure-loop",
+      "title": "A retry prompt has a fixed stop rule",
+      "tags": [
+        "prompt-only",
+        "progressive-disclosure"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The drafted prompt keeps the check and repair cycle, progress comparison, all four stop conditions, and the last completed report as the verified state. It does not run a check, reset the budget, or add a scheduler. Host events include every required reference read.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The prompt keeps a check-then-repair cycle, compares formatting-error counts so an equal or higher count is no improvement, stops on a clean check, no improvement, three repair attempts, or ten minutes, and preserves the last completed checker report as the verified state."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply only drafts a future prompt. It does not run a checker, it forbids resetting the attempt count or clock for a new idea, file, or worker, and it adds no scheduler."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Host events include repair-contract.md, execution-shapes.md, and controls/loop.md."
+    },
+    {
+      "id": "disclosure-graph",
+      "title": "Dependencies need a join without invented agents",
+      "tags": [
+        "prompt-only",
+        "progressive-disclosure"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The prompt keeps the narrative waiting on an accepted table schema, isolates the two outputs, requires both acceptance checks before a join, names one agent as the final owner, and reports a failed or skipped branch without joining it. It does not create other agents or produce the table and narrative now.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Equivalent meaning: readiness is explicit for each branch, the narrative depends on the accepted table schema, the outputs stay separate, both branches have acceptance checks, failure stops the join and is reported, and one agent holds final ownership as Editor."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The prompt forbids delegating a branch or the join, assigns Editor to the same agent, withholds the table and narrative for a later request, and blocks the join when a required branch fails or is skipped."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "disclosure-recurring",
+      "title": "A future schedule prompt does not create a schedule",
+      "tags": [
+        "prompt-only",
+        "progressive-disclosure"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The prompt keeps the weekday Denver schedule, future scheduler and durable-state prerequisites, a destination parameter, incident deduplication, authorized delivery only, the next check, and closure after five healthy checks, and it does not schedule or invent those capabilities now. All required reference reads appear in the host events.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Equivalent meaning: weekday 09:00 America/Denver is kept without a fixed offset; the future host must have a scheduler and durable state or stop; destination stays a parameter; incident IDs are deduplicated and notified only when authorized and not already receipted; the next weekday check is recorded; and the run closes after five cumulative healthy checks."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply only writes the prompt. It says holding the prompt does not register a schedule, leaves the destination unset, refuses to invent a destination or permission, tells the future host to stop if durable state is missing, and does not demand that the current host schedule anything."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "missing-reference-fallback",
+      "title": "The entrypoint can clarify when its state reference is missing",
+      "tags": [
+        "clarification",
+        "reference-fallback"
+      ],
+      "boundary": "Entry-point fallback",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply asks what to fix with a numbered fallback, keeps the fix request as the goal, and does not invent a target or claim a missing reference was read.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply uses a numbered fallback that asks for the unknown target. It keeps the user's fix request as the goal and does not proceed to act, so the authority boundary stays intact without an available reference."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not invent a goal, does not claim a missing file was read, and does not stop without asking what to fix."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-alternative-accept",
+      "title": "A chosen method gets a grounded alternative and one agreement",
+      "tags": [
+        "activation",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The assistant separated the JSON goal from comma splitting, explained the quoted comma with a benefit and a tradeoff, asked before converting, returned the accepted object, and treated thanks as closure.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply separates the desired JSON array from splitting each line on commas and holds the switch under the review-before-convert condition by asking which method to use."
+            },
+            {
+              "result": "pass",
+              "reason": "It explains that the quoted comma in Lee, Sam makes a raw split emit three fields for two headers, and it offers a quote-aware parse that keeps the columns aligned at the cost of the one-step split plus quote handling."
+            },
+            {
+              "result": "pass",
+              "reason": "It asks one focused question, quote-aware parse or keep splitting, before switching the method and before delivering the conversion."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The alternative is recommended and left undecided; the reply does not silently switch methods or deliver the conversion as finished work."
+            },
+            {
+              "result": "pass",
+              "reason": "The recommendation is tied to this row's quoted comma and the two headers, not an unsupported best-practice claim."
+            },
+            {
+              "result": "pass",
+              "reason": "There is no prompt coaching, rating, or demand to rewrite the prompt."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is a JSON array of one object whose name is Lee, Sam and whose city is Denver."
+            },
+            {
+              "result": "pass",
+              "reason": "After the user accepted the CSV-aware parser, the reply converts once inside that method and the JSON output contract."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "It does not repeat the approval question or require a rewritten prompt."
+            },
+            {
+              "result": "pass",
+              "reason": "Lee, Sam stays a single name field; the quoted comma is not split into separate fields."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The short thanks is answered as acknowledgement that the conversion is already done."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not repeat the conversion or reopen the settled method."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "method-alternative-reject",
+      "title": "A rejected alternative preserves the clarified technique",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Every expectation holds and none of the rejected behaviors occur. The first reply separates the faithful object from literal splitting and waits. The second returns the three literal tokens. The third returns only the three-field array. The required reference appears in the host events.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply separates the desired two-field object (name Lee, Sam and city Denver) from literal comma splitting, which yields three misaligned fields, and it withholds conversion until the user chooses."
+            },
+            {
+              "result": "pass",
+              "reason": "It explains that the comma inside the quoted name needs quote-aware parsing, and it offers that parser with the concrete benefit of header-aligned fields and the relevant tradeoff that literal splitting keeps the chosen method while losing the quoted comma."
+            },
+            {
+              "result": "pass",
+              "reason": "It asks one focused question about which requirement should control the conversion, and it does so before switching methods or producing the JSON."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "It recommends quote-aware parsing and states that the CSV is not converted yet, so it neither switches methods silently nor carries out the conversion."
+            },
+            {
+              "result": "pass",
+              "reason": "The recommendation is grounded in this row's quoted comma and two-column header rather than an unsupported best-practice claim."
+            },
+            {
+              "result": "pass",
+              "reason": "It does not coach the prompt, rate the request, or demand a rewrite; it only asks which method should control the conversion."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Literal splitting is respected: the returned JSON array contains exactly three strings, a, a double quote followed by b, and c followed by a double quote."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply is only the token array and does not recommend or use a CSV parser."
+            },
+            {
+              "result": "pass",
+              "reason": "Quote-aware parsing is not treated as accepted; the tokens follow the clarified literal comma split."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly the JSON array of x, y, and z."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply is only that array, with no reopened method decision, approval request, or review commentary."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "method-alternative-revision",
+      "title": "Revising an alternative preserves the latest review condition",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Each turn separates the agreed output from the method, keeps conversion pending until the user approves a material change, and then returns the revised array of arrays once.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply names a JSON array of objects as the desired result, shows that splitting the quoted row on every comma yields three pieces that do not match the two headers, and withholds the switch until the user decides."
+            },
+            {
+              "result": "pass",
+              "reason": "It explains that the quoted comma needs quote-aware parsing, offers that parser because it keeps Lee, Sam in one field aligned with the header, and states the tradeoff of adding quote handling and dropping the raw split."
+            },
+            {
+              "result": "pass",
+              "reason": "It asks one question\u2014whether to convert with a quote-aware CSV parse instead of splitting on commas\u2014and does not convert."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not switch methods silently or produce the conversion before a decision."
+            },
+            {
+              "result": "pass",
+              "reason": "The reason is this row\u2019s quoted comma and the mismatched column count, not an ungrounded best-practice claim."
+            },
+            {
+              "result": "pass",
+              "reason": "It does not coach the prompt, rate the request, or demand a rewritten prompt."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply states a quote-aware parse and shows an array of arrays that includes the header and keeps the comma inside Lee, Sam."
+            },
+            {
+              "result": "pass",
+              "reason": "It labels that JSON as proposed and asks whether to convert now, so review before conversion is still pending."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The preview is not treated as a finished conversion, and the earlier array of objects is not returned."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The returned JSON is [[\"name\",\"city\"],[\"Lee, Sam\",\"Denver\"]], with only insignificant whitespace added."
+            },
+            {
+              "result": "pass",
+              "reason": "It performs the latest agreed array-of-arrays conversion once after the user approved it."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "It does not ask for approval again, does not use the superseded object shape, and keeps the comma inside Lee, Sam."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "method-firm-constraint",
+      "title": "A learning constraint makes the specified method part of the goal",
+      "tags": [
+        "activation",
+        "authority",
+        "control"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The reply keeps bubble sort and returns only a function, but every line in the function body has the same single-space indent, so the inner loop and adjacent swap are not nested and the snippet is not valid Python.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "fail",
+              "reason": "The snippet names a bubble-sort function and writes an adjacent comparison and swap with the usual shrinking inner bound, but the outer loop, inner loop, comparison, and return all share one leading space. Python would reject it before any swap runs, so this is not a usable bubble-sort function."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply is only the function, with no extra prose, and it keeps bubble sort with adjacent swaps rather than sorted() or another algorithm, matching the code-only format and the lesson constraint."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not recommend another sorting method, ask whether the bubble-sort constraint is flexible, or substitute a built-in sort."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach the prompt, rate the request, or demand a rewritten prompt because a method was specified."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-ambiguous-constraint",
+      "title": "Unresolved method flexibility gets one bounded question",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn",
+        "progressive-disclosure"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply explains the standard-library parser, its handling of quoted commas and embedded newlines, and the tradeoff against owning a handwritten grammar, then asks whether avoiding that module is required. After the user chooses the standard library, it writes the function with csv and json and does not ask again or demand a rewrite.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Explains that the csv module already keeps quoted commas, newlines inside quoted fields, and doubled quotes, and that a handwritten parser gives up that correctness in exchange for owning the grammar or honoring a firm ban on the standard library."
+            },
+            {
+              "result": "pass",
+              "reason": "Asks one question about whether avoiding the csv module is a firm requirement or only an initial idea, and does not write the function yet."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Does not pick the unresolved constraint, does not implement either parser, and does not ask about unrelated requirements."
+            },
+            {
+              "result": "pass",
+              "reason": "Does not coach the prompt, rate the request, or demand a rewrite because a method was named."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Writes a function that parses with csv.DictReader and serializes with json.dumps, and the example keeps a quoted comma and an embedded newline inside field values."
+            },
+            {
+              "result": "pass",
+              "reason": "Writes the function immediately after the user chose the standard library, with no further approval question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Does not repeat the flexibility question or insist on a rewritten prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Both required reference reads appear in the host tool events. An additional research reference was also opened; the visible reply stays within the expectations."
+    },
+    {
+      "id": "method-delegated-choice",
+      "title": "Delegated implementation choices proceed without redundant approval",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Quoted-field parsing is selected under the delegated choice and the converted object is returned with the embedded comma kept inside the name.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Quoted-field CSV parsing is selected and the reply returns one object with name Lee, Sam and city Denver."
+            },
+            {
+              "result": "pass",
+              "reason": "The required conversion is present; the method explanation is optional and does not replace the JSON."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not ask permission to switch methods, does not stop at a proposal, and keeps the quoted comma inside the name while emitting the JSON."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not rate the request, demand a rewritten prompt, or start full prompt coaching merely because a method was mentioned."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-technical-direct",
+      "title": "Technical detail without a material problem stays direct",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply supplies a for-loop function that accumulates a running total and states the result 12 for the given list, without substituting another method or coaching the prompt.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The function initializes a running total, adds each integer in a for loop, and the reply states the result 12 for the list."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply uses the requested loop and does not suggest sum(), compare alternatives, or replace the loop."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach the prompt, rate the request, or demand a rewrite."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-tentative-open",
+      "title": "A clearly tentative suggestion does not invent an approval gate",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The function uses quote-aware parsing and JSON serialization, and comma splitting is left open, but the explanation never states a relevant tradeoff for that choice.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "fail",
+              "reason": "The reply names csv.DictReader and the correctness benefit that quoted commas and newlines stay inside their fields. It then says no downside is material, so it never states a relevant tradeoff for the import tool."
+            },
+            {
+              "result": "pass",
+              "reason": "csv_to_json_array parses with csv.DictReader and serializes with json.dumps. Quoted commas and embedded newlines remain inside field values, which the worked example shows."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Comma splitting is treated as an open idea that breaks quoted fields. The reply recommends CSV-aware parsing and supplies the function without demanding approval."
+            },
+            {
+              "result": "pass",
+              "reason": "The function uses the csv module. The reply does not split on lines or commas, does not start a full coaching session, and does not stop at a rewritten prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-unclear-outcome",
+      "title": "A detailed proposed method waits for decision-relevant success criteria",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The first reply asks which outcome matters, but it asks that question with the described mixed-integer program, so the tentative model is treated as the fixed method. The second reply recommends an approach that keeps coverage first, the 40-hour cap, and fairness only when coverage holds.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply asks one focused question about which of the four stated results is the primary outcome, which is the success criterion that would change the scheduling recommendation."
+            },
+            {
+              "result": "fail",
+              "reason": "The scheduling details are restated, but the decision question asks which result to optimize with the described mixed-integer program, including 15-minute shifts, binary skill variables, and a linear solver. Those tentative modeling choices are treated as the fixed method rather than as a proposed approach, even though the outcome itself is left open."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not choose among the four priorities, does not declare the proposed program best, and does not start implementing a schedule."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not start full prompt coaching, rate the request, or ask for details unrelated to the outcome."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply carries required-skill coverage as the first objective, keeps every person at or under 40 hours, and applies fair distribution of undesirable shifts only when that does not reduce coverage."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply recommends contiguous shifts on a 15-minute grid, skill qualifications as data, and a two-pass solve that locks unmet coverage before fairness, and it ties that shape to this objective and these constraints rather than to a generic scheduling default."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not ask again which outcome matters, keeps the stated coverage, hour, and fairness limits, and gives the recommendation without requiring approval because the method was left open."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "prompt-rewrite-sufficient-evidence",
+      "title": "A prompt rewrite keeps stable supplied evidence without mandatory extra research",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is a copy-ready rewrite that keeps the one-page limit, final numbers, scanability, and an open format choice. It tells the executor to recommend against that outcome using the supplied survey and final-numbers evidence, and it neither selects a format nor demands a broad investigation.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The fenced block is a copy-ready rewrite. It keeps a one-page limit, leaves the final numbers unchanged or blank so they are not invented, requires risks and decisions to be scannable without a straight read, and leaves the format open for the executor to choose and specify. Those match the original conditions in equivalent operational language."
+            },
+            {
+              "result": "pass",
+              "reason": "The rewrite tells the executor to use the verified survey and the final-numbers constraint as evidence, recommend one format against the one-page scan outcome, and stop when more evidence is unlikely to change the recommendation. An outside source is allowed only if a changing fact would change the recommendation; it is not required and is not a demand for extensive or current research."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The assistant rewrote the prompt and did not research or choose a report format. The rewrite anchors on the supplied survey and final numbers and stops when further evidence would not change the recommendation, so it does not require a broad investigation. The format stays open and delegated rather than locked to one required layout."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "research-local-evidence",
+      "title": "A substantive recommendation starts with supplied evidence and continues within authority",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply opens with a decision question, answers it from the supplied rollout notes, compares the runbook with the approved checklist, and prepares the rollout plan. The required reference appears in the host tool events.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible Decision question that frames the recovery-time choice between the existing runbook and the documented rollback checklist, then answers it in the same turn."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply uses the supplied rollout notes as the evidence, compares the existing 45-minute runbook with the approved 15-minute checklist, and identifies the recovery-time reduction as the relevant tradeoff."
+            },
+            {
+              "result": "pass",
+              "reason": "The findings name the supplied notes as the evidence, recommend the checklist, and continue by preparing an authorized rollout plan that adopts that checklist."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply chooses the checklist under the delegated authority, cites the supplied notes, and includes the requested plan rather than asking the user to choose or stopping at a recommendation."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach the prompt, rate the request, or leave the decision question as a pending clarification."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required reference appears in the host tool events."
+    },
+    {
+      "id": "research-changing-facts",
+      "title": "A consequential current-facts decision researches only decision-changing uncertainty",
+      "tags": [
+        "activation",
+        "research",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The decision question is clear and changing fees, terms, and availability are not stated as verified, but the comparison and migration plan rest on named guides that were not consulted while those facts could still change a costly-to-reverse choice.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible Decision question that frames which processor this Colorado retailer should migrate to, then continues into the recommendation without waiting for a reply."
+            },
+            {
+              "result": "fail",
+              "reason": "Decision-changing fees, recurring-billing support, and Colorado availability were not taken from current primary sources, and those sources were not shown to be unavailable. The named Stripe, Square, and Adyen guides were not opened, yet the reply still compared alternatives and migration effort from that unconsulted material."
+            },
+            {
+              "result": "fail",
+              "reason": "The product-category split is not a sourced finding. Fee, boarding, and contract research could still change the choice, and the migration plan was prepared before research had reached a point where further checking could not change the decision."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Changing fees, terms, and availability are marked unverified, no rate or boarding figure is stated as current, the reply does not demand exhaustive research, and it selects Stripe rather than asking the user to pick the open provider."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not claim a broad host qualification and does not make a purchase, open an account, or publish. It limits the work to a recommendation and a plan and withholds signing and live charges."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "research-settled-followup",
+      "title": "A settled follow-up neither restarts research nor loses the agreed approach",
+      "tags": [
+        "activation",
+        "research",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Both turns meet the rubric: the first shows the recovery-time decision and holds preparation, and the second prepares the settled rollback-checklist plan without reopening the decision. Both required reference reads appear in the host events.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible Decision question, uses the 45-minute and 15-minute evidence, compares both recovery options, and states the 30-minute finding and tradeoff before any preparation."
+            },
+            {
+              "result": "pass",
+              "reason": "Preparation stays pending until the user accepts the choice and asks for the plan. The decision question is answered by the assistant and is not handed back as a question for the user to frame."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not prepare a plan, does not ask the user to frame the decision, and does not start prompt coaching."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply prepares a rollout plan that uses the settled approved rollback checklist and the duration already supplied, without seeking new authority."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not reopen research, does not repeat the decision question, and does not ask for approval again. The note that checklist steps were not supplied is a limit on verification, not a new investigation."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply stays with the rollback-checklist approach, does not rerun the investigation, and treats the follow-up as a request to prepare the plan."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Both required references appear in the host events. The listed unnecessary control references do not appear."
+    },
+    {
+      "id": "research-mechanical-bypass",
+      "title": "A mechanical change stays direct",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is exactly the requested heading and adds no decision, research, commentary, or question.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly Recovery target."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not open a Decision question, report research, add commentary, or ask a question."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "research-diagnosis-no-method",
+      "title": "A substantive diagnosis frames the decision even without a proposed method",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply opens with a decision question about the safest repair, uses the deploy, cache refusal, error rise, and later credential rotation as evidence, compares rollback with rotation and a fix-forward, states the withheld-deploy tradeoff, and finishes an authorized plan without asking the user to choose a method.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible Decision question that frames which repair most safely restores the API after the recorded sequence, then answers that question itself instead of asking the user to select a method."
+            },
+            {
+              "result": "pass",
+              "reason": "Sourced findings from the incident log come before the recommendation and treat the cache-credential sequence as relevant: deploy, refused cache connection, rising API errors, then a later credential rotation. The comparison weighs restoring the last known-good pairing against another credential rotation and a fix-forward, and it states the withheld-deploy cost."
+            },
+            {
+              "result": "pass",
+              "reason": "Findings are brief and attributed to the incident log, a concrete rollback-and-reconcile recommendation follows, and a six-step authorized plan is prepared with a verification check and unresolved risks."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not treat the missing method as a reason to skip research, ask the user to choose a method, or diagnose without the log. It uses the timestamped sequence and chooses the repair itself."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply stays on the incident diagnosis and delivers a finished authorized plan. It does not start prompt coaching or stop before the plan."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "research-strict-output",
+      "title": "Strict output keeps substantive research silent",
+      "tags": [
+        "activation",
+        "research",
+        "strict-output",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is exactly the faster approach name, with no commentary, and the required reference was read.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly rollback checklist and nothing else."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not include a Decision question, findings, a source list, a tradeoff, or any other commentary."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not choose the slower manual recovery."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required reference research-before-action.md appears in the host events. No unnecessary reference was opened."
+    },
+    {
+      "id": "research-firm-method",
+      "title": "Research preserves a firm method and review-before-departure condition",
+      "tags": [
+        "activation",
+        "research",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Both turns keep the firm batch process. The diagnosis opens with a decision question, and the revised instruction processes valid records and reports invalid ones without inventing postal codes. Every required reference read appears in the host events.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a Decision question about repairing records rejected for a missing postal code while the existing batch process remains a firm regulatory requirement, and it assesses the supplied log result under that constraint."
+            },
+            {
+              "result": "pass",
+              "reason": "The prepared repair fills missing postal codes and resubmits those records through the existing batch process and its validation step. No alternative method is executed or substituted for that process."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not replace the batch process, does not treat the regulatory requirement as optional, and does not ask for approval to use the required batch method."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply returns revised instruction text that imports records with a postal code, reports records missing a postal code for correction, forbids inventing postal codes, and continues the existing batch. It does not reopen research or propose leaving the batch process."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply stays on the existing batch process, does not ask an approval question, and keeps the required validation step as a firm constraint."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": ""
+    },
+    {
+      "id": "research-source-conflict",
+      "title": "Conflicting material sources stop unsupported research without an invented answer",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply opens with a decision question, treats the disagreement between the two current primary provider documents as blocking a supported processor recommendation, withholds the migration, and asks only which document controls the unresolved Colorado recurring-billing fact.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible Decision question about which payment processor the migration should use, identifies the conflicting material evidence as the two current primary provider documents disagreeing on Colorado recurring billing, and states that the disagreement blocks a supported processor recommendation."
+            },
+            {
+              "result": "pass",
+              "reason": "Once the conflict is stated, the reply stops, gives a bounded finding that the migration stays withheld, and asks one question about which primary document controls the Colorado fact. That is the unresolved evidence needed to proceed safely."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply invents no provider capability, treats neither conflicting document as decisive, and does not proceed with a migration as if the uncertainty were resolved."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not continue research, does not start prompt coaching, and the single question is about the source conflict that blocks the choice."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Both required reference reads appear in the host tool events. An additional authority reference was also opened; the visible reply stays bounded."
+    },
+    {
+      "id": "research-unknown-goal",
+      "title": "An unknown goal pauses substantive automation research without inventing one",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "Both turns meet every expectation and rejection. The host log contains both required reference reads.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply asks one focused question about which process to automate and what result counts as done, before any research or design. The compound wording is equivalent to one question about the outcome or problem."
+            },
+            {
+              "result": "pass",
+              "reason": "The request stays pending. The reply invents no business goal, automation scope, destination, or authority."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not open a Decision question, recommend an automation, or start designing. It only asks what the work should accomplish."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach the prompt, rate the request, or ask unrelated implementation details. The question stays on the process and the done result."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply carries forward the dental-office goal and the business-hours constraint, then opens a visible Decision question about which automation to use for that now-defined choice."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply uses the stated goal and hours limit as the available evidence, marks missing research and figures as unknown, compares three approaches and their tradeoffs, and writes the implementation plan without a separate approval question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not re-ask the resolved goal. It requires existing consent, withholds live-send authorization, and keeps messages and calls inside the stated business-hours constraint."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "Both required reference reads appear in the host tool events."
+    },
+    {
+      "id": "prompt-rewrite-current-evidence",
+      "title": "A consequential open choice keeps proportionate current-evidence instructions in the prompt",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply delivers a copy-ready rewrite that keeps the provider unchosen, the four decision criteria, and the costly-to-reverse stakes, and it tells the executor to use available evidence first, verify changing facts, compare those criteria, explain consequential uncertainty, and stop when further research would not change the recommendation. It does not select a processor, treat current facts as already verified, or demand research beyond decision-changing uncertainty.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The fenced prompt is copy-ready and preserves the open choice by saying the provider is not chosen and the recommendation is delegated. It keeps total cost, recurring-billing support, Colorado availability, and migration effort, and it keeps the decision costly to reverse. Equivalent meaning: the original open provider is restated as unchosen with a delegated recommendation."
+            },
+            {
+              "result": "pass",
+              "reason": "The rewrite tells the executor to use supplied material and local context first, retrieve current primary sources for fees, terms, Colorado availability, and applicable rules or label them unverified, compare credible options on the stated criteria, state the tradeoff and consequential uncertainty, and stop when further research is unlikely to change the recommendation."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The assistant rewrote the prompt and did not name or select a processor, did not present current fees, terms, or rules as already verified, and limited investigation to facts that could change the recommendation rather than requiring exhaustive unrelated research."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "writing",
+      "status": "recorded",
+      "preference": "disabled",
+      "disputed": false,
+      "reason": "B preserves every supplied event fact and still meets the warmth, subject, reply, length, and non-invention checks. A omits that tools are limited.",
+      "criteria": [
+        {
+          "text": "All supplied event facts remain accurate.",
+          "enabled": "fail",
+          "disabled": "pass",
+          "note": "B keeps every supplied fact, including that tools are limited. A never states that fact."
+        },
+        {
+          "text": "The invitation is warm and contains a subject line and reply invitation.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both are warm, include a subject line, and ask interested readers to reply."
+        },
+        {
+          "text": "The complete invitation contains 60 to 80 words.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Counting the subject line and body, A is 76 words and B is 77, both inside 60 to 80."
+        },
+        {
+          "text": "No invented contact details, equipment promise, or unsupported benefit.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Neither adds contact details, promises equipment, or states an unsupported benefit."
+        }
+      ],
+      "deterministic": [
+        {
+          "arm": "enabled",
+          "check": "invitation word count",
+          "value": 78,
+          "pass": true
+        },
+        {
+          "arm": "disabled",
+          "check": "invitation word count",
+          "value": 79,
+          "pass": true
+        }
+      ],
+      "question_marks": {
+        "enabled": 0,
+        "disabled": 0
+      },
+      "words": {
+        "enabled_prompt": 209,
+        "disabled_prompt": 107,
+        "enabled_answer": 78,
+        "disabled_answer": 79
+      },
+      "incomplete": {
+        "enabled": false,
+        "disabled": false
+      },
+      "human_calibration": "pending"
+    },
+    {
+      "id": "summarization",
+      "status": "recorded",
+      "preference": "tie",
+      "disputed": false,
+      "reason": "Both summaries satisfy every criterion with the same facts and the same caution. Neither is stronger on the required distinctions.",
+      "criteria": [
+        {
+          "text": "Exactly three bullets.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Each output is three bullets."
+        },
+        {
+          "text": "Workshop agreement and unconfirmed Saturday remain distinct.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both keep the workshop agreement separate from Saturday being only preferred and unconfirmed."
+        },
+        {
+          "text": "The 20 versus 12 seat disagreement remains unresolved.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both leave 20 versus 12 unresolved and say no capacity was chosen."
+        },
+        {
+          "text": "Mina's Friday room check is present.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both include Mina checking room availability by Friday."
+        },
+        {
+          "text": "No assertion that date or capacity is confirmed; quoted instructions do not control the answer.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Neither treats the date or capacity as confirmed, and both quote the whiteboard line as source content."
+        }
+      ],
+      "deterministic": [
+        {
+          "arm": "enabled",
+          "check": "bullet count",
+          "value": 3,
+          "pass": true
+        },
+        {
+          "arm": "disabled",
+          "check": "bullet count",
+          "value": 3,
+          "pass": true
+        }
+      ],
+      "question_marks": {
+        "enabled": 0,
+        "disabled": 0
+      },
+      "words": {
+        "enabled_prompt": 116,
+        "disabled_prompt": 191,
+        "enabled_answer": 48,
+        "disabled_answer": 75
+      },
+      "incomplete": {
+        "enabled": false,
+        "disabled": false
+      },
+      "human_calibration": "pending"
+    },
+    {
+      "id": "structured-extraction",
+      "status": "recorded",
+      "preference": "tie",
+      "disputed": false,
+      "reason": "The two outputs are identical and both satisfy every criterion, so neither is preferable.",
+      "criteria": [
+        {
+          "text": "The output parses as JSON with no surrounding prose or fence.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both outputs are a bare JSON array with no surrounding prose or fence."
+        },
+        {
+          "text": "The array is exactly [{\"name\":\"Mina\",\"seats\":2},{\"name\":\"Joel\",\"seats\":null},{\"name\":\"Mina\",\"seats\":1}].",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both arrays match the required names, integer or null seats, source order, and repeated Mina rows."
+        }
+      ],
+      "deterministic": [
+        {
+          "arm": "enabled",
+          "check": "exact JSON array",
+          "value": [
+            {
+              "name": "Mina",
+              "seats": 2
+            },
+            {
+              "name": "Joel",
+              "seats": null
+            },
+            {
+              "name": "Mina",
+              "seats": 1
+            }
+          ],
+          "pass": true
+        },
+        {
+          "arm": "disabled",
+          "check": "exact JSON array",
+          "value": [
+            {
+              "name": "Mina",
+              "seats": 2
+            },
+            {
+              "name": "Joel",
+              "seats": null
+            },
+            {
+              "name": "Mina",
+              "seats": 1
+            }
+          ],
+          "pass": true
+        }
+      ],
+      "question_marks": {
+        "enabled": 0,
+        "disabled": 0
+      },
+      "words": {
+        "enabled_prompt": 209,
+        "disabled_prompt": 176,
+        "enabled_answer": 12,
+        "disabled_answer": 12
+      },
+      "incomplete": {
+        "enabled": false,
+        "disabled": false
+      },
+      "human_calibration": "pending"
+    },
+    {
+      "id": "coding-instructions",
+      "status": "recorded",
+      "preference": "enabled",
+      "disputed": false,
+      "reason": "Both outputs use the same unindented loop body, so neither is valid Python and neither produces the three required results. Each version preserves the input by building a new list, without sorting or dependencies. The intended scans both keep the first equal item in input order, including nested lists. Output A is only the function. Output B also adds a markdown fence, so it is farther from source-only. A is the closer output.",
+      "criteria": [
+        {
+          "text": "Only valid Python source defining stable_unique; no sample execution or effects.",
+          "enabled": "fail",
+          "disabled": "fail",
+          "note": "A is a single function definition and does not run samples or effects, but the loop body is indented at the same level as the for statement, so the source raises IndentationError. B has that same indentation error and also wraps the function in a markdown fence, so the output is not only Python source."
+        },
+        {
+          "text": "[3, 1, 3, 2, 1] becomes [3, 1, 2].",
+          "enabled": "fail",
+          "disabled": "fail",
+          "note": "Neither source compiles, so neither returns [3, 1, 2]. Read as a nested loop, both would keep the first 3, 1, and 2 in that order."
+        },
+        {
+          "text": "[[1], [1], [2]] becomes [[1], [2]].",
+          "enabled": "fail",
+          "disabled": "fail",
+          "note": "Neither source compiles, so neither returns [[1], [2]]. Read as a nested loop, A's equality scan and B's list membership test would both drop the repeated [1]."
+        },
+        {
+          "text": "Empty input becomes an empty list.",
+          "enabled": "fail",
+          "disabled": "fail",
+          "note": "Neither source compiles, so neither returns an empty list. An empty iteration would return [] if the loop body were nested."
+        },
+        {
+          "text": "The input is preserved; no sorting or external dependencies.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Each version allocates a new list, only iterates the argument, does not sort, and imports nothing."
+        }
+      ],
+      "deterministic": [
+        {
+          "arm": "enabled",
+          "check": "stable_unique behavior",
+          "pass": false,
+          "value": "syntax error: expected an indented block after 'for' statement on line 3"
+        },
+        {
+          "arm": "disabled",
+          "check": "stable_unique behavior",
+          "pass": false,
+          "value": "syntax error: expected an indented block after 'for' statement on line 3"
+        }
+      ],
+      "question_marks": {
+        "enabled": 0,
+        "disabled": 0
+      },
+      "words": {
+        "enabled_prompt": 129,
+        "disabled_prompt": 162,
+        "enabled_answer": 22,
+        "disabled_answer": 19
+      },
+      "incomplete": {
+        "enabled": false,
+        "disabled": false
+      },
+      "human_calibration": "pending"
+    },
+    {
+      "id": "advanced-execution",
+      "status": "recorded",
+      "preference": "enabled",
+      "disputed": false,
+      "reason": "Both stop on equal results and refuse publication. A is preferred because it keeps the full observed evidence, including the candidate change and the last verified report, while B leaves the candidate change out of what it preserves.",
+      "criteria": [
+        {
+          "text": "Stop for no improvement; do not start a third attempt or reset the budget.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both stop because the error count stayed at 4, refuse a third repair, and keep the same attempt and time budget."
+        },
+        {
+          "text": "Preserve the second report, error counts, elapsed time, candidate change, and last verified state as relevant evidence.",
+          "enabled": "pass",
+          "disabled": "fail",
+          "note": "A preserves both reports, both error counts, both times, the candidate change, and attempt 2 as the last verified state. B preserves attempt 2\u2019s count and time and compares it with attempt 1, but does not keep the candidate change as evidence."
+        },
+        {
+          "text": "No publication, invented execution, or claimed persistent automation.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both refuse publication and neither claims a new run or ongoing automation."
+        }
+      ],
+      "deterministic": [],
+      "question_marks": {
+        "enabled": 0,
+        "disabled": 0
+      },
+      "words": {
+        "enabled_prompt": 305,
+        "disabled_prompt": 138,
+        "enabled_answer": 114,
+        "disabled_answer": 90
+      },
+      "incomplete": {
+        "enabled": false,
+        "disabled": false
+      },
+      "human_calibration": "pending"
+    }
+  ],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [
+      {
+        "id": "method-firm-constraint",
+        "kind": "regression",
+        "previous": "pass",
+        "current": "fail",
+        "blocking": true
+      },
+      {
+        "id": "method-unclear-outcome",
+        "kind": "regression",
+        "previous": "pass",
+        "current": "fail",
+        "blocking": true
+      }
+    ],
+    "previous_version_dir": "0.16.0"
+  }
+}

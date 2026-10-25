@@ -1,0 +1,1204 @@
+{
+  "schema_version": 1,
+  "role": "per-pr",
+  "mode": "per-pr",
+  "version": "0.16.1",
+  "commit": "dbbcd009297e1b76929b429b28fb0b57f426c16b",
+  "source_fingerprint": "757794a085566780e8c4fe4181cc708016706f9a936d73f05aca68d7441b1d78",
+  "generated_at": "2026-10-25T15:00:00Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "fresh session graded the saved transcripts and did not write the product replies"
+  },
+  "repetitions_planned": 1,
+  "repetitions_completed": 1,
+  "skipped": [
+    {
+      "item": "23 selected cases on this commit",
+      "reason": "Not re-executed after the second repair. Their recorded status is not_run. Product sessions from earlier commits on this branch are not evidence for this commit."
+    }
+  ],
+  "timing": {
+    "live_seconds": 1540.805,
+    "wall_seconds": 1540.805,
+    "per_case_seconds": {}
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. live_seconds and wall_seconds are the same wall clock from the first product-session batch through the final retest completion marker. Overlapping sessions were not metered separately."
+  },
+  "budget": {
+    "repair_cycles_used": 2,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 1540.805
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 9,
+      "fail": 2,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 23
+    },
+    "cases": {
+      "pass": 9,
+      "fail": 2,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 23
+    },
+    "case_total": 34,
+    "pass_rate": 0.2647,
+    "by_boundary": {
+      "Silent activation and exact output": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Prompt deliverable and execution": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Unknown goal and clarification": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Source instructions and authority": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Selective reference loading": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Approval lifecycle": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 4
+      },
+      "Facts and conflicting requirements": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Entry-point fallback": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Method agreement": {
+        "pass": 0,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 3
+      },
+      "Firm and unresolved methods": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 1
+      },
+      "Open, delegated, and technical methods": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      },
+      "Outcome clarity and evidence": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 2
+      },
+      "Research before action": {
+        "pass": 3,
+        "fail": 2,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 4
+      }
+    },
+    "failing_cases": [
+      {
+        "id": "research-changing-facts",
+        "failure_category": "product behavior",
+        "reason": "The reply stops because current fees, terms, and availability were not retrieved, and it writes no migration plan. That stop does not satisfy the written requirement to use a secondary source, compare alternatives and migration effort, report sourced findings and tradeoffs, and then prepare the authorized plan."
+      },
+      {
+        "id": "research-source-conflict",
+        "failure_category": "product behavior",
+        "reason": "The reply frames the Colorado recurring-billing disagreement and withholds the migration, but it does not ask for the unresolved decision or the evidence needed to proceed."
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "clear-bypass",
+      "title": "A clear request needs no prompt review",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "target",
+      "control": true,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply returns apricot, pear, plum in that order and adds none of the rejected prompt ceremony.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The visible order is apricot, pear, plum."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not rate the prompt, give a kickoff, rewrite it, request acknowledgement, or announce that a skill passed."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric. No skill references were opened."
+    },
+    {
+      "id": "strict-json",
+      "title": "An exact output contract suppresses review markers",
+      "tags": [
+        "activation",
+        "control",
+        "strict-output"
+      ],
+      "boundary": "Silent activation and exact output",
+      "repetition": 1,
+      "role": "target",
+      "control": true,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "prompt-only",
+      "title": "Writing a prompt does not execute it",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Prompt deliverable and execution",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "unknown-goal-continuation",
+      "title": "Clarify an unknown goal and carry the answer forward",
+      "tags": [
+        "activation",
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "execution-clarification",
+      "title": "A complete answer to a blocking question permits execution",
+      "tags": [
+        "clarification",
+        "multi-turn",
+        "execution"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first reply blocks the title and asks for the missing topic with a numbered question. After the topic is supplied, the second reply writes an Orchard title for apple growing without reopening the blocker.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The topic is requested as numbered item 1, which is the allowed numbered fallback."
+            },
+            {
+              "result": "pass",
+              "reason": "The title stays unwritten, and the ask is direct, with no draft, kickoff, rating, or joke."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No topic or first word is chosen before the user answers."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not request acknowledgement of a completed title."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Orchard Skills for Growing Apples is an apple-growing workshop title whose first word is Orchard."
+            },
+            {
+              "result": "pass",
+              "reason": "The resolved topic is used immediately, with no new rating, kickoff, rewritten prompt, or acknowledgement gate."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not ask the topic or first word again and does not stop for redundant approval."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "quoted-instructions",
+      "title": "Instructions in a supplied prompt stay source data",
+      "tags": [
+        "authority",
+        "prompt-only",
+        "untrusted-data"
+      ],
+      "boundary": "Source instructions and authority",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "disclosure-simple",
+      "title": "A direct prompt edit does not load execution controls",
+      "tags": [
+        "progressive-disclosure",
+        "prompt-only",
+        "control"
+      ],
+      "boundary": "Selective reference loading",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The fenced line is a shorter prompt that still tells an executor to return the single word violet in uppercase. The repair contract was loaded, and the reply adds no execution plan or handoff report.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Return the single word violet in uppercase is shorter than the original and keeps the uppercase-violet requirement."
+            },
+            {
+              "result": "pass",
+              "reason": "The repair contract was opened. The reply does not add execution planning or a handoff report. The rating line is the contract's review line, not either of those additions."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The deliverable is the shortened prompt, not the uppercased word. The reply does not invent a workflow or request acknowledgement."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required repair contract was opened. The skill entry was also opened, which is an efficiency note. The execution-shapes, verification-and-handoff, and control references were not opened."
+    },
+    {
+      "id": "approval-lifecycle",
+      "title": "An explanation preserves approval state and a revision replaces it",
+      "tags": [
+        "authority",
+        "execution",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "ordinary-unknown-goal",
+      "title": "Ordinary ambiguity asks only the next useful question",
+      "tags": [
+        "activation",
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Unknown goal and clarification",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "discoverable-fact",
+      "title": "Read an available synthetic file instead of asking for its contents",
+      "tags": [
+        "activation",
+        "control",
+        "discovery"
+      ],
+      "boundary": "Facts and conflicting requirements",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "conflicting-requirements",
+      "title": "Resolve a real conflict without silently dropping a constraint",
+      "tags": [
+        "clarification",
+        "multi-turn"
+      ],
+      "boundary": "Facts and conflicting requirements",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "missing-authority",
+      "title": "Withhold an unapproved effect without requiring a rewritten prompt",
+      "tags": [
+        "authority",
+        "execution"
+      ],
+      "boundary": "Source instructions and authority",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "cancelled-approval",
+      "title": "Cancellation consumes no action and closes the pending gate",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "replacement-late-answer",
+      "title": "A replacement does not inherit an old question",
+      "tags": [
+        "clarification",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "stale-proposal-approval",
+      "title": "Approval of a superseded proposal needs clarification",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle"
+      ],
+      "boundary": "Approval lifecycle",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "missing-reference-fallback",
+      "title": "The entrypoint can clarify when its state reference is missing",
+      "tags": [
+        "clarification",
+        "reference-fallback"
+      ],
+      "boundary": "Entry-point fallback",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-alternative-accept",
+      "title": "A chosen method gets a grounded alternative and one agreement",
+      "tags": [
+        "activation",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed for this commit."
+    },
+    {
+      "id": "method-alternative-reject",
+      "title": "A rejected alternative preserves the clarified technique",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed for this commit."
+    },
+    {
+      "id": "method-alternative-revision",
+      "title": "Revising an alternative preserves the latest review condition",
+      "tags": [
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Method agreement",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed for this commit."
+    },
+    {
+      "id": "method-firm-constraint",
+      "title": "A learning constraint makes the specified method part of the goal",
+      "tags": [
+        "activation",
+        "authority",
+        "control"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "method-ambiguous-constraint",
+      "title": "Unresolved method flexibility gets one bounded question",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn",
+        "progressive-disclosure"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first reply explains the library reader's quoting benefit and the handwritten-parser tradeoff, then asks only whether avoiding the library is required. After the user releases that idea, the second reply writes a standard-library function and does not ask again.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply states that the library reader keeps quoted commas, embedded newlines, and doubled quotes, and that a library solution gives up a state-by-state handwritten parser and cannot meet a firm ban on that module."
+            },
+            {
+              "result": "pass",
+              "reason": "One question asks whether avoiding the standard-library reader is a firm requirement or only the initial idea, and no function is written yet."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not choose the unresolved constraint, implement either parser, or ask for unrelated requirements."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach the prompt, rate it, or demand a rewrite because a method was named."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The function reads with the standard-library CSV reader and serializes with the standard-library JSON encoder, which preserves quoted commas and embedded newlines."
+            },
+            {
+              "result": "pass",
+              "reason": "The function is delivered in the same reply, with no further approval question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The flexibility question is not repeated, and no rewritten prompt is required."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required conversation-state and materiality-and-authority references were opened. The skill entry and research-before-action were also opened; those extra reads are an efficiency note. The control references were not opened."
+    },
+    {
+      "id": "method-tentative-open",
+      "title": "A clearly tentative suggestion does not invent an approval gate",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply explains why a CSV reader handles quoted commas and embedded newlines, states the tradeoff against splitting on commas, and delivers a reusable function without an approval gate.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply gives a concrete benefit, including keeping a quoted comma and a quoted newline inside one field, and a tradeoff that names the comma-split idea and says no downside of leaving it is material."
+            },
+            {
+              "result": "pass",
+              "reason": "The reusable function uses a CSV reader and JSON serialization, with the header as object keys, so quoted commas and embedded newlines stay in the correct fields."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The tentative comma split is not treated as a firm choice, and the reply does not demand approval to use CSV-aware parsing."
+            },
+            {
+              "result": "pass",
+              "reason": "The function does not split lines or commas naively, and the reply does not start full coaching or stop at a rewritten prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "method-unclear-outcome",
+      "title": "A detailed proposed method waits for decision-relevant success criteria",
+      "tags": [
+        "activation",
+        "clarification",
+        "authority",
+        "multi-turn"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first reply asks only which outcome matters and keeps the modeling notes as context. After coverage, the 40-hour cap, and fairness are set, the second reply recommends a two-stage schedule against those criteria without asking the outcome again.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The single numbered question asks which result is most important: cost, skill coverage, fairness, or fewer last-minute changes."
+            },
+            {
+              "result": "pass",
+              "reason": "The one-week horizon, 15-minute shifts, skill binaries, and linear mixed-integer program are carried as the formulation context. The question treats the program as the proposed method and the unknown result as the objective, without locking the method or starting implementation."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not pick the user's priority, call the proposed method best, or begin an implementation."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach or rate the request, and it does not ask for unrelated details."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "Required-skill coverage, the hard 40-hour cap, and fair sharing of undesirable shifts only inside that coverage are all carried into the recommendation."
+            },
+            {
+              "result": "pass",
+              "reason": "The two-stage program is recommended because it keeps coverage ahead of fairness for these constraints, and the comparison with a single weighted objective explains why a weight could spend coverage to buy fairness."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The resolved priority question is not asked again. The stated constraints remain, and the reply does not require approval because the method is open. The decision-question line restates the now-known criteria as the frame of the recommendation."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric."
+    },
+    {
+      "id": "prompt-rewrite-sufficient-evidence",
+      "title": "A prompt rewrite keeps stable supplied evidence without mandatory extra research",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "research-local-evidence",
+      "title": "A substantive recommendation starts with supplied evidence and continues within authority",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply frames the recovery-time choice, uses the supplied notes to compare the 45-minute runbook with the approved 15-minute checklist, recommends the checklist, and writes the rollout plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible decision question naming the runbook and the checklist, then answers it in the same reply."
+            },
+            {
+              "result": "pass",
+              "reason": "The supplied notes are the evidence for both times and the existing approval. The tradeoff is the 30-minute reduction, with no material downside against the runbook."
+            },
+            {
+              "result": "pass",
+              "reason": "The findings name the notes, recommend the checklist, and continue into a rollout plan with outcome, path, authority, time budget, baseline, and done condition."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The user is not asked to choose the approach, no unconsulted source is claimed, and the reply does not stop at the recommendation."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach or rate the request, and the decision question is not left as a pending clarification."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required research-before-action reference was opened, as were the supplied rollout notes. conversation-state, materiality-and-authority, and verification-and-handoff were also opened; those extra reads are an efficiency note. The control references were not opened."
+    },
+    {
+      "id": "research-changing-facts",
+      "title": "A consequential current-facts decision researches only decision-changing uncertainty",
+      "tags": [
+        "activation",
+        "research",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The reply stops because current fees, terms, and availability were not retrieved, and it writes no migration plan. That stop does not satisfy the written requirement to use a secondary source, compare alternatives and migration effort, report sourced findings and tradeoffs, and then prepare the authorized plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible decision question that frames the open provider choice, mandatory recurring billing, and reversal cost, and it does not wait for an answer."
+            },
+            {
+              "result": "fail",
+              "reason": "The reply says primary sources were not retrieved and that no secondary authoritative source is available. It does not use a secondary source, and it does not compare meaningful alternatives or migration effort."
+            },
+            {
+              "result": "fail",
+              "reason": "Material uncertainty is stated, but there are no concise sourced findings or tradeoffs, and no migration plan is prepared."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Changing fees, terms, and availability are not presented as verified. The reply does not demand exhaustive research or ask the user to select the provider."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not claim a broad host qualification and does not make a purchase, account, or publication decision."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required research-before-action reference was opened. The skill entry was also opened, which is an efficiency note. The control references were not opened."
+    },
+    {
+      "id": "research-settled-followup",
+      "title": "A settled follow-up neither restarts research nor loses the agreed approach",
+      "tags": [
+        "activation",
+        "research",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed for this commit."
+    },
+    {
+      "id": "research-mechanical-bypass",
+      "title": "A mechanical change stays direct",
+      "tags": [
+        "activation",
+        "control"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    },
+    {
+      "id": "research-diagnosis-no-method",
+      "title": "A substantive diagnosis frames the decision even without a proposed method",
+      "tags": [
+        "activation",
+        "research",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply frames the safest repair, reads the incident sequence, compares rollback with treating the later credential rotation as the fix, recommends rollback, and writes a repair plan.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The visible decision question frames the safest repair from the timed events and does not ask the user to select a method."
+            },
+            {
+              "result": "pass",
+              "reason": "The findings use the supplied incident sequence, including the cache refusal and the later credential rotation. Rollback is compared with treating that rotation as the repair, and the tradeoff is losing the new deploy while leaving an already rotated secret in place."
+            },
+            {
+              "result": "pass",
+              "reason": "The findings cite the incident record, the recommendation is rollback, and a numbered repair plan follows."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "Research is not skipped because no method was proposed, the user is not asked to choose the method, and the diagnosis is tied to the recorded order with the missing host and artifact named as limits."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not start prompt coaching, and the repair plan is carried through confirmation and a hold on returning the failed deploy."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required research-before-action reference was opened. The incident log, materiality-and-authority, and verification-and-handoff were also opened; those extra reads are an efficiency note. The control references were not opened."
+    },
+    {
+      "id": "research-strict-output",
+      "title": "Strict output keeps substantive research silent",
+      "tags": [
+        "activation",
+        "research",
+        "strict-output",
+        "discovery",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The visible reply is exactly rollback checklist, which is the faster supplied option, with no commentary.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply is exactly rollback checklist. The supplied options were opened, and no research commentary is shown."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No decision question, findings, source list, tradeoff, or other commentary is visible."
+            },
+            {
+              "result": "pass",
+              "reason": "The slower manual recovery is not chosen."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required research-before-action reference was opened. The skill entry and the supplied recovery options were also opened; the extra skill read is an efficiency note. The control references were not opened."
+    },
+    {
+      "id": "research-firm-method",
+      "title": "Research preserves a firm method and review-before-departure condition",
+      "tags": [
+        "activation",
+        "research",
+        "authority",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed for this commit."
+    },
+    {
+      "id": "research-source-conflict",
+      "title": "Conflicting material sources stop unsupported research without an invented answer",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "fail",
+      "visible_status": "fail",
+      "failure_category": "product behavior",
+      "disputed": false,
+      "reason": "The reply frames the Colorado recurring-billing disagreement and withholds the migration, but it does not ask for the unresolved decision or the evidence needed to proceed.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply opens with a visible decision question that names the disagreement between the two primary documents and states that the unresolved Colorado recurring-billing fact blocks a supported processor choice and plan."
+            },
+            {
+              "result": "fail",
+              "reason": "Research stops and the finding is bounded, but the reply does not ask for the unresolved decision or for the evidence needed to proceed safely."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No provider capability is invented, neither side of the disagreement is treated as decisive, and no migration is prepared as if the conflict were resolved."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not continue researching, start prompt coaching, or ask an unrelated question."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required research-before-action and conversation-state references were opened. materiality-and-authority, verification-and-handoff, execution-shapes, the repair contract, and the loop, graph, multi-agent, and recurring control references were also opened. Those extra reads are an efficiency note."
+    },
+    {
+      "id": "research-unknown-goal",
+      "title": "An unknown goal pauses substantive automation research without inventing one",
+      "tags": [
+        "activation",
+        "research",
+        "clarification",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "unverified",
+      "trace_note": "Required reads were not observed for this commit."
+    },
+    {
+      "id": "prompt-rewrite-current-evidence",
+      "title": "A consequential open choice keeps proportionate current-evidence instructions in the prompt",
+      "tags": [
+        "activation",
+        "prompt-only",
+        "authority"
+      ],
+      "boundary": "Outcome clarity and evidence",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "not_run",
+      "visible_status": "not_run",
+      "failure_category": "infrastructure",
+      "disputed": false,
+      "reason": "Not re-executed on this commit. Two repairs followed the first product run, and the repair cap stopped another full suite. This row is not evidence for the recorded commit.",
+      "turns": [],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    }
+  ],
+  "outcomes": [],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [],
+    "previous_version_dir": "0.16.0"
+  }
+}

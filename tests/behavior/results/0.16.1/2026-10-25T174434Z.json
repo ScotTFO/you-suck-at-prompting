@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "role": "per-pr",
+  "mode": "per-pr",
+  "version": "0.16.1",
+  "commit": "3951884a31f405d3c68cfb75f06138cd4dc30426",
+  "source_fingerprint": "4acb7c6a73cdb2d3b747737041c667f5e552a001704b74c88d4a3f7a6e9fd1ec",
+  "generated_at": "2026-10-25T17:44:34Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "one fresh grader session per packet; graders did not write the product replies",
+    "reply_source": "raw transcript assistant text via save-reply"
+  },
+  "repetitions_planned": 1,
+  "repetitions_completed": 1,
+  "skipped": [
+    {
+      "item": "behavior cases other than method-firm-constraint",
+      "reason": "This rerun checks the one-space indent save path for method-firm-constraint and the coding-instructions comparison only."
+    },
+    {
+      "item": "outcomes other than coding-instructions",
+      "reason": "This rerun checks the one-space indent save path for method-firm-constraint and the coding-instructions comparison only."
+    }
+  ],
+  "timing": {
+    "live_seconds": 197.584,
+    "wall_seconds": 232.158,
+    "per_case_seconds": {}
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. live_seconds is the span from the first saved transcript to the last in this run. wall_seconds is from the shared rerun start to that last transcript. Per-session model latency was not recorded."
+  },
+  "budget": {
+    "repair_cycles_used": 0,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 197.584
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 1,
+      "fail": 0,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "cases": {
+      "pass": 1,
+      "fail": 0,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "case_total": 1,
+    "pass_rate": 1.0,
+    "by_boundary": {
+      "Firm and unresolved methods": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      }
+    },
+    "failing_cases": []
+  },
+  "cases": [
+    {
+      "id": "method-firm-constraint",
+      "title": "A learning constraint makes the specified method part of the goal",
+      "tags": [
+        "activation",
+        "authority",
+        "control"
+      ],
+      "boundary": "Firm and unresolved methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply is a syntactically usable bubble-sort function that compares and swaps adjacent integers and contains nothing besides that function. Both expectations and both rejections pass.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The function walks neighboring positions, compares them, and exchanges them when out of order, which is bubble sort, and the definition parses and sorts integers."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply is only the function, with no surrounding advice, and it keeps adjacent swaps as the lesson required."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The reply does not suggest another algorithm, does not ask to relax the method, and does not call a built-in sort."
+            },
+            {
+              "result": "pass",
+              "reason": "The reply does not coach the prompt, score it, or ask for a rewrite because a method was named."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": ""
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "coding-instructions",
+      "status": "recorded",
+      "preference": "disabled",
+      "disputed": false,
+      "reason": "Both functions return first occurrences in input order, use equality so nested lists work, leave the input intact, and return an empty list for empty input. B is only that Python function. A adds a markdown fence, so it misses the source-only requirement.",
+      "criteria": [
+        {
+          "text": "Only valid Python source defining stable_unique; no sample execution or effects.",
+          "enabled": "fail",
+          "disabled": "pass",
+          "note": "B is only a function definition. A surrounds the same kind of definition with a markdown code fence, so the full text is not valid Python and is not source alone. Neither output calls the function or performs other work."
+        },
+        {
+          "text": "[3, 1, 3, 2, 1] becomes [3, 1, 2].",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both keep the first 3, then 1, then 2, and drop the later repeats, producing [3, 1, 2]."
+        },
+        {
+          "text": "[[1], [1], [2]] becomes [[1], [2]].",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both compare with equality, so the second [1] is dropped and the result is [[1], [2]]."
+        },
+        {
+          "text": "Empty input becomes an empty list.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both build a new list and return it unchanged when the input has no items."
+        },
+        {
+          "text": "The input is preserved; no sorting or external dependencies.",
+          "enabled": "pass",
+          "disabled": "pass",
+          "note": "Both append into a new list, leave the original order and contents alone, and use no sorting or imports."
+        }
+      ],
+      "deterministic": [
+        {
+          "arm": "enabled",
+          "check": "stable_unique behavior",
+          "pass": true,
+          "value": {
+            "duplicates": [
+              3,
+              1,
+              2
+            ],
+            "unhashable": [
+              [
+                1
+              ],
+              [
+                2
+              ]
+            ],
+            "empty": [],
+            "preserved": true
+          }
+        },
+        {
+          "arm": "disabled",
+          "check": "stable_unique behavior",
+          "pass": true,
+          "value": {
+            "duplicates": [
+              3,
+              1,
+              2
+            ],
+            "unhashable": [
+              [
+                1
+              ],
+              [
+                2
+              ]
+            ],
+            "empty": [],
+            "preserved": true
+          }
+        }
+      ],
+      "question_marks": {
+        "enabled": 0,
+        "disabled": 0
+      },
+      "words": {
+        "enabled_prompt": 92,
+        "disabled_prompt": 203,
+        "enabled_answer": 23,
+        "disabled_answer": 24
+      },
+      "incomplete": {
+        "enabled": false,
+        "disabled": false
+      },
+      "human_calibration": "pending"
+    }
+  ],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [],
+    "previous_version_dir": "0.16.0"
+  }
+}

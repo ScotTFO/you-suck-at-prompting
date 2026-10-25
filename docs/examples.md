@@ -30,7 +30,7 @@ The agent reads the notes and summarizes them. It does not ask what the notes sa
 
 Request: `Recommend an approach for the supplied deployment notes, then prepare the chosen plan. The goal is lower recovery time; the approach is open.`
 
-The response starts with a visible `Decision question:` that frames which approach best meets the recovery-time goal and supplied constraints. It uses the notes first, checks any decision-changing current facts, compares the meaningful options and tradeoffs, cites the supporting material, then prepares the authorized plan. When a required current source cannot be checked, it names that gap and stops before a plan that would depend on the unchecked fact. The framing question is not a question for the user to answer.
+The response starts with a visible `Decision question:` that frames which approach best meets the recovery-time goal and supplied constraints. It uses the notes first, checks any decision-changing current facts, compares the meaningful options and tradeoffs, cites the supporting material, then prepares the authorized plan. When a required current source cannot be checked, it names a secondary source and that limitation, labels the unchecked facts unverified, compares the alternatives, and still prepares the authorized plan. When supplied sources conflict, it names the disagreement, withholds the plan, and asks for the unresolved decision or the missing evidence. The framing question is not a question for the user to answer.
 
 `Rename the recovery-time heading.` and a follow-up that applies an already settled approach stay direct. A prompt-only rewrite puts this research sequence in the eventual executor's instructions and does not investigate or execute it now.
 

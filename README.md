@@ -1,8 +1,8 @@
 <h1 align="center">You Suck at Prompting</h1>
 
 <p align="center">
-  <strong>Your prompt is not always in trouble. We checked the policy.</strong><br>
-  Clearer goals and better prompts when choices matter.
+  <strong>Vague requests get one question. Clear requests pass through.</strong><br>
+  Prompt reviews only when you ask.
 </p>
 
 <p align="center">
@@ -11,8 +11,9 @@
   <img alt="Skill runtime telemetry: none" src="https://img.shields.io/badge/skill_runtime_telemetry-none-2ea44f?style=for-the-badge">
 </p>
 
-> [!WARNING]
-> **"Fix it." has been placed on a PIP.** Clear requests may continue without supervision.
+<p align="center">
+  <img alt="Before: Fix it. After, when no question tool is available: 1. What should I fix?" src="docs/demo.gif" width="820">
+</p>
 
 ## Install
 
@@ -30,9 +31,12 @@ npx skills@latest add ScotTFO/you-suck-at-prompting
 npx skills@latest add ScotTFO/you-suck-at-prompting --global
 ```
 
-The installer detects available harnesses and lets you choose where the skill goes. See the [installation and migration guide](docs/installation.md) for CI, pinned releases, updates, and removal.
+The installer detects harnesses and lets you choose. See the [installation guide](docs/installation.md) for CI, updates, and removal.
 
-The [`skills` CLI](https://github.com/vercel-labs/skills) installs this standard skill into the harnesses it supports. Installation compatibility and live behavioral checks are reported separately.
+The [`skills` CLI](https://github.com/vercel-labs/skills) installs this skill into supported harnesses.
+
+> [!WARNING]
+> **"Fix it." has been placed on a PIP.** Clear requests may continue without supervision.
 
 ## Exhibit A: a verb arrives without adult supervision
 

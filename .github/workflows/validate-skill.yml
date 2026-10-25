@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Validate package contract and behavioral fixture integrity
-        run: python -B -m unittest tests.test_skill_contract tests.test_behavior_cases
+        run: python -B -m unittest tests.test_skill_contract tests.test_behavior_cases tests.test_live_eval
 
   version-policy:
     name: enforce runtime version policy

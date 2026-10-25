@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "role": "per-pr",
+  "mode": "per-pr",
+  "version": "0.16.1",
+  "commit": "596a84608ffe8a7f7170f6d43cbf7dc32ce6b5a1",
+  "source_fingerprint": "4acb7c6a73cdb2d3b747737041c667f5e552a001704b74c88d4a3f7a6e9fd1ec",
+  "generated_at": "2026-10-25T16:28:12Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "fresh grader session that did not write the product reply"
+  },
+  "repetitions_planned": 1,
+  "repetitions_completed": 1,
+  "skipped": [
+    {
+      "item": "33 per-PR cases other than method-tentative-open",
+      "reason": "Scott asked for a single-case retest of method-tentative-open. These cases were not run."
+    }
+  ],
+  "timing": {
+    "live_seconds": 93.319,
+    "wall_seconds": 93.319,
+    "per_case_seconds": {
+      "method-tentative-open": 93.319
+    }
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. This file is the method-tentative-open retest only. It does not add a repair cycle."
+  },
+  "budget": {
+    "repair_cycles_used": 0,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 93.319
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 1,
+      "fail": 0,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "cases": {
+      "pass": 1,
+      "fail": 0,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "case_total": 1,
+    "pass_rate": 1.0,
+    "by_boundary": {
+      "Open, delegated, and technical methods": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      }
+    },
+    "failing_cases": []
+  },
+  "cases": [
+    {
+      "id": "method-tentative-open",
+      "title": "A clearly tentative suggestion does not invent an approval gate",
+      "tags": [
+        "activation",
+        "execution",
+        "authority"
+      ],
+      "boundary": "Open, delegated, and technical methods",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The reply names the quoted-field benefit and the tradeoff against splitting on commas, then delivers a reusable CSV-to-JSON function without an approval gate. Host tool events show the candidate skill file was opened in this product session before the reply. The research reference was also opened; that extra read is an efficiency note. This case has no trace rubric.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The reply gives a concrete benefit: a quoted comma stays in one field and a quoted newline does not start a false row. The tradeoff names splitting lines on commas, says the reader adds standard quoting and multi-line records, and says no downside is material to this task."
+            },
+            {
+              "result": "pass",
+              "reason": "The reusable function parses with a CSV reader and serializes with JSON. A headered sample with a quoted comma and an embedded newline becomes one object per record, with those characters kept inside the correct fields."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The comma-split idea stays tentative. The reply selects CSV-aware parsing and writes the function without demanding approval."
+            },
+            {
+              "result": "pass",
+              "reason": "The function does not split on lines or commas. The reply does not start full coaching or stop at a rewritten prompt."
+            }
+          ]
+        }
+      ],
+      "trace_status": "not_applicable",
+      "trace_note": "No trace rubric. Host file-open events show the skill file was opened before the reply."
+    }
+  ],
+  "outcomes": [],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [],
+    "previous_version_dir": "0.16.0"
+  }
+}

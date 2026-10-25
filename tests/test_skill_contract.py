@@ -69,6 +69,7 @@ class SkillPackageContractTests(unittest.TestCase):
 
     def test_repository_has_no_native_package_or_private_artifacts(self) -> None:
         allowed_root = {
+            ".cursor",
             ".github",
             "docs",
             "skills",
@@ -103,13 +104,22 @@ class SkillPackageContractTests(unittest.TestCase):
             "source-cache",
             "__pycache__",
         }
+        public_baseline = ("tests", "behavior", "results")
         leaked = [
             path.relative_to(ROOT).as_posix()
             for path in ROOT.rglob("*")
             if ".git" not in path.parts
             and any(part.casefold() in private_parts for part in path.parts)
+            and path.relative_to(ROOT).parts[:3] != public_baseline
         ]
         self.assertEqual(leaked, [])
+        cursor_skills = sorted(
+            path.parent.name
+            for path in (ROOT / ".cursor").glob("skills/*/SKILL.md")
+        )
+        self.assertEqual(cursor_skills, ["ysap-live-eval"])
+        eval_skill = (ROOT / ".cursor" / "skills" / "ysap-live-eval" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("\nmetadata:\n  internal: true\n", eval_skill)
 
     def test_version_is_one_strict_semver(self) -> None:
         raw = VERSION_PATH.read_text(encoding="utf-8")

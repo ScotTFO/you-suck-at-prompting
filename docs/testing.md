@@ -11,14 +11,14 @@ Judge the intended behavior: simple clear requests pass through silently; an unk
 Run the public package and fixture checks for every Public change, from the candidate checkout:
 
 ```text
-python -B -m unittest tests.test_skill_contract tests.test_behavior_cases
+python -B -m unittest tests.test_skill_contract tests.test_behavior_cases tests.test_live_eval
 ```
 
 These are offline checks. They validate package rules and fixture integrity, including malformed-fixture rejection. They do not invoke a model or prove that a host follows the skill. CI runs them on Linux and Windows while retaining the existing installer, version-policy, protected validation, and release checks.
 
 Choose the highest applicable row before testing. Record the changed behavior and why the selected cases cover it.
 
-| Change | Additional evidence | Fresh independent local Codex validation |
+| Change | Additional evidence | Fresh independent validation |
 | --- | --- | --- |
 | Documentation or cosmetic edits with no instruction or behavior change | Review the text, links, examples, and affected structure. | Not required solely for cosmetics. |
 | Prompt wording or ordinary behavior | Run changed-case conversations plus unchanged controls. | Required. |
@@ -90,11 +90,29 @@ Use the [five downstream comparison tasks](outcome-comparison.md) across writing
 
 Before revealing the condition, have a fresh reviewer assess randomly labeled outputs for task correctness and constraint preservation. Then compare unnecessary questions, response length, and elapsed time from the retained transcripts. Record ties and regressions, and retain a small human calibration sample. This is a descriptive comparison, not statistical proof or broad host qualification. Missing comparison evidence limits usefulness claims; it does not turn a behavior pass into proof of improvement.
 
+## Repeatable live eval
+
+The project skill [`.cursor/skills/ysap-live-eval/SKILL.md`](../.cursor/skills/ysap-live-eval/SKILL.md) runs this suite in fresh product sessions. It is not part of the installed product skill and must stay out of those sessions. Its metadata is internal, so package discovery still sees only `you-suck-at-prompting`.
+
+Per-PR mode runs the cases that cover the diff plus an unchanged control. Release mode runs the full suite three times and compares it with the last release baseline. A case that passed in that baseline and fails now is a blocking regression. A pass that becomes unverified or blocked is a blocking evidence gap. Results are append-only under `tests/behavior/results/<version>/`. The runner never overwrites an earlier file. Raw transcripts stay outside the public tree.
+
+A later per-PR run starts with:
+
+```text
+python -B .cursor/skills/ysap-live-eval/scripts/ysap_live_eval.py plan --mode per-pr --base origin/main
+```
+
+Then follow the skill. Release mode uses `--mode release`. Offline package checks remain the unittest command above.
+
 ## Independent validation and evidence
 
-For a change that requires independent validation, use a fresh local Codex task with no inherited implementation conversation. Give it bounded criteria, the diff, selected checks, and a separate detached checkout of the exact candidate commit. The validator verifies its path, commit, detached HEAD, and clean tracked state, then runs the required checks itself. It reports findings without implementing fixes or creating another validator. A later candidate change requires renewed validation against the final commit.
+For a change that requires independent validation, use a fresh session that did not write the change. A fresh cloud-agent session counts. A fresh local Codex task also counts. The session that wrote the change cannot validate it, and the validator must not inherit the implementation conversation.
 
-Keep the validator's contributor review separate from product-behavior sessions. Local execution may call a remote model service; live checks are not offline. Report only the hosts and versions actually tested. Codex evidence does not qualify another host, and installer compatibility does not establish live behavior.
+Give the validator bounded criteria, the diff, selected checks, and a separate detached checkout of the exact candidate commit. The validator verifies its path, commit, detached HEAD, and clean tracked state, then runs the required checks itself. It reports findings without implementing fixes or creating another validator. A later candidate change requires renewed validation against the final commit.
+
+Owner decision, Scott, 25 October 2026: a fresh cloud-agent session satisfies this independent-validation requirement. It does not have to be local Codex. Independence still requires a new session that did not write the change.
+
+Keep the validator's contributor review separate from product-behavior sessions. Local or cloud execution may call a remote model service; live checks are not offline. Report only the hosts and versions actually tested. Evidence from one host does not qualify another host. Installer compatibility does not establish live behavior.
 
 Keep raw transcripts and machine-local details outside the public package and public PR. A compact private record can use this template:
 

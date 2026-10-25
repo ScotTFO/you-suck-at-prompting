@@ -2,6 +2,8 @@
 
 Use the five synthetic tasks in [outcomes.json](../tests/behavior/outcomes.json) to check usefulness separately from response-protocol compliance. They cover writing, summarization, structured extraction, coding instructions, and an advanced execution prompt. Routine comparisons need no private lab or new evaluation framework; the optional lab has separate promotion gates.
 
+The internal [live eval skill](../.cursor/skills/ysap-live-eval/SKILL.md) can run this procedure. It opens two fresh product sessions per task, runs the produced prompts in skill-free downstream sessions, and gives a fresh reviewer randomized labels before the condition is revealed. The label map stays outside the product sessions. Record the preference before unblinding. Pending human calibration stays pending.
+
 1. Record the exact candidate, host/version/model, tools, resource limits, and the remaining shared [validation budget](testing.md#diagnose-failures-and-bound-the-work). Use the same conditions for both arms except YSAP availability. Exclude other skills and contributor instructions from both product sessions. Record unavoidable host instructions.
 2. For each case, start two fresh conversations. Give each only `request`: one with the exact candidate available through native skill loading, one without YSAP. Do not force an invocation in the enabled arm. Verify source identity and record whether selection actually occurred; an unselected skill limits any attribution to YSAP.
 3. Save each resulting prompt. Preserve questions or failures. If clarification is needed, supply the same factual answer to both arms where relevant, and retain the extra turns. Do not silently repair either output. If no usable prompt was produced, record that arm incomplete.

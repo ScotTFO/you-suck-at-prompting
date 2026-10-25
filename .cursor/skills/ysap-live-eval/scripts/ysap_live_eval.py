@@ -1370,7 +1370,7 @@ def render_markdown(payload: dict) -> str:
 
 def exclusive_write(path: Path, content: str) -> None:
     flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
-    descriptor = os.open(path, flags)
+    descriptor = os.open(path, flags, 0o644)
     with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
         handle.write(content)
 

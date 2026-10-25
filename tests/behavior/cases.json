@@ -925,8 +925,8 @@
         {
           "user": "Convert this CSV into a JSON array of objects. My initial thought was splitting on commas, but choose whichever parsing method handles the supplied data correctly and carry out the conversion without asking me to choose.\nname,city\n\"Lee, Sam\",Denver",
           "expect": [
-            "Select a CSV-aware method within the delegated authority and return one object with name Lee, Sam and city Denver.",
-            "A brief explanation is optional; conversion is required."
+            "Before the JSON, state the concrete benefit of the chosen method and the tradeoff against splitting on commas. An explicit sentence that no downside is material to this task satisfies the tradeoff part.",
+            "Select a CSV-aware method within the delegated authority and return one object with name Lee, Sam and city Denver."
           ],
           "reject": [
             "Ask permission to switch methods, stop at a proposal, or mishandle the quoted comma.",
@@ -967,7 +967,7 @@
         {
           "user": "Write a reusable Python function for an import tool that converts CSV text with a header into a JSON array of objects. The input can contain quoted commas and embedded newlines. I was thinking of splitting lines on commas, but that is only a tentative idea, not a requirement.",
           "expect": [
-            "Briefly explain a CSV-aware alternative with a concrete correctness benefit and a relevant tradeoff for the import tool.",
+            "State a concrete correctness benefit of a CSV-aware alternative and either a relevant tradeoff or an explicit sentence that no downside is material to this task. That comparison may come before or after the function.",
             "Provide a reusable function that uses CSV-aware parsing and JSON serialization and preserves quoted commas and embedded newlines."
           ],
           "reject": [

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "role": "per-pr",
+  "mode": "per-pr",
+  "version": "0.16.1",
+  "commit": "5b6529a2626a0ced6a991aaeee37f3fa5117b1fd",
+  "source_fingerprint": "4acb7c6a73cdb2d3b747737041c667f5e552a001704b74c88d4a3f7a6e9fd1ec",
+  "generated_at": "2026-10-25T16:05:00Z",
+  "host": {
+    "name": "cursor-cloud-agent",
+    "model": "grok-4.7",
+    "os": "linux",
+    "validator": "retest graded against the written rubric from the saved transcript"
+  },
+  "repetitions_planned": 1,
+  "repetitions_completed": 1,
+  "skipped": [
+    {
+      "item": "33 per-PR cases other than research-settled-followup",
+      "reason": "Not re-executed after the one-sentence settled-followup repair. Their rows are in 2026-10-25T155500Z.json on the prior commit."
+    }
+  ],
+  "timing": {
+    "live_seconds": 93.213,
+    "wall_seconds": 93.213,
+    "per_case_seconds": {
+      "research-settled-followup": 93.213
+    }
+  },
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "note": "not measured. This file is the settled-followup retest only. Add its live_seconds to 3332 from 2026-10-25T155500Z.json for the repair budget."
+  },
+  "budget": {
+    "repair_cycles_used": 1,
+    "repair_cycle_limit": 2,
+    "live_seconds_limit": 3600,
+    "live_seconds": 93.213
+  },
+  "summary": {
+    "repetition_rows": {
+      "pass": 1,
+      "fail": 0,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "cases": {
+      "pass": 1,
+      "fail": 0,
+      "unverified": 0,
+      "blocked": 0,
+      "not_run": 0
+    },
+    "case_total": 1,
+    "pass_rate": 1.0,
+    "by_boundary": {
+      "Research before action": {
+        "pass": 1,
+        "fail": 0,
+        "unverified": 0,
+        "blocked": 0,
+        "not_run": 0
+      }
+    },
+    "failing_cases": []
+  },
+  "cases": [
+    {
+      "id": "research-settled-followup",
+      "title": "A settled follow-up neither restarts research nor loses the agreed approach",
+      "tags": [
+        "activation",
+        "research",
+        "multi-turn",
+        "lifecycle",
+        "progressive-disclosure"
+      ],
+      "boundary": "Research before action",
+      "repetition": 1,
+      "role": "target",
+      "control": false,
+      "status": "pass",
+      "visible_status": "pass",
+      "failure_category": null,
+      "disputed": false,
+      "reason": "The first turn shows the checklist decision and waits. The second turn prepares that plan without another decision question.",
+      "turns": [
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "A visible decision question frames the 45-minute manual recovery against the 15-minute checklist, with the 30-minute tradeoff shown before any plan."
+            },
+            {
+              "result": "pass",
+              "reason": "The plan stays unprepared, and the decision question is not turned into a user question."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "No plan is prepared before the requested review, and coaching does not start."
+            }
+          ]
+        },
+        {
+          "expect": [
+            {
+              "result": "pass",
+              "reason": "The plan uses the approved rollback checklist and the supplied 15-minute target."
+            },
+            {
+              "result": "pass",
+              "reason": "The follow-up does not open another decision question, repeat the comparison as a new investigation, or ask for approval."
+            }
+          ],
+          "reject": [
+            {
+              "result": "pass",
+              "reason": "The plan stays on the checklist and does not treat the follow-up as an unknown goal."
+            }
+          ]
+        }
+      ],
+      "trace_status": "verified",
+      "trace_note": "The required research and conversation-state references were opened. materiality-and-authority was also opened; that extra read is an efficiency note."
+    }
+  ],
+  "outcomes": [],
+  "baseline_comparison": {
+    "previous": "2026-10-25.json",
+    "previous_version": "0.16.0",
+    "blocking": [],
+    "previous_version_dir": "0.16.0"
+  }
+}

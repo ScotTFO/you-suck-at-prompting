@@ -644,6 +644,49 @@ def prepare_run(root: Path, run_dir: Path, plan: dict) -> dict:
     return plan
 
 
+def last_assistant_text(transcript: dict) -> str:
+    messages = transcript.get("messages")
+    if not isinstance(messages, list):
+        raise ValueError("transcript has no messages")
+    texts = [
+        message["text"]
+        for message in messages
+        if message.get("role") == "assistant" and isinstance(message.get("text"), str) and message["text"]
+    ]
+    if not texts:
+        raise ValueError("transcript has no assistant text")
+    return texts[-1]
+
+
+def indent_collapsed_to_one_space(text: str) -> bool:
+    """A nested block whose every indented line has exactly one leading space.
+
+    The rendered subagent completion does this to real model text. A line with
+    two or more leading spaces means the nested indent survived.
+    """
+    saw_header = False
+    saw_one_space_body = False
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip(" \t"))
+        if indent >= 2:
+            return False
+        if indent == 1:
+            saw_one_space_body = True
+        elif line.rstrip().endswith(":"):
+            saw_header = True
+    return saw_header and saw_one_space_body
+
+
+def write_assistant_reply(transcript_path: Path, dest: Path) -> str:
+    payload = json.loads(transcript_path.read_text(encoding="utf-8"))
+    text = last_assistant_text(payload)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(text, encoding="utf-8")
+    return text
+
+
 def session_dir(run_dir: Path, case_id: str, repetition: int) -> Path:
     index = json.loads((run_dir / "private" / "session-index.json").read_text(encoding="utf-8"))
     for row in index:
@@ -1489,6 +1532,16 @@ def command_downstream(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_save_reply(args: argparse.Namespace) -> int:
+    text = write_assistant_reply(Path(args.transcript), Path(args.out))
+    print(json.dumps({
+        "out": str(Path(args.out)),
+        "bytes": len(text.encode("utf-8")),
+        "indent_collapsed": indent_collapsed_to_one_space(text),
+    }, indent=2))
+    return 0
+
+
 def command_record(args: argparse.Namespace) -> int:
     root = Path(args.root).resolve() if args.root else default_root()
     now = datetime.fromisoformat(args.now) if args.now else datetime.now(timezone.utc)
@@ -1540,6 +1593,11 @@ def build_parser() -> argparse.ArgumentParser:
     downstream.add_argument("--arm", choices=["enabled", "disabled"], required=True)
     downstream.add_argument("--produced", required=True)
     downstream.set_defaults(func=command_downstream)
+
+    save_reply = sub.add_parser("save-reply", help="copy the last raw assistant text without rendering it")
+    save_reply.add_argument("--transcript", required=True)
+    save_reply.add_argument("--out", required=True)
+    save_reply.set_defaults(func=command_save_reply)
 
     record = sub.add_parser("record", help="write an append-only public result")
     record.add_argument("--run-dir", required=True)

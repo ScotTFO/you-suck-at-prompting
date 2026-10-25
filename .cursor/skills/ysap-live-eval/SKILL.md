@@ -60,7 +60,11 @@ python -B .cursor/skills/ysap-live-eval/scripts/ysap_live_eval.py prepare --mode
 ```
 
 3. Read `private/session-index.json` in the run directory. Session directory names are opaque. For each entry, open a fresh product session whose entire task is `sessions/<key>/turn-1-prompt.txt`. The session may read only that session's `project/` directory. The installed skill is the copy under `project/.cursor/skills/you-suck-at-prompting/`. Disabled outcome arms and downstream sessions have no skill.
-4. Save the assistant reply to `transcript-turn-1.txt` in that session directory. Resume the same session with `turn-2-user.txt`, then `turn-3-user.txt`, and so on. If an earlier turn fails, do not continue the product conversation; grade the remaining turns as not run.
+4. Save the assistant reply to `transcript-turn-1.txt` in that session directory. Copy it from the raw transcript message text with `save-reply`. Do not copy a rendered subagent completion: that channel turns each run of leading whitespace into one space, so nested Python survives in the raw message and collapses in the rendering. Resume the same session with `turn-2-user.txt`, then `turn-3-user.txt`, and so on. If an earlier turn fails, do not continue the product conversation; grade the remaining turns as not run.
+
+```text
+python -B .cursor/skills/ysap-live-eval/scripts/ysap_live_eval.py save-reply --transcript <transcript.json> --out <session>/transcript-turn-1.txt
+```
 5. For each outcome, run the enabled and disabled generation prompts. Save transcripts. If one arm asks a clarifying question, send the same factual answer to both arms when it applies, and keep the extra turns. Do not repair either prompt. If no usable prompt exists, mark that arm incomplete.
 6. `prepare-downstream --run-dir <dir> --outcome <id> --arm enabled|disabled --produced <file>` builds the skill-free executor session. Turn 1 is the produced prompt. Turn 2 is the downstream input. Save `transcript-turn-2.txt`.
 7. Write reviewer packets only after transcripts exist:

@@ -50,6 +50,40 @@ def grade_for(case: dict, *, visible: str = "pass", category=None, trace_status=
     return grade
 
 
+class ReplySaveTests(unittest.TestCase):
+    def test_raw_reply_keeps_nested_indent_and_flags_one_space_collapse(self) -> None:
+        nl = "\n"
+        original = (
+            "def f():" + nl
+            + "    for item in values:" + nl
+            + "        if item:" + nl
+            + "            return item" + nl
+        )
+        collapsed = (
+            "def f():" + nl
+            + " for item in values:" + nl
+            + " if item:" + nl
+            + " return item" + nl
+        )
+        self.assertFalse(RUNNER.indent_collapsed_to_one_space(original))
+        self.assertTrue(RUNNER.indent_collapsed_to_one_space(collapsed))
+        self.assertFalse(RUNNER.indent_collapsed_to_one_space("Return only the word apricot.\n"))
+        transcript = {
+            "messages": [
+                {"role": "user", "text": "Show the function."},
+                {"role": "assistant", "text": "Reading the request."},
+                {"role": "assistant", "text": original},
+            ]
+        }
+        with tempfile.TemporaryDirectory() as raw:
+            source = Path(raw) / "transcript.json"
+            dest = Path(raw) / "transcript-turn-1.txt"
+            source.write_text(json.dumps(transcript), encoding="utf-8")
+            saved = RUNNER.write_assistant_reply(source, dest)
+            self.assertEqual(saved, original)
+            self.assertEqual(dest.read_text(encoding="utf-8"), original)
+
+
 class SelectionTests(unittest.TestCase):
     def setUp(self) -> None:
         self.suite = RUNNER.load_suite(ROOT)

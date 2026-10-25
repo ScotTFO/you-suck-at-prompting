@@ -42,7 +42,7 @@ def validate_suite(suite: object) -> None:
     for case in cases:
         require(isinstance(case, dict), "case must be an object")
         required = {"id", "title", "tags", "turns"}
-        require(required <= set(case) <= required | {"trace", "files", "unavailable_references"},
+        require(required <= set(case) <= required | {"trace", "files", "unavailable_references", "calibration"},
                 "unexpected case fields")
         if "files" in case:
             require(isinstance(case["files"], dict) and bool(case["files"]), "files must be a nonempty object")
@@ -60,6 +60,9 @@ def validate_suite(suite: object) -> None:
                 "case id must be a lowercase slug")
         require(case_id not in seen, f"duplicate case id: {case_id}")
         seen.add(case_id)
+        if "calibration" in case:
+            require(isinstance(case["calibration"], str) and bool(case["calibration"].strip()),
+                    f"{case_id}: calibration must be nonempty text")
         require(isinstance(case["title"], str) and bool(case["title"].strip()),
                 f"{case_id}: title must be nonempty")
         text_list(case["tags"], f"{case_id}: tags")
@@ -145,6 +148,8 @@ class BehaviorFixtureTests(unittest.TestCase):
             lambda case: case["turns"][0].update(reject="not a list"),
             lambda case: case["turns"][0].update(expect=[42]),
             lambda case: case["turns"][0].update(answer="unexpected field"),
+            lambda case: case.update(calibration=1),
+            lambda case: case.update(calibration=" "),
             lambda case: case["tags"].append("multi-turn"),
             lambda case: case["tags"].append("progressive-disclosure"),
         ]
